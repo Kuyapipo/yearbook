@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <!-- Add Bootstrap CSS link here -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+    BODY{
+        font-family: Arial, Helvetica, sans-serif;
+        background-color:rgb(255, 255, 255);
+    }
+    *{
+        box-sizing: border-box;
+    }
+    .container{
+        padding: 20px;
+        background-color:cornsilk;
+    }
+    
+</style>
+<body>
+    <a href="/" class="btn btn-outline-dark">Home</a>
+    <div class="container mt-5">
+        <h1>Student Registration</h1>
+        <%- include ("./partials/message") %> 
+        <form action="/userres" method="POST">
+            <div class="form-group">
+                <label for="userType">Select User Type</label>
+                <select class="form-control" id="userType" name="userType" value="<%= typeof userType != 'undefined'? userType : '' %>" >
+                    <option value="Graduating">Graduating Student</option>
+                    <option value="Alumni">Alumni Student</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="idnumber">ID Number: (18-xxxx-xxx)</label>
+                <input type="text" class="form-control" id="idnumber" name="idnumber" value="<%= typeof idnumber != 'undefined'? idnumber : '' %>">
+            </div>
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" class="form-control" id="fullname" name="fullname" value="<%= typeof fullname != 'undefined'? fullname : '' %>">
+            </div>
+            <div class="form-group">
+                <label for="iemail">Institutional Email</label>
+                <input type="email" class="form-control" id="iemail" name="iemail" value="<%= typeof iemail != 'undefined'? iemail : '' %>">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" value="<%= typeof password != 'undefined'? password : '' %>">
+            </div>
+            <div class="form-group">
+                <label for="password2">Confirm Password</label>
+                <input type="password" class="form-control" id="password2" name="password2" value="<%= typeof password2 != 'undefined'? password2 : '' %>">
+            </div>
+            <div>
+                <label for="schoolType">School/University</label>
+                <select class="form-control" id="schoolType" name="schoolType" value="<%= typeof schoolType != 'undefined'? schoolType : '' %>">
+                    <option value="nofields">Choose...</option>
+                    <option value="CITU">Cebu Institute of Technology-University</option>
+                    <option value="USC">USC</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dateOfbirth">Date of Birth</label>
+                <input type="date" class="form-control" id="dateOfbirth" name="dateOfbirth" value="<%= typeof dateOfbirth != 'undefined'? graduationDate : '' %>">
+            </div>
+            <div class="form-group">
+                <label for="graduationDate">Graduation Date</label>
+                <input type="date" class="form-control" id="graduationDate" name="graduationDate" value="<%= typeof graduationDate != 'undefined'? graduationDate : '' %>">
+            </div>
+            <div>
+                <label for="department">Department</label>
+                <select class="form-control" id="department" name="department" value="<%= typeof department != 'undefined'? courseType : '' %>">
+                    <option value="nofields">Choose...</option>
+                    <option value="CASE">CASE</option>
+                    <option value="CEA">CEA</option>
+                </select>
+            </div>
+            <div>
+                <label for="courseType">Course</label>
+                <select class="form-control" id="courseType" name="courseType" value="<%= typeof courseType != 'undefined'? courseType : '' %>">
+                    <option value="nofields">Choose...</option>
+                    <option value="BS Computer Engineering">BS Computer Engineering</option>
+                    <option value="BS Civil Engineering">BS Civil Engineering</option>
+                </select>
+            </div>
+            
+            <div id="AlumniFields" style="display:none;">
+                <div class="form-group">
+                    <label for="graduationYear">Graduation Year</label>
+                    <input type="text" class="form-control" id="graduationYear" name="graduationYear" value="<%= typeof graduationYear != 'undefined'? graduationYear : '' %>">
+                </div>
+                <!-- Add more alumni-specific fields here -->
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+                    <label for="fileDocu">Upload your documents here:(.pdf,.doc,.docx)</label>
+                    <input type="file" id="fileDocu" name="fileDocu" accept=".pdf, .doc, .docx">
+                    <!-- Specify accepted file types using the 'accept' attribute -->
+                    <br>
+                </form>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary" id="registerButton">Register</button>
+            <p class="mt-3">Already registered? <a href="/userlogin">Log in here</a></p>
+        </form>
+    </div>
+
+    <!-- Add Bootstrap JS and jQuery links here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // JavaScript code to show/hide alumni-specific fields based on user type
+        const userTypeSelect = document.getElementById('userType');
+        const alumniFields = document.getElementById('AlumniFields');
+        const registerButton = document.getElementById('registerButton');
+
+        userTypeSelect.addEventListener('change', () => {
+            if (userTypeSelect.value === 'Alumni') {
+                alumniFields.style.display = 'block';
+            } else {
+                alumniFields.style.display = 'none';
+            }
+        });
+        registerButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        document.querySelector('form').submit();
+        });
+    </script>
+</body>
+</html>

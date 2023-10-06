@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <!-- Add Bootstrap CSS link here -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+    :root {
+        --color-1: rgb(247, 232, 173);
+    }
+    body {
+        line-height: 1.5;
+        font-family: serif;
+        background-color: cornsilk;
+    }
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    a {
+        text-decoration: none;
+    }
+    ul {
+        list-style: none;
+    }
+    .container {
+        max-width: 1250px;
+        margin: auto;
+    }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .align-items-center {
+        align-items: center;
+    }
+    .justify-content-between {
+        justify-content: space-between;
+    }
+    .header {
+        background-color: var(--color-1);
+        padding: 3px 0;
+    }
+    .header .nav ul li {
+        display: inline-block;
+        margin-left: 40px;
+    }
+    .header .mfyb,
+    .header .nav {
+        padding: 0 15px;
+    }
+    .header .mfyb a {
+        font-size: 30px;
+        color: rgb(0, 0, 0);
+        text-transform: capitalize;
+        transition: all 0.5s ease;
+    }
+    .header .mfyb a:hover,
+    .header .mfyb a.active {
+        color: #5e3a3a;
+    }
+    .header .nav ul li a {
+        display: block;
+        margin-left: 16px;
+        padding: 10px 0;
+        color: black;
+        text-transform: capitalize;
+        transition: all 0.5s ease;
+    }
+    .header .nav ul li a:hover,
+    .header .nav ul li a.active {
+        color: #a10202;
+    }
+    .dashboard-content {
+        padding: 20px;
+        background-color:  cornsilk;
+        margin-top: 20px;
+    }
+    .tab-pane {
+        display: none;
+    }
+    .tab-pane.active {
+        display: block;
+    }
+    #hometab{
+        font-size: 30px;
+        color: black;
+        text-transform: capitalize;
+        padding-top: 45px;
+        text-align: center;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    .nav-link {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+</style>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="mfyb">
+                    <a href="#hometab" class="nav-link nav-link-myFinalYearbook active">My Final Yearbook</a>
+                    <br>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="#surveyTab" class="nav-link nav-link-survey">Survey</a></li>
+                        <li><a href="#universitiesTab" class="nav-link nav-link-universities">Universities</a></li>
+                        <li><a href="#jobHiringTab" class="nav-link nav-link-jobHiring">Job Hiring</a></li>
+                        <li><a href="userlogin">Login</a></li>
+                        <li><a href="userres">Register</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="container-2">
+        <div class="tab-content dashboard-content">
+            <div class="tab-pane active" id="hometab">
+                <h1>My Final Yearbook</h1>
+                <h3>Welcome Graduating Students/ Alumni</h3>
+            </div>
+            <div class="tab-pane" id="surveyTab">
+                <h2>Survey Dashboard</h2>
+                <p>This is the content for the Survey dashboard.</p>
+            </div>
+            <div class="tab-pane" id="universitiesTab">
+                <h2>Universities Dashboard</h2>
+                <p>This is the content for the Universities dashboard.</p>
+            </div>
+            <div class="tab-pane" id="jobHiringTab">
+                <h2>Job Hiring Dashboard</h2>
+                <p>This is the content for the Job Hiring dashboard.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to toggle the tabs
+        function toggleTab(tabId) {
+            // Hide all tab panes
+            $('.tab-pane').removeClass('active');
+
+            // Show the selected tab
+            $(tabId).addClass('active');
+        }
+
+        // Click event for tab links
+        $('.nav-link').click(function (e) {
+            e.preventDefault();
+            var tabId = $(this).attr('href');
+            toggleTab(tabId);
+        });
+    </script>
+</body>
+</html>

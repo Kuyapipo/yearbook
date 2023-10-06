@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Final Yearbook</title>
+    <!-- Add your CSS styling here -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0; /* Add this to remove default body margin */
+        }
+        a {
+         text-decoration: none;
+        }
+        ul {
+            list-style: none;
+        }
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: cornsilk;
+            padding-top: 20px;
+        }
+        .sidebar ul li a {
+            margin-left: 16px;
+            padding: 20px 0;
+            text-decoration: none;
+            font-size: 18px;
+            color: rgb(0, 0, 0);
+            display: block;
+        }
+        .sidebar ul li a:hover {
+            background-color: rgb(243, 227, 165);
+        }
+        .sidebar h1{
+            font-size: 30px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            text-transform: capitalize;
+            padding-left: 50px; 
+            display: block;
+        }
+        
+        #addUniversity h1{
+            text-align: left;
+            padding-top: 50px;
+            font-size: 20px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .dashboard-content {
+            padding-top: 80px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            padding-left: 200px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        .nav-link {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .table{
+            text-align: center;
+            padding-left:150px ;
+        }
+        .scrollable-table {
+            max-height: 400px; 
+            overflow: auto; 
+            right: 70px;;
+        }
+        .scrollable-table tbody {
+            background-color: cornsilk;
+        }
+        .scrollable-table thead {
+            position: sticky;
+            top: 0;
+            background-color: rgb(255, 238, 171); 
+            z-index: 1;
+        }
+        .scrollable-table thead tr th{
+            color: black;
+        }
+        .scrollable-table tbody tr td{
+            color: black;
+        }
+        .scrollable-table tbody tr a{
+            color: rgb(126, 126, 97);
+        }
+        .scrollable-table tbody tr a.hover{
+            color: rgb(185, 185, 185);
+        }
+        .sidebar .btn-secondary {
+            background-color: transparent; 
+            border: none;
+            padding-right: 110px;
+            
+        }
+        .custom-select {
+            background-color: cornsilk;
+            border: thin solid black;
+            border-radius: 4px;
+            display: inline-block;
+            font: inherit;
+            line-height: 1.5em;
+            padding: 0.5em 1em 0.5em 1em; /* Reduced right padding */
+            /* reset */
+            margin: 0;      
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        #ura{
+            text-align: left;
+            padding-top: 25px;
+            padding-left: 200px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        #urp{
+            text-align: left;
+            padding-top: 25px;
+            padding-left: 200px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        #declineU{
+            text-align: left;
+            padding-top: 25px;
+            padding-left: 200px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h1>My Final Yearbook</h1>
+        <ul>
+            <li><a href="#addUniversity" class="nav-link nav-link-addUniversity active">Add University</a></li>
+            <li><a href="#ura" class="nav-link nav-link-ura">University Register Active</a></li>
+            <li><a href="#urp" class="nav-link nav-link-urp">University Register Pending</a></li>
+            <li><a href="#declineU" class="nav-link nav-link-declineU">University Register Decline</a></li>
+            <br>
+            <br>
+
+            <li><a href="/superadmin/logout" class="btn btn-secondary" >
+            <img src="/pictures/exit.png" alt="Logout" style="width: 20px; height: 20px; vertical-align: middle;">
+            Logout
+            </a></li>   
+            
+        </ul>
+        
+    </div>
+    <div class="container-2">
+        <div class="tab-content dashboard-content">
+            <div class="tab-pane active" id="addUniversity">
+                <h1>Add Universities</h1>
+                <form action="/superadmin/pagesadmin" method="POST"> 
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="university" placeholder="University Name" aria-label="University Name">
+                        <button class="btn btn-outline-secondary" type="submit">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+            <div class="tab-pane" id="ura">
+                <h1>Active Universities</h1>
+                <div class="scrollable-table" id="table1"  >
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>University</th>
+                                <th>ID Number</th>
+                                <th>Full Name</th>
+                                <th>Institutional Email</th>
+                                <th>Established</th>
+                                <th>Documents</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% allUserData.forEach(function(user) { %>
+                                <% if (user.status === 'Active') { %>
+                                    <tr>
+                                        <td><%= user.schoolType %></td>
+                                        <td><%= user.idnumber %></td>
+                                        <td><%= user.fullname %></td>
+                                        <td><%= user.iemail %></td>
+                                        <td><%= user.dateOfbirth %></td>
+                                        <td><%= user.fileDocu %></td>
+                                        <td>
+                                            <form action="/superadmin/updatestatus/<%= user._id %>" method="POST">
+                                                <select class="custom-select" name="status">
+                                                    <option value="nofields"><%= user.status %></option>
+                                                    <option value="Active">Active</option>
+                                                    <option value="Pending">Pending</option>
+                                                    <option value="Decline">Decline</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-outline-success">Update</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            <% }); %>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+            <div class="tab-pane" id="urp">
+                <h1>Pending Registration</h1>
+                <div class="scrollable-table" id="table1"  >
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>University</th>
+                                <th>ID Number</th>
+                                <th>Full Name</th>
+                                <th>Institutional Email</th>
+                                <th>Established</th>
+                                <th>Documents</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% allUserData.forEach(function(user) { %>
+                                <% if (user.status === 'Pending') { %>
+                                    <tr>
+                                        <td><%= user.schoolType %></td>
+                                        <td><%= user.idnumber %></td>
+                                        <td><%= user.fullname %></td>
+                                        <td><%= user.iemail %></td>
+                                        <td><%= user.dateOfbirth %></td>
+                                        <td><%= user.fileDocu %></td>
+                                        <td>
+                                            <form action="/superadmin/updatestatus/<%= user._id %>" method="POST">
+                                                <select class="custom-select" name="status">
+                                                    <option value="nofields"><%= user.status %></option>
+                                                    <option value="Active">Active</option>
+                                                    <option value="Decline">Decline</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-outline-success">Update</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            <% }); %>
+                        </tbody>
+                      </table>
+                </div> 
+            </div>
+
+            <div class="tab-pane" id="declineU">
+                <h1>Decline Registration</h1>
+                <div class="scrollable-table" id="table1"  >
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>University</th>
+                                <th>ID Number</th>
+                                <th>Full Name</th>
+                                <th>Institutional Email</th>
+                                <th>Established</th>
+                                <th>Documents</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% allUserData.forEach(function(user) { %>
+                                <% if (user.status === 'Decline') { %>
+                                    <tr>
+                                        <td><%= user.schoolType %></td>
+                                        <td><%= user.idnumber %></td>
+                                        <td><%= user.fullname %></td>
+                                        <td><%= user.iemail %></td>
+                                        <td><%= user.dateOfbirth %></td>
+                                        <td><%= user.fileDocu %></td>
+                                        <td>
+                                            <form action="/superadmin/updatestatus/<%= user._id %>" method="POST">
+                                                <select class="custom-select" name="status">
+                                                    <option value="nofields"><%= user.status %></option>
+                                                    <option value="Pending">Restore to Pending</option>
+                                                    <option value="Delete">Delete</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-outline-success">Update</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            <% }); %>
+                        </tbody>
+                      </table>
+                </div>
+            
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to toggle the tabs
+        function toggleTab(tabId) {
+            // Hide all tab panes
+            $('.tab-pane').removeClass('active');
+    
+            // Show the selected tab
+            $(tabId).addClass('active');
+        }
+    
+        // Click event for tab links
+        $('.nav-link').click(function (e) {
+            e.preventDefault();
+            var tabId = $(this).attr('href');
+            toggleTab(tabId);
+        });
+    </script>
+</body>
+</html>
