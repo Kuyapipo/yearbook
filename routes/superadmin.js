@@ -37,7 +37,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
         res.redirect('/superadmin/pagesadmin');
     } catch (err) {
         console.error(err);
-        // Handle the error (e.g., redirect to an error page)
+        // Handle the error (e.g., red  irect to an error page)
         res.status(500).send('Internal Server Error');
     }
 });
@@ -52,55 +52,57 @@ router.get('/pagesadmin', ensureAuthenticatedSadmin, async (req, res) => {
         }
 
         res.render('pagesadmin', {
-            allUserData: universityAdminUserData,
+            allUserData: universityAdminUserData
         });
     } catch (err) {
         console.error(err);
-        // Handle the error (e.g., redirect to an error page)
+        
         res.status(500).send('Internal Server Error');
     }
 });
 const University=require('../models/University');
 //adding university to database handling
-router.post('/superadmin/pagesadmin', (req,res) =>{
-    const {university}=req.body;
+router.post('/pagesadmin',ensureAuthenticatedSadmin,(req,res)=>{
+    let {university}=req.body;
     let errors=[];
     if(!university){
-        errors.push({msg:'Please input some University to add!'});
-    }
-    if(errors.length>0){
-        return res.render('pagesadmin',{
-            errors,
-            university
-        });
+        req.flash('error_msg','Please Fill all the fields');
+        return res.redirect('/superadmin/pagesadmin');
     }else{
-        //Validate to database
-        University.findOne({university:university})
-            .then(university=>{
-                if(university){
-                    //university exist
-                    errors.push({msg:'University is already registered'});
-                    res.render('pagesadmin',{
-                        errors,
-                        university
-                    });
+        University.findOne({university:university})//compare if there is existing inputted university
+            .then(existingUniversity=>{
+                if(existingUniversity){
+                    req.flash('error_msg','University already exists!');
+                    return res.redirect('/superadmin/pagesadmin');
                 }else{
                     const newUniversity = new University({
-                        university
+                        university,
+                        dateRegistered: new Date().toISOString().split('T')[0]
                     });
                     newUniversity.save()
-                    .then(university =>{
-                        req.flash('success_msg','University added to the Program');
-                        res.redirect('pagesadmin');
+                    .then(savedUniversity =>{
+                        req.flash('success_msg','Saved University');
+                        console.log("Access after adding inputted text");
+                        return res.redirect('/superadmin/pagesadmin');
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => {
+                        console.error(err);
+                        req.flash('error_msg', 'An error occurred while saving the university');
+                        res.redirect('/superadmin/pagesadmin');
+                    });
                 }
+                
+            })
+            .catch(err => {
+                console.error(err);
+                req.flash('error_msg', 'An error occurred while checking for existing university');
+                res.redirect('/superadmin/pagesadmin');
             });
-            req.flash('success_msg','University added to the Program');
-            res.redirect('pagesadmin');
+        console.log(req.body);
+        
     }
-
-});
+    
+})
 
 
 router.post('/sadminlogin', (req, res, next) => {

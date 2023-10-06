@@ -45,12 +45,6 @@
             display: block;
         }
         
-        #addUniversity h1{
-            text-align: left;
-            padding-top: 50px;
-            font-size: 20px;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
         .dashboard-content {
             padding-top: 80px;
             margin-top: 20px;
@@ -118,22 +112,11 @@
             -moz-box-sizing: border-box;
             box-sizing: border-box;
         }
-        #ura{
+        
+        #addUniversity h1{
             text-align: left;
-            padding-top: 25px;
-            padding-left: 200px;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
-        #urp{
-            text-align: left;
-            padding-top: 25px;
-            padding-left: 200px;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
-        #declineU{
-            text-align: left;
-            padding-top: 25px;
-            padding-left: 200px;
+            padding-top: 50px;
+            font-size: 15px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
@@ -162,14 +145,14 @@
         <div class="tab-content dashboard-content">
             <div class="tab-pane active" id="addUniversity">
                 <h1>Add Universities</h1>
-                <form action="/superadmin/pagesadmin" method="POST"> 
+                <%- include ("./partials/message") %> 
+                <form action="/superadmin/pagesadmin" method="POST">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="university" placeholder="University Name" aria-label="University Name">
+                        <input type="text" class="form-control" name="university" placeholder="University Name" >
                         <button class="btn btn-outline-secondary" type="submit">Add</button>
                     </div>
                 </form>
             </div>
-        </div>
 
             <div class="tab-pane" id="ura">
                 <h1>Active Universities</h1>
@@ -199,7 +182,7 @@
                                         <td>
                                             <form action="/superadmin/updatestatus/<%= user._id %>" method="POST">
                                                 <select class="custom-select" name="status">
-                                                    <option value="nofields"><%= user.status %></option>
+                                                    <option value="<%= user.status %>"><%= user.status %></option>
                                                     <option value="Active">Active</option>
                                                     <option value="Pending">Pending</option>
                                                     <option value="Decline">Decline</option>
@@ -214,6 +197,7 @@
                       </table>
                 </div>
             </div>
+
             <div class="tab-pane" id="urp">
                 <h1>Pending Registration</h1>
                 <div class="scrollable-table" id="table1"  >
@@ -242,7 +226,7 @@
                                         <td>
                                             <form action="/superadmin/updatestatus/<%= user._id %>" method="POST">
                                                 <select class="custom-select" name="status">
-                                                    <option value="nofields"><%= user.status %></option>
+                                                    <option value="<%= user.status %>"><%= user.status %></option>
                                                     <option value="Active">Active</option>
                                                     <option value="Decline">Decline</option>
                                                 </select>
@@ -285,7 +269,7 @@
                                         <td>
                                             <form action="/superadmin/updatestatus/<%= user._id %>" method="POST">
                                                 <select class="custom-select" name="status">
-                                                    <option value="nofields"><%= user.status %></option>
+                                                    <option value="<%= user.status %>"><%= user.status %></option>
                                                     <option value="Pending">Restore to Pending</option>
                                                     <option value="Delete">Delete</option>
                                                 </select>
@@ -299,7 +283,9 @@
                       </table>
                 </div>
             
+            </div>
         </div>
+     
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

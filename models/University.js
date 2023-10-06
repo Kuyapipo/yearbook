@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
-
-const UniversitySchema = new mongoose.Schema({
+const universitySchema = new mongoose.Schema({
     university: {
         type: String,
         required: true
+    },
+    dateRegistered: {
+        type: Date,
+        default: true
     }
 });
 
-const University = mongoose.model('University', UniversitySchema); 
+const University = mongoose.model('University', universitySchema);
 
 module.exports = University;

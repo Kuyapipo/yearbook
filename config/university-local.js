@@ -19,7 +19,10 @@ module.exports=function(passport){
                     }
                     if(user.status === 'Pending'){
 
-                        return done(null, false, { message: 'Account is on Pending Status! You can check later if its approved and active' });
+                        return done(null, false, { message: 'Application is on Pending Status! You can check later if its approved and active' });
+                    }
+                    if(user.status === 'Decline'){
+                        return done(null,false,{message: 'Application is on Decline Status! Registration will be deleted later'});
                     }
                     // Password match
                     bcrypt.compare(password, user.password, (err, isMatch) => {
