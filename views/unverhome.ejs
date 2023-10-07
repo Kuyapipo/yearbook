@@ -7,20 +7,129 @@
     <!-- Add Bootstrap CSS link here -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+<style>
+    :root {
+        --color-1: rgb(247, 232, 173);
+    }
+    body {
+        line-height: 1.5;
+        font-family: serif;
+        background-color: cornsilk;
+    }
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    a {
+        text-decoration: none;
+    }
+    ul {
+        list-style: none;
+    }
+    .container {
+        max-width: 1250px;
+        margin: auto;
+    }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .align-items-center {
+        align-items: center;
+    }
+    .justify-content-between {
+        justify-content: space-between;
+    }
+    .header {
+        background-color: var(--color-1);
+        padding-bottom: 0px;
+    }
+    .header .nav ul li {
+        display: inline-block;
+        margin-left: 40px;
+    }
+    .header .mfyb,
+    .header .nav {
+        padding: 0 15px;
+    }
+    .header .mfyb a {
+        font-size: 30px;
+        color: rgb(0, 0, 0);
+        text-transform: capitalize;
+        transition: all 0.5s ease;
+    }
+    .header .mfyb a:hover,
+    .header .mfyb a.active {
+        color: #5e3a3a;
+    }
+    .header .nav ul li a {
+        display: block;
+        margin-left: 16px;
+        padding-right: 10px;
+        color: black;
+        text-transform: capitalize;
+        transition: all 0.5s ease;
+        padding-top: 25px;
+    }
+    .header .nav ul li a:hover,
+    .header .nav ul li a.active {
+        color: #a10202;
+    }
+    .dashboard-content {
+        padding: 20px;
+        background-color:  cornsilk;
+        margin-top: 20px;
+    }
+    .tab-pane {
+        display: none;
+    }
+    .tab-pane.active {
+        display: block;
+    }
+    #hometab{
+        font-size: 30px;
+        color: black;
+        text-transform: capitalize;
+        padding-top: 45px;
+        text-align: center;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    .nav-link {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+</style>
 <body>
-    <div class="container mt-5">
-        <div class="text-center">
-            <h1>Welcome to My Final Yearbook</h1>
-            <p>University Admin</p>
-            <a href="/uadmin/uadminlogin"class= "btn btn-primary mx-2">Login</a>
-            <a href="/uadmin/uadminres" class="btn btn-success mx-2">Register</a>
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="mfyb">
+                    <a>My Final Yearbook</a>
+                    <br>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="/uadmin/uadminlogin">Login</a></li>
+                        <li><a href="/uadmin/uadminres">Register</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-    </div>
+        <div class="container-2">
+            <div class="tab-content dashboard-content">
+                <div class="tab-pane active" id="hometab">
+                    <h1>My Final Yearbook</h1>
+                    <h3>University Authorization</h3>
+                </div>
+            </div>
+        </div>
+    </header>
+    
 
-    <!-- Add Bootstrap JS and jQuery links here -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
-
