@@ -93,10 +93,9 @@
                     <input type="text" class="form-control" id="graduationYear" name="graduationYear" value="<%= typeof graduationYear != 'undefined'? graduationYear : '' %>">
                 </div>
                 <!-- Add more alumni-specific fields here -->
-                <form action="/upload" method="POST" enctype="multipart/form-data">
-                    <label for="fileDocu">Upload your documents here:(.pdf,.doc,.docx)</label>
+                <form action="/uploads" method="POST" enctype="multipart/form-data">
+                    <label for="fileDocu">Upload your documents here:(.pdf,.doc,.docx..10MB limit)</label>
                     <input type="file" id="fileDocu" name="fileDocu" accept=".pdf, .doc, .docx">
-                    <!-- Specify accepted file types using the 'accept' attribute -->
                     <br>
                 </form>
             </div>

@@ -53,7 +53,7 @@ router.post('/userres', (req,res)=>{
     let{userType, idnumber, fullname,iemail,password,password2,schoolType,dateOfbirth,graduationDate,department, courseType, graduationYear}=req.body;
     let errors=[];
 
-    if(userType==='alumni'){
+    if(userType==='Alumni'){
         //fill form
         if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType|| !dateOfbirth || !graduationDate || !department || !courseType || !graduationYear){
             errors.push({msg:'Please fill all the fields'});
@@ -99,6 +99,7 @@ router.post('/userres', (req,res)=>{
             graduationYear
         });
     }else{
+        
         //Validation to database
         User.findOne({iemail: iemail})
             .then(user =>{
@@ -151,8 +152,9 @@ router.post('/userres', (req,res)=>{
                         .catch(err => console.log(err));
                     }))
                 }
-            });
+            });   
     }
+    
 });
 
 //Login Handle

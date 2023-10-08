@@ -32,7 +32,6 @@ router.get('/pagedean',ensureAuthenticatedDean, (req, res) => {
 router.post('/deanres', (req,res)=>{
     let{userType, idnumber, fullname,iemail,password,password2,schoolType,dateOfbirth,department, courseType,graduationDate,graduationYear,fileDocu}=req.body;
     let errors=[];
-    console.log('Received form data:', req.body);
     if(userType==='Faculty'){
         graduationDate='000';
         graduationYear='000';

@@ -9,12 +9,15 @@ const Grid = require('gridfs-stream');
 const multer = require('multer');
 const crypto = require('crypto');
 const path = require('path');
+const cors = require('cors');
 
 
 
 
 
 const app = express();
+
+app.use(cors());
 
 //Pictures files
 app.use('/pictures', express.static(__dirname + '/pictures'));
