@@ -128,5 +128,14 @@
         document.querySelector('form').submit();
         });
     </script>
+    <script>
+        $(document).ready(function () {
+          $(".alert").not(".alert-success-msg").delay(3000).fadeOut(300, function () {
+            $(this).alert('close');
+          });
+      
+          $(".alert-success-msg").delay(5000).fadeOut(300);
+        });
+      </script>
 </body>
 </html>

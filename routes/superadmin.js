@@ -42,6 +42,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
     }
 });
 
+
 router.get('/pagesadmin', ensureAuthenticatedSadmin, async (req, res) => {
     try {
         // Fetch user data for University Admin user types
@@ -102,7 +103,7 @@ router.post('/pagesadmin',ensureAuthenticatedSadmin,(req,res)=>{
         
     }
     
-})
+});
 
 
 router.post('/sadminlogin', (req, res, next) => {
