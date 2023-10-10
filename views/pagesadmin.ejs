@@ -67,7 +67,7 @@
             padding-left:150px ;
         }
         .scrollable-table {
-            max-height: 400px; 
+            max-height: 300px; 
             overflow: auto; 
             right: 70px;;
         }
@@ -115,7 +115,7 @@
         
         #addUniversity h1{
             text-align: left;
-            padding-top: 50px;
+            padding-top: 20px;
             font-size: 15px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
@@ -159,10 +159,25 @@
                             <tr>
                                 <th>University</th>
                                 <th>Date Register</th>
+                                <th>Change</th>
                             </tr>
                         </thead>
                         <tbody>
-                           
+                            <% universityData.forEach(function(udata) { %>
+                                <tr>
+                                    <td><%= udata.university %></td>
+                                    <td><%= udata.dateRegistered %></td>
+                                    <td>
+                                        <form action="/superadmin/updateuniversitystatus/<%= udata._id %>" method="POST">
+                                            <select class="custom-select" name="changeStatus">
+                                                <option value="<%= udata.changeStatus %>"><%= udata.changeStatus %></option>
+                                                <option value="Remove">Remove University</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-outline-success">Update</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }); %>
                         </tbody>
                       </table>
                 </div>

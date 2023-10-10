@@ -6,8 +6,14 @@ const universitySchema = new mongoose.Schema({
     },
     dateRegistered: {
         type: Date,
-        default: true
+        default: new Date().toISOString().split('T')[0],
+        required:true
+    },
+    changeStatus:{
+        type:String,
+        default: 'Active',
     }
+    
 });
 
 const University = mongoose.model('University', universitySchema);

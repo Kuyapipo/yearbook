@@ -5,11 +5,42 @@ const passport = require('passport');
 const { ensureAuthenticatedSadmin } = require('../config/auth');
 //Superadmin Model
 const User = require('../models/User');
+//University model
+const University=require('../models/University');
 
 
 router.get('/', (req,res)=> res.render('superadhome'));
 //Login Page
 router.get('/sadminlogin', (req,res)=>res.render('sadminlogin'));
+
+router.post('/updateuniversitystatus/:universityId', ensureAuthenticatedSadmin, async (req, res) => {
+    const universityId = req.params.universityId;
+    const newStatus = req.body.changeStatus;
+
+    try {
+        console.log('University ID:', universityId);
+        console.log('New Status:', newStatus);
+
+        const university = await University.findById(universityId);
+        console.log('Found University:', university);
+        if (!university) {
+            throw new Error("University not found");
+        }
+        console.log(newStatus);
+        university.changeStatus = newStatus;
+        console.log('University saved with new status:', university);
+
+        await university.save();
+        if (newStatus === 'Remove') {
+            await University.findByIdAndRemove(universityId);
+            console.log('University removed:', university);
+        }
+        res.redirect('/superadmin/pagesadmin');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res) => {
     const userId = req.params.userId;
@@ -47,24 +78,26 @@ router.get('/pagesadmin', ensureAuthenticatedSadmin, async (req, res) => {
     try {
         // Fetch user data for University Admin user types
         const universityAdminUserData = await User.find({ userType: 'University Admin' });
+        // Fetch all universities from the database
+        const universityData = await University.find();
 
         if (!universityAdminUserData) {
             throw new Error("No University Admin user data found");
         }
 
         res.render('pagesadmin', {
-            allUserData: universityAdminUserData
+            allUserData: universityAdminUserData,
+            universityData:universityData,
         });
     } catch (err) {
         console.error(err);
-        
         res.status(500).send('Internal Server Error');
     }
 });
-const University=require('../models/University');
+
 //adding university to database handling
 router.post('/pagesadmin',ensureAuthenticatedSadmin,(req,res)=>{
-    let {university}=req.body;
+    let {university, changeStatus, dateRegistered}=req.body;
     let errors=[];
     if(!university){
         req.flash('error_msg','Please Fill all the fields');
@@ -78,7 +111,8 @@ router.post('/pagesadmin',ensureAuthenticatedSadmin,(req,res)=>{
                 }else{
                     const newUniversity = new University({
                         university,
-                        dateRegistered: new Date().toISOString().split('T')[0]
+                        changeStatus,
+                        dateRegistered: new Date()
                     });
                     newUniversity.save()
                     .then(savedUniversity =>{
@@ -104,6 +138,8 @@ router.post('/pagesadmin',ensureAuthenticatedSadmin,(req,res)=>{
     }
     
 });
+
+
 
 
 router.post('/sadminlogin', (req, res, next) => {
