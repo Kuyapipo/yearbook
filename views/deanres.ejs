@@ -57,8 +57,13 @@
                 <label for="schoolType">School/University</label>
                 <select class="form-control" id="schoolType" name="schoolType" value="<%= typeof schoolType != 'undefined'? schoolType : '' %>">
                     <option value="nofields">Choose...</option>
-                    <option value="CITU">Cebu Institute of Technology-University</option>
-                    <option value="USC">USC</option>
+                    <% if (universityData) { %>
+                        <% universityData.forEach(function(udata) { %>
+                            <% if (udata.changeStatus !== 'Pending') { %>
+                                <option value="<%= udata.university%>"><%= udata.university %></option>
+                            <% } %>
+                        <% }); %>
+                    <% } %>	
                 </select>
             </div>
             <div class="form-group">

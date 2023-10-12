@@ -65,9 +65,10 @@
         .table{
             text-align: center;
             padding-left:150px ;
+            
         }
         .scrollable-table {
-            max-height: 300px; 
+            max-height: 400px; 
             overflow: auto; 
             right: 70px;;
         }
@@ -113,13 +114,44 @@
             box-sizing: border-box;
         }
         
+        .table-container{
+            display: flex;
+        }
+        .scrollable-table1{
+            max-height: 450px; 
+            max-width: 450px;
+            overflow: auto;
+            right: 80px;
+            flex: 1;
+            margin-right:20px;
+        }
+        .scrollable-table1 tbody {
+            background-color: cornsilk;
+        }
+        .scrollable-table1 thead {
+            position: sticky;
+            top: 0;
+            background-color: rgb(255, 238, 171); 
+            z-index: 1;
+        }
+        .scrollable-table1 thead tr th{
+            color: black;
+        }
+        .scrollable-table1 tbody tr td{
+            color: black;
+        }
+        .scrollable-table1 tbody tr a{
+            color: rgb(126, 126, 97);
+        }
+        .scrollable-table1 tbody tr a.hover{
+            color: rgb(185, 185, 185);
+        }
         #addUniversity h1{
             text-align: left;
             padding-top: 0px;
             font-size: 15px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
-        
     </style>
 </head>
 
@@ -149,41 +181,87 @@
             <div class="tab-pane active" id="addUniversity">
                 <h1>Add Universities</h1>
                 <%- include ("./partials/message") %> 
-                <form action="/superadmin/pagesadmin" method="POST">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="university" placeholder="University Name" >
-                        <button class="btn btn-outline-secondary" type="submit">Add</button>
-                    </div>
-                </form>
                 <br>
-                <div class="scrollable-table" id="table1"  >
-                    <table class="table table-dark table-hover">
-                        <thead>
-                            <tr>
-                                <th>University</th>
-                                <th>Date Register</th>
-                                <th>Change</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% universityData.forEach(function(udata) { %>
+                <div class="table-container">
+                    <form action="/superadmin/directsaving" method="POST">
+                        
+                    </form>
+                    <div class="scrollable-table1" id="table1"  >
+                        <table class="table table-dark table-hover" id="modTable">
+                            <thead>
                                 <tr>
-                                    <td><%= udata.university %></td>
-                                    <td><%= udata.dateRegistered %></td>
-                                    <td>
-                                        <form action="/superadmin/updateuniversitystatus/<%= udata._id %>" method="POST">
-                                            <select class="custom-select" name="changeStatus">
-                                                <option value="<%= udata.changeStatus %>"><%= udata.changeStatus %></option>
-                                                <option value="Remove">Remove University</option>
-                                            </select>
-                                            <button type="submit" class="btn btn-outline-success">Update</button>
-                                        </form>
-                                    </td>
+                                    <th> </th>
+                                    <th>University Register</th>
+                                    <th> </th>
                                 </tr>
-                            <% }); %>
-                        </tbody>
-                      </table>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th>University</th>
+                                    <th>Date Register</th>
+                                    <th>Update University</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% universityData.forEach(function(udata) { %>
+                                    <% if (udata.changeStatus !== 'Active') { %>
+                                        <tr>
+                                            <td><%= udata.university %></td>
+                                            <td><%= udata.dateRegistered %></td>
+                                            <td>
+                                                <form action="/superadmin/updateuniversitystatus/<%= udata._id %>" method="POST">
+                                                    <select class="custom-select" name="changeStatus">
+                                                        <option value="<%= udata.changeStatus %>"><%= udata.changeStatus %></option>
+                                                        <option value="Active">Active</option>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-outline-success">Update</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                <% }); %>
+                            </tbody>
+                        </table>  
+                    </div>
+                    <div class="scrollable-table1" id="table2">
+                        <table class="table table-dark table-hover" id="modTable2">
+                            <thead>
+                                <tr>
+                                    <th> </th>
+                                    <th>   Data Registered</th>
+                                    <th> </th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th>University</th>
+                                    <th>Date Register</th>
+                                    <th>Change</th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% universityData.forEach(function(udata) { %>
+                                    <% if (udata.changeStatus === 'Active') { %>
+                                        <tr>
+                                            <td><%= udata.university %></td>
+                                            <td><%= udata.dateRegistered %></td>
+                                            <td><%= udata.changeStatus %></td>
+                                            <td>
+                                                <form action="/superadmin/updateuniversitystatus/<%= udata._id %>" method="POST">
+                                                    <button type="submit" name="changeStatus" value="Remove" class="btn btn-outline-danger">Remove</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                <% }); %>
+                            </tbody>
+                        </table> 
+                    </div>
                 </div>
+                
+                
             </div>
 
             <div class="tab-pane" id="ura">

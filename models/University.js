@@ -11,7 +11,7 @@ const universitySchema = new mongoose.Schema({
     },
     changeStatus:{
         type:String,
-        default: 'Active',
+        default: 'Pending',
     }
     
 });

@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const {ensureAuthenticatedDean} = require('../config/auth');
+//University model
+const University=require('../models/University');
 
 //Dean Model
 const User = require('../models/User');
@@ -10,9 +12,6 @@ const User = require('../models/User');
 router.get('/', (req, res) => res.render('deanhome'));
 //Login Page
 router.get('/deanlogin', (req, res) => res.render('deanlogin'));
-//Registration Page
-router.get('/deanres', (req, res) => res.render('deanres'));
-
 router.get('/pagedean',ensureAuthenticatedDean, (req, res) => {
     res.render('pagedean',{
         userType: req.user.userType,
@@ -26,6 +25,27 @@ router.get('/pagedean',ensureAuthenticatedDean, (req, res) => {
         courseType: req.user.courseType
     });
 });
+//Registration Page
+router.get('/deanres', async (req, res) => {
+    try {
+        const universityData = await University.find({ changeStatus: { $ne: 'Pending' } }, 'university');
+
+        if (!universityData || universityData.length === 0) {
+            // Handle the case when no data is found
+            return res.status(404).send('No universities found');
+        }
+
+        res.render('deanres', {
+            universityData: universityData
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
 
 
 //Register Handling 

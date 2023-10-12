@@ -16,7 +16,7 @@ router.get('/sadminlogin', (req,res)=>res.render('sadminlogin'));
 router.post('/updateuniversitystatus/:universityId', ensureAuthenticatedSadmin, async (req, res) => {
     const universityId = req.params.universityId;
     const newStatus = req.body.changeStatus;
-
+    const userStatus = req.body.status;
     try {
         console.log('University ID:', universityId);
         console.log('New Status:', newStatus);
@@ -30,10 +30,16 @@ router.post('/updateuniversitystatus/:universityId', ensureAuthenticatedSadmin, 
         university.changeStatus = newStatus;
         console.log('University saved with new status:', university);
 
-        await university.save();
+        if (newStatus === "Active") {
+            await university.save();
+            req.flash('success_msg','University Registered');
+            return res.redirect('/superadmin/pagesadmin');
+        }
         if (newStatus === 'Remove') {
             await University.findByIdAndRemove(universityId);
             console.log('University removed:', university);
+            req.flash('success_msg','University Remove');
+            return res.redirect('/superadmin/pagesadmin');
         }
         res.redirect('/superadmin/pagesadmin');
     } catch (err) {
@@ -44,27 +50,48 @@ router.post('/updateuniversitystatus/:universityId', ensureAuthenticatedSadmin, 
 
 router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res) => {
     const userId = req.params.userId;
+    //const universityId = req.params.universityId;
     const newStatus = req.body.status;
-
+    const changeStatus = req.body.changeStatus; 
     try {
         // Find the user by ID
         const user = await User.findById(userId);
         if (!user) {
             throw new Error("User not found");
         }
+        if (newStatus === "Active") {
+            // Update the user's status
+            user.status = newStatus;
+            await user.save();
+            if (user.schoolType) {
+                // Update the university with the school type
+                const university = new University({
+                    university: user.schoolType,
+                    changeStatus,
+                    dateRegistered: new Date(),
+                });
+                
 
-        // Update the user's status
-        user.status = newStatus;
-
-        // Save the updated user
-        await user.save();
-
-        if (newStatus === "Delete") {
-            // Delete the user data from the database
-            await User.findByIdAndRemove(userId);
+                // Save the university to the database
+                await university.save();
+                req.flash('success_msg','University admin is active. Register the University now');
+                return res.redirect('/superadmin/pagesadmin');
+            }
         }
-
-        // Redirect back to the original page (e.g., /superadmin/pagesadmin)
+        if(newStatus === "Pending"){
+            user.status = newStatus;
+            await user.save();
+            req.flash('success_msg','University admin status to ' +newStatus);
+            return res.redirect('/superadmin/pagesadmin');
+        }
+        if(newStatus ==='Decline'){
+            user.status = newStatus;
+            await user.save();
+            req.flash('success_msg','University admin status to ' +newStatus);
+            return res.redirect('/superadmin/pagesadmin');
+        }
+        
+        console.log('Status: ',newStatus);
         res.redirect('/superadmin/pagesadmin');
     } catch (err) {
         console.error(err);
@@ -94,53 +121,6 @@ router.get('/pagesadmin', ensureAuthenticatedSadmin, async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
-//adding university to database handling
-router.post('/pagesadmin',ensureAuthenticatedSadmin,(req,res)=>{
-    let {university, changeStatus, dateRegistered}=req.body;
-    let errors=[];
-    if(!university){
-        req.flash('error_msg','Please Fill all the fields');
-        return res.redirect('/superadmin/pagesadmin');
-    }else{
-        University.findOne({university:university})//compare if there is existing inputted university
-            .then(existingUniversity=>{
-                if(existingUniversity){
-                    req.flash('error_msg','University already exists!');
-                    return res.redirect('/superadmin/pagesadmin');
-                }else{
-                    const newUniversity = new University({
-                        university,
-                        changeStatus,
-                        dateRegistered: new Date()
-                    });
-                    newUniversity.save()
-                    .then(savedUniversity =>{
-                        req.flash('success_msg','Saved University');
-                        console.log("Access after adding inputted text");
-                        return res.redirect('/superadmin/pagesadmin');
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        req.flash('error_msg', 'An error occurred while saving the university');
-                        res.redirect('/superadmin/pagesadmin');
-                    });
-                }
-                
-            })
-            .catch(err => {
-                console.error(err);
-                req.flash('error_msg', 'An error occurred while checking for existing university');
-                res.redirect('/superadmin/pagesadmin');
-            });
-        console.log(req.body);
-        
-    }
-    
-});
-
-
-
 
 router.post('/sadminlogin', (req, res, next) => {
     passport.authenticate('super-local', {

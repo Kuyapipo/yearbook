@@ -59,7 +59,7 @@ const UserSchema = new mongoose.Schema({
     status: {
         type: String,
         default: 'Pending', // Set the default value to 'Pending'
-    }
+    },
 });
  
 const User = mongoose.model('User',UserSchema);
