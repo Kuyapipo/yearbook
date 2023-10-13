@@ -206,7 +206,7 @@
                                 <% universityData.forEach(function(udata) { %>
                                     <% if (udata.changeStatus !== 'Active') { %>
                                         <tr>
-                                            <td><%= udata.university %></td>
+                                            <td><%= udata.addUniversity %></td>
                                             <td><%= udata.dateRegistered %></td>
                                             <td>
                                                 <form action="/superadmin/updateuniversitystatus/<%= udata._id %>" method="POST">
@@ -245,7 +245,7 @@
                                 <% universityData.forEach(function(udata) { %>
                                     <% if (udata.changeStatus === 'Active') { %>
                                         <tr>
-                                            <td><%= udata.university %></td>
+                                            <td><%= udata.addUniversity %></td>
                                             <td><%= udata.dateRegistered %></td>
                                             <td><%= udata.changeStatus %></td>
                                             <td>
@@ -293,7 +293,6 @@
                                             <form action="/superadmin/updatestatus/<%= user._id %>" method="POST">
                                                 <select class="custom-select" name="status">
                                                     <option value="<%= user.status %>"><%= user.status %></option>
-                                                    <option value="Active">Active</option>
                                                     <option value="Pending">Pending</option>
                                                     <option value="Decline">Decline</option>
                                                 </select>

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const universitySchema = new mongoose.Schema({
-    university: {
+    addUniversity: {
         type: String,
         required: true
     },

@@ -21,23 +21,23 @@ router.post('/updateuniversitystatus/:universityId', ensureAuthenticatedSadmin, 
         console.log('University ID:', universityId);
         console.log('New Status:', newStatus);
 
-        const university = await University.findById(universityId);
-        console.log('Found University:', university);
-        if (!university) {
+        const addUniversity = await University.findById(universityId);
+        console.log('Found University:', addUniversity);
+        if (!addUniversity) {
             throw new Error("University not found");
         }
         console.log(newStatus);
-        university.changeStatus = newStatus;
-        console.log('University saved with new status:', university);
+        addUniversity.changeStatus = newStatus;
+        console.log('University saved with new status:', addUniversity);
 
         if (newStatus === "Active") {
-            await university.save();
+            await addUniversity.save();
             req.flash('success_msg','University Registered');
             return res.redirect('/superadmin/pagesadmin');
         }
         if (newStatus === 'Remove') {
             await University.findByIdAndRemove(universityId);
-            console.log('University removed:', university);
+            console.log('University removed:', addUniversity);
             req.flash('success_msg','University Remove');
             return res.redirect('/superadmin/pagesadmin');
         }
@@ -53,6 +53,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
     //const universityId = req.params.universityId;
     const newStatus = req.body.status;
     const changeStatus = req.body.changeStatus; 
+    
     try {
         // Find the user by ID
         const user = await User.findById(userId);
@@ -64,27 +65,16 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
             user.status = newStatus;
             await user.save();
             if (user.schoolType) {
-                // Update the university with the school type
-                const university = new University({
-                    university: user.schoolType,
+                const newUniversity = new University({
+                    addUniversity: user.schoolType,
                     changeStatus,
                     dateRegistered: new Date(),
                 });
-                
-
-                // Save the university to the database
-                await university.save();
-                req.flash('success_msg','University admin is active. Register the University now');
-                return res.redirect('/superadmin/pagesadmin');
-            }
-        }
-        if(newStatus === "Pending"){
-            user.status = newStatus;
-            await user.save();
-            req.flash('success_msg','University admin status to ' +newStatus);
-            return res.redirect('/superadmin/pagesadmin');
-        }
-        if(newStatus ==='Decline'){
+                await newUniversity.save();
+                req.flash('success_msg','University Registered');
+                return res.redirect('/superadmin/pagesadmin')
+            } 
+        }else if(newStatus === "Pending"||newStatus ==='Decline'){
             user.status = newStatus;
             await user.save();
             req.flash('success_msg','University admin status to ' +newStatus);

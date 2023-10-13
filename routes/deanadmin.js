@@ -28,7 +28,7 @@ router.get('/pagedean',ensureAuthenticatedDean, (req, res) => {
 //Registration Page
 router.get('/deanres', async (req, res) => {
     try {
-        const universityData = await University.find({ changeStatus: { $ne: 'Pending' } }, 'university');
+        const universityData = await University.find({ changeStatus: { $ne: 'Pending' } }, 'addUniversity');
 
         if (!universityData || universityData.length === 0) {
             // Handle the case when no data is found
@@ -93,22 +93,31 @@ router.post('/deanres', (req,res)=>{
     console.log(req.body);
    
     if(errors.length > 0 ){
-        return res.render('deanres',{
-            errors,
-            userType,
-            idnumber,
-            fullname,
-            iemail,
-            password,
-            password2,
-            schoolType,
-            dateOfbirth,
-            department,
-            courseType,
-            graduationDate,
-            graduationYear,
-            fileDocu
-        });
+        University.find({ changeStatus: { $ne: 'Pending' } }, 'addUniversity')
+            .then((universityData) => {
+                res.render('deanres', {
+                    universityData: universityData,
+                    errors,
+                    userType,
+                    idnumber,
+                    fullname,
+                    iemail,
+                    password,
+                    password2,
+                    schoolType,
+                    dateOfbirth,
+                    department,
+                    courseType,
+                    graduationDate,
+                    graduationYear,
+                    fileDocu
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send('Internal Server Error');
+            });
+
     }else{
         //Validation to database
         User.findOne({iemail: iemail})
