@@ -79,6 +79,10 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
             await user.save();
             req.flash('success_msg','University admin status to ' +newStatus);
             return res.redirect('/superadmin/pagesadmin');
+        }else if(newStatus === 'Delete'){
+           await  User.findByIdAndRemove(userId);
+           req.flash('success_msg','University Admin deleted');
+        return res.redirect('/superadmin/pagesadmin');
         }
         
         console.log('Status: ',newStatus);
