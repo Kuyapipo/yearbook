@@ -4,21 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Final Yearbook</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0; 
+            padding: 0;
+            background-color: cornsilk;
+        }
+        a {
+            text-decoration: none;
+        }
+        li{
+            list-style: none;
+        }
+        .container-fluid {
+            background-color: rgb(248, 236, 186);
+            position: relative;
+            margin: auto;
+        }
+        .container-fluid li{
+            position: relative;
+            padding-left: 250px;
+            padding-bottom: 15px;
+        }
+        .header-container {
+            display: flex; 
+            align-items: center; 
+        }
+        .header h1 {
+            margin: 0; 
+            font-size: 35px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .header a {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 15px;
+            color: black;
+            text-decoration: underline;
+            padding-left: 8px;
+        }
+        .header a :hover{
+            color: rgb(230, 218, 174);
+        }
+        .header p {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 15px;
+            color: black;
+            padding-left: 33%;
+            padding-top: 15px
+        }
+        .navbar{
+            padding-top: 15px;
+            margin-top: 0;
+            padding-left: 25px;
+            width: 100%;
+        }
+        
+        .navbar .table tr{
+            background-color: rgb(252, 238, 182);
+
+            margin: 0;
+            padding: 0;
+        }
+        .navbar .table tr :hover{
+            background-color: rgb(224, 217, 162);
+
+        }
+        .navbar .table tr th a{
+            font-size: 12px;
+            color: black;
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .navbar li a{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            color: black; 
+            border: 15px 15px;
+            border-color: black; 
+        }
+    </style>
 </head>
 <body>
-    <h1>My Final Yearbook</h1>
-    <p>Welcome <%= userType %></p>
-    <ul>
-        <li><strong>School License:</strong> <%= idnumber %></li>
-        <li><strong>Full Name:</strong> <%= fullname %></li>
-        <li><strong>Email:</strong> <%= iemail %></li>
-        <li><strong>School/University:</strong> <%= schoolType %></li>
-        <li><strong>Established</strong> <%= dateOfbirth %></li>
-    </ul>
-        
-    </ul>
+    <div class="container-fluid">
+        <header class="header">
+            <div class="header-container">
+                <h1>My Final Yearbook</h1>
+                <p>Welcome <%= fullname %></p>
+                <a href="/uadmin/logout" class="btnCustom">
+                    Logout
+                </a>
+            </div>
+        </header>
+    </div>
+    <nav  class="navbar">
+        <table class="table table-bordered" id="modTable">
+            <tbody>
+                <tr>
+                    <th><a href="#aboutU" class="nav-link nav-link-aboutU active">University</a></th>
+                    <th><a href="#ad" class="nav-link nav-link-ura">Active Dean</a></th>
+                    <th><a href="#pd" class="nav-link nav-link-ura">Pending Dean</a></th>
+                    <th><a href="#DecD" class="nav-link nav-link-urp">Declined Dean</a></th>
+                    <th><a href="#uap" class="nav-link nav-link-declineU">University Admin Profile</a></th>
+                </tr>
+            </tbody> 
+        </table>  
+    </nav>
 </body>
 </html>
-
-<!-- Logout button -->
-<a href="/uadmin/logout" class="btn btn-secondary">Logout</a>
