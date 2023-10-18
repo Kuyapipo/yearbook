@@ -209,12 +209,13 @@
                                             <td><%= udata.addUniversity %></td>
                                             <td><%= udata.dateRegistered %></td>
                                             <td>
-                                                <form action="/superadmin/updateuniversitystatus/<%= udata._id %>" method="POST">
+                                                <form action="/superadmin/updateuniversitystatus/<%= udata._id %>" method="POST" >
                                                     <select class="custom-select" name="changeStatus">
                                                         <option value="<%= udata.changeStatus %>"><%= udata.changeStatus %></option>
                                                         <option value="Active">Active</option>
                                                     </select>
                                                     <button type="submit" class="btn btn-outline-success">Update</button>
+                                                    
                                                 </form>
                                             </td>
                                         </tr>
@@ -425,5 +426,6 @@
           $(".alert-success-msg").delay(5000).fadeOut(300);
         });
       </script>
+      
 </body>
 </html>

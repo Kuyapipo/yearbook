@@ -102,14 +102,54 @@
         <table class="table table-bordered" id="modTable">
             <tbody>
                 <tr>
-                    <th><a href="#aboutU" class="nav-link nav-link-aboutU active">University</a></th>
-                    <th><a href="#ad" class="nav-link nav-link-ura">Active Dean</a></th>
-                    <th><a href="#pd" class="nav-link nav-link-ura">Pending Dean</a></th>
-                    <th><a href="#DecD" class="nav-link nav-link-urp">Declined Dean</a></th>
-                    <th><a href="#uap" class="nav-link nav-link-declineU">University Admin Profile</a></th>
+                    <th><a href="#aboutU"  class="nav-link nav-link-aboutU " onclick="showTab('aboutU')">University</a></th>
+                    <th><a href="#addD" class="nav-link nav-link-addD" onclick="showTab('addD')">Add Department</a></th>
+                    <th><a href="#ad" class="nav-link nav-link-ad" onclick="showTab('ad')">Active Dean</a></th>
+                    <th><a href="#pd" class="nav-link nav-link-pd" onclick="showTab('pd')">Pending Dean</a></th>
+                    <th><a href="#DecD" class="nav-link nav-link-DecD" onclick="showTab('DecD')">Declined Dean</a></th>
+                    <th><a href="#uap" class="nav-link nav-link-uap" onclick="showTab('uap')">University Admin Profile</a></th>
                 </tr>
             </tbody> 
         </table>  
     </nav>
+    <div class="container-2">
+        <div class="tab-pane" id="aboutU">
+            <h1>About University info content</h1>
+        </div>
+        <div class="tab-pane" id="addD">
+            <h1>Add dean department content</h1>
+        </div>
+        <div class="tab-pane" id="ad">
+            <h1>Active Dean content</h1>
+        </div>
+        <div class="tab-pane" id="pd">
+            <h1>Pending Dean content</h1>
+        </div>
+        <div class="tab-pane" id="DecD">
+            <h1>Decline Dean content</h1>
+        </div>
+        <div class="tab-pane" id="uap">
+            <h1>University admin profile content</h1>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        function showTab(tabId) {
+            // Hide all tab panes
+            $('.tab-pane').removeClass('active');
+            
+            // Show the selected tab
+            $('#' + tabId).addClass('active');
+
+            // Remove the 'active' class from all links
+            $('.navbar .table a').removeClass('active');
+            
+            // Add the 'active' class to the clicked link
+            $('.navbar .table a.nav-link-' + tabId).addClass('active');
+        }
+    </script>
+    
 </body>
 </html>

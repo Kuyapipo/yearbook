@@ -9,6 +9,8 @@ const Grid = require('gridfs-stream');
 const multer = require('multer');
 const crypto = require('crypto');
 const path = require('path');
+//University model
+const University=require('../models/University');
 
 const storage = multer.diskStorage({
     destination: './uploads', // Define your upload destination
@@ -29,7 +31,23 @@ router.get('/', (req,res)=> res.render('main'));
 //Login Page
 router.get('/userlogin', (req,res)=>res.render('userlogin'));
 //Registration Page
-router.get('/userres', (req,res)=>res.render('userres'));
+router.get('/userres', async (req, res) => {
+    try {
+        const universityData = await University.find({ changeStatus: { $ne: 'Pending' } }, 'addUniversity');
+
+        if (!universityData || universityData.length === 0) {
+            // Handle the case when no data is found
+            return res.status(404).send('No universities found');
+        }
+
+        res.render('userres', {
+            universityData: universityData
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 //Page after log in
 router.get('/pageuser', ensureAuthenticatedUser,(req,res)=>
 res.render('pageuser',{

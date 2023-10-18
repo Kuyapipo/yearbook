@@ -60,26 +60,40 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
         if (!user) {
             throw new Error("User not found");
         }
-        if (newStatus === "Active") {
-            // Update the user's status
-            user.status = newStatus;
-            await user.save();
-            if (user.schoolType) {
-                const newUniversity = new University({
-                    addUniversity: user.schoolType,
-                    changeStatus,
-                    dateRegistered: new Date(),
-                });
-                await newUniversity.save();
-                req.flash('success_msg','University Registered');
-                return res.redirect('/superadmin/pagesadmin')
-            } 
-        }else if(newStatus === "Pending"||newStatus ==='Decline'){
-            user.status = newStatus;
-            await user.save();
-            req.flash('success_msg','University admin status to ' +newStatus);
+        if (newStatus === user.status) {
+            req.flash('error_msg', 'Status is already ' + newStatus);
             return res.redirect('/superadmin/pagesadmin');
-        }else if(newStatus === 'Delete'){
+        } else if (newStatus === "Active") {
+            user.status = newStatus;
+            await user.save();
+            
+            if (user.schoolType) {
+                const addUniversity = user.schoolType;
+                const existingUniversity =  await University.findOne({addUniversity});
+                if (existingUniversity){
+                    req.flash('success_msg', 'University Registered but the University Name or School Name already exist');
+                    return res.redirect('/superadmin/pagesadmin');
+                }else{
+                    
+                    const newUniversity = new University({
+                        addUniversity: user.schoolType,
+                        changeStatus,
+                        dateRegistered: new Date(),
+                    });
+
+                    await newUniversity.save();
+                    req.flash('success_msg', 'University Registered');
+                    return res.redirect('/superadmin/pagesadmin');
+                }
+                
+            } 
+        } else if (newStatus === "Pending" || newStatus === 'Decline') {
+            user.status = newStatus;
+            await user.save();
+            req.flash('success_msg', 'University admin status changed to ' + newStatus);
+            return res.redirect('/superadmin/pagesadmin');
+        }
+        else if(newStatus === 'Delete'){
            await  User.findByIdAndRemove(userId);
            req.flash('success_msg','University Admin deleted');
         return res.redirect('/superadmin/pagesadmin');
