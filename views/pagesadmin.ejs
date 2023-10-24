@@ -49,12 +49,20 @@
             padding-top: 30px;
             margin-top: 20px;
             text-align: center;
-            font-size: 12px;
             padding-left: 200px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
         .tab-pane {
             display: none;
+            text-align: left;
+            padding-right: 35px;
+            font-size: 11px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        p1{
+            font-style: italic;
+            font-size: 9px;
+            padding-left: 70px;
         }
         .tab-pane.active {
             display: block;
@@ -68,6 +76,7 @@
             
         }
         .scrollable-table {
+            padding-left: 70px;
             max-height: 400px; 
             overflow: auto; 
             right: 70px;;
@@ -106,8 +115,7 @@
             display: inline-block;
             font: inherit;
             line-height: 1.5em;
-            padding: 0.5em 1em 0.5em 1em; /* Reduced right padding */
-            /* reset */
+            padding: 0.5em 1em 0.5em 1em; 
             margin: 0;      
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
@@ -118,8 +126,9 @@
             display: flex;
         }
         .scrollable-table1{
+            padding-left: 70px;
             max-height: 450px; 
-            max-width: 450px;
+            max-width: 500px;
             overflow: auto;
             right: 80px;
             flex: 1;
@@ -146,12 +155,6 @@
         .scrollable-table1 tbody tr a.hover{
             color: rgb(185, 185, 185);
         }
-        #addUniversity h1{
-            text-align: left;
-            padding-top: 0px;
-            font-size: 15px;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
     </style>
 </head>
 
@@ -161,10 +164,10 @@
     <div class="sidebar">
         <h1>My Final Yearbook</h1>
         <ul>
-            <li><a href="#addUniversity" class="nav-link nav-link-addUniversity active">Add University</a></li>
-            <li><a href="#ura" class="nav-link nav-link-ura">University Register Active</a></li>
-            <li><a href="#urp" class="nav-link nav-link-urp">University Register Pending</a></li>
-            <li><a href="#declineU" class="nav-link nav-link-declineU">University Register Decline</a></li>
+            <li><a href="#addUniversity" class="nav-link nav-link-addUniversity active">Universities tab</a></li>
+            <li><a href="#ura" class="nav-link nav-link-ura">Active University Account</a></li>
+            <li><a href="#urp" class="nav-link nav-link-urp">Pending University Account</a></li>
+            <li><a href="#declineU" class="nav-link nav-link-declineU">Decline University Account</a></li>
             <br>
             <br>
 
@@ -179,7 +182,7 @@
     <div class="container-2">
         <div class="tab-content dashboard-content">
             <div class="tab-pane active" id="addUniversity">
-                <h1>Add Universities</h1>
+                <p1>*In this section it will show the list of Universities that registered on database and to be shown to the registrations forms for Students/Alumni and Dean/Faculty</p1>
                 <%- include ("./partials/message") %> 
                 <br>
                 <div class="table-container">
@@ -266,7 +269,7 @@
             </div>
 
             <div class="tab-pane" id="ura">
-                <h1>Active Universities</h1>
+                <p1>*Credentials for University Admin account that is 'Active'</p1>
                 <div class="scrollable-table" id="table1"  >
                     <table class="table table-dark table-hover">
                         <thead>
@@ -276,6 +279,7 @@
                                 <th>Full Name</th>
                                 <th>Institutional Email</th>
                                 <th>Established</th>
+                                <th>Full Address</th>
                                 <th>Documents</th>
                                 <th>Status</th>
                             </tr>
@@ -287,8 +291,9 @@
                                         <td><%= user.schoolType %></td>
                                         <td><%= user.idnumber %></td>
                                         <td><%= user.fullname %></td>
-                                        <td><%= user.iemail %></td>
+                                        <td><%= user.iemail %></td>     
                                         <td><%= user.dateOfbirth %></td>
+                                        <td><%= user.addressInput %></td>
                                         <td><%= user.fileDocu %></td>
                                         <td>
                                             <form action="/superadmin/updatestatus/<%= user._id %>" method="POST">
@@ -309,7 +314,7 @@
             </div>
 
             <div class="tab-pane" id="urp">
-                <h1>Pending Registration</h1>
+                <p1>*Credentials for University Admin account that is 'Pending'</p1>
                 <div class="scrollable-table" id="table1"  >
                     <table class="table table-dark table-hover">
                         <thead>
@@ -319,6 +324,7 @@
                                 <th>Full Name</th>
                                 <th>Institutional Email</th>
                                 <th>Established</th>
+                                <th>Full Address</th>
                                 <th>Documents</th>
                                 <th>Status</th>
                             </tr>
@@ -332,6 +338,7 @@
                                         <td><%= user.fullname %></td>
                                         <td><%= user.iemail %></td>
                                         <td><%= user.dateOfbirth %></td>
+                                        <td><%= user.addressInput %></td>
                                         <td><%= user.fileDocu %></td>
                                         <td>
                                             <form action="/superadmin/updatestatus/<%= user._id %>" method="POST">
@@ -352,7 +359,7 @@
             </div>
 
             <div class="tab-pane" id="declineU">
-                <h1>Decline Registration</h1>
+                <p1>*Credentials for University Admin account that is 'Decline'</p1>
                 <div class="scrollable-table" id="table1"  >
                     <table class="table table-dark table-hover">
                         <thead>
@@ -362,6 +369,7 @@
                                 <th>Full Name</th>
                                 <th>Institutional Email</th>
                                 <th>Established</th>
+                                <th>Full Address</th>
                                 <th>Documents</th>
                                 <th>Status</th>
                             </tr>
@@ -375,6 +383,7 @@
                                         <td><%= user.fullname %></td>
                                         <td><%= user.iemail %></td>
                                         <td><%= user.dateOfbirth %></td>
+                                        <td><%= user.addressInput %></td>
                                         <td><%= user.fileDocu %></td>
                                         <td>
                                             <form action="/superadmin/updatestatus/<%= user._id %>" method="POST">

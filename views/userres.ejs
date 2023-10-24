@@ -97,7 +97,7 @@
                     <label for="graduationYear">Graduation Year</label>
                     <input type="text" class="form-control" id="graduationYear" name="graduationYear" value="<%= typeof graduationYear != 'undefined'? graduationYear : '' %>">
                 </div>
-                <!-- Add more alumni-specific fields here -->
+                
                 <form action="/uploads" method="POST" enctype="multipart/form-data">
                     <label for="fileDocu">Upload your documents here:(.pdf,.doc,.docx..10MB limit)</label>
                     <input type="file" id="fileDocu" name="fileDocu" accept=".pdf, .doc, .docx">
@@ -110,13 +110,12 @@
         </form>
     </div>
 
-    <!-- Add Bootstrap JS and jQuery links here -->
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        // JavaScript code to show/hide alumni-specific fields based on user type
         const userTypeSelect = document.getElementById('userType');
         const alumniFields = document.getElementById('AlumniFields');
         const registerButton = document.getElementById('registerButton');

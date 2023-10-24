@@ -51,8 +51,13 @@
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             font-size: 15px;
             color: black;
-            padding-left: 33%;
+            padding-left: 45%;
             padding-top: 15px
+        }
+        .dashboard-content h1 {
+            text-align: left;
+            font-size: 25px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
         .navbar{
             padding-top: 15px;
@@ -63,7 +68,6 @@
         
         .navbar .table tr{
             background-color: rgb(252, 238, 182);
-
             margin: 0;
             padding: 0;
         }
@@ -102,53 +106,60 @@
         <table class="table table-bordered" id="modTable">
             <tbody>
                 <tr>
-                    <th><a href="#aboutU"  class="nav-link nav-link-aboutU " onclick="showTab('aboutU')">University</a></th>
-                    <th><a href="#addD" class="nav-link nav-link-addD" onclick="showTab('addD')">Add Department</a></th>
-                    <th><a href="#ad" class="nav-link nav-link-ad" onclick="showTab('ad')">Active Dean</a></th>
-                    <th><a href="#pd" class="nav-link nav-link-pd" onclick="showTab('pd')">Pending Dean</a></th>
-                    <th><a href="#DecD" class="nav-link nav-link-DecD" onclick="showTab('DecD')">Declined Dean</a></th>
-                    <th><a href="#uap" class="nav-link nav-link-uap" onclick="showTab('uap')">University Admin Profile</a></th>
+                    <th><a href="#aboutU"  class="nav-link nav-link-aboutU active">University</a></th>
+                    <th><a href="#addD" class="nav-link nav-link-addD">Add Dean Department</a></th>
+                    <th><a href="#ad" class="nav-link nav-link-ad">Active Dean Account</a></th>
+                    <th><a href="#pd" class="nav-link nav-link-pd">Pending Dean Account</a></th>
+                    <th><a href="#DecD" class="nav-link nav-link-DecD">Declined Dean Account</a></th>
+                    <th><a href="#uap" class="nav-link nav-link-uap">University Admin Profile</a></th> 
                 </tr>
             </tbody> 
         </table>  
     </nav>
     <div class="container-2">
-        <div class="tab-pane" id="aboutU">
-            <h1>About University info content</h1>
+        <div class="tab-content dashboard-content">
+            <div class="tab-pane active" id="aboutU">
+                <h1>About University info content</h1>
+            </div>
+            <div class="tab-pane" id="addD">
+                <h1>Add dean department content</h1>
+            </div>
+            <div class="tab-pane" id="ad">
+                <h1>Active Dean content</h1>
+            </div>
+            <div class="tab-pane" id="pd">
+                <h1>Pending Dean content</h1>
+            </div>
+            <div class="tab-pane" id="DecD">
+                <h1>Decline Dean content</h1>
+            </div>
+            <div class="tab-pane" id="uap">
+                <h1>University admin profile content</h1>
+            </div>
         </div>
-        <div class="tab-pane" id="addD">
-            <h1>Add dean department content</h1>
-        </div>
-        <div class="tab-pane" id="ad">
-            <h1>Active Dean content</h1>
-        </div>
-        <div class="tab-pane" id="pd">
-            <h1>Pending Dean content</h1>
-        </div>
-        <div class="tab-pane" id="DecD">
-            <h1>Decline Dean content</h1>
-        </div>
-        <div class="tab-pane" id="uap">
-            <h1>University admin profile content</h1>
-        </div>
+        
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <script>
-        function showTab(tabId) {
+        function toggleTab(tabId) {
             // Hide all tab panes
             $('.tab-pane').removeClass('active');
-            
-            // Show the selected tab
-            $('#' + tabId).addClass('active');
 
-            // Remove the 'active' class from all links
-            $('.navbar .table a').removeClass('active');
-            
-            // Add the 'active' class to the clicked link
-            $('.navbar .table a.nav-link-' + tabId).addClass('active');
+            // Show the selected tab
+            $(tabId).addClass('active');
         }
+
+        // Click event for tab links
+        $('.nav-link').click(function (e) {
+            e.preventDefault();
+            var tabId = $(this).attr('href');
+            toggleTab(tabId);
+        });
     </script>
     
 </body>

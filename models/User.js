@@ -56,6 +56,10 @@ const UserSchema = new mongoose.Schema({
         contentType: String, 
         originalName: String
     },
+    addressInput: {
+        type: String,
+        default: 'N/A',
+    },
     status: {
         type: String,
         default: 'Pending', // Set the default value to 'Pending'

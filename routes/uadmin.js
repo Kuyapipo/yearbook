@@ -21,13 +21,15 @@ router.get('/pageuadmin',ensureAuthenticatedUadmin,(req, res) => {
         fullname: req.user.fullname,
         iemail: req.user.iemail,
         schoolType: req.user.schoolType,
-        dateOfbirth: req.user.dateOfbirth
+        dateOfbirth: req.user.dateOfbirth,
+        addressInput:req.user.addressInput
+        
     });
     
 });
 //Register Handling 
 router.post('/uadminres', (req,res)=>{
-    let{userType, idnumber, fullname,iemail,password,password2,schoolType,dateOfbirth,department, courseType,graduationDate,graduationYear,fileDocu,status}=req.body;
+    let{userType, idnumber, fullname,iemail,password,password2,schoolType,dateOfbirth,department, courseType,graduationDate,graduationYear,fileDocu,status,addressInput}=req.body;
     let errors=[];
 
     userType='University Admin';
@@ -37,7 +39,7 @@ router.post('/uadminres', (req,res)=>{
     department='NA';
     courseType='NA';
     status ='Pending';
-    if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType|| !dateOfbirth || !department || !courseType||!graduationDate||!graduationYear||!fileDocu||!status){
+    if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType|| !dateOfbirth || !department || !courseType||!graduationDate||!graduationYear||!fileDocu||!status||!addressInput){
             
         errors.push({msg:'Please fill all the fields'});
     }
@@ -72,7 +74,8 @@ router.post('/uadminres', (req,res)=>{
             graduationDate,
             graduationYear,
             fileDocu,
-            status
+            status,
+            addressInput
         });
     }else{
         //Validation to database
@@ -96,7 +99,8 @@ router.post('/uadminres', (req,res)=>{
                         graduationDate,
                         graduationYear,
                         fileDocu,
-                        status
+                        status,
+                        addressInput
                     });
                 }else{
                     const newUniversity = new User({
@@ -113,7 +117,8 @@ router.post('/uadminres', (req,res)=>{
                         graduationDate,
                         graduationYear,
                         fileDocu,
-                        status
+                        status,
+                        addressInput
                     });
                     
                     //Hash password
