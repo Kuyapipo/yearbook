@@ -70,6 +70,10 @@
                 <label for="dateOfbirth">Date of Birth</label>
                 <input type="date" class="form-control" id="dateOfbirth" name="dateOfbirth" value="<%= typeof dateOfbirth != 'undefined'? dateOfbirth : '' %>">
             </div>
+            <div class="form-group">
+                <label for="addressInput">Full Address</label>
+                <input type="text" class="form-control" id="addressInput" name="addressInput" value="<%= typeof addressInput != 'undefined'? addressInput : '' %>">
+            </div>
             <div>
                 <label for="department">Department</label>
                 <select class="form-control" id="department" name="department" value="<%= typeof department != 'undefined'? courseType : '' %>">
@@ -79,18 +83,22 @@
                 </select>
             </div> 
             <div id="FacultyFields" style="display:none;">
+                <br>
                 <div>
-                    <label for="courseType">Course</label>
-                    <select class="form-control" id="courseType" name="courseType" value="<%= typeof courseType != 'undefined'? courseType : '' %>">
-                        <option value="nofields">Choose...</option>
-                        <option value="BS Computer Engineering">BS Computer Engineering</option>
-                        <option value="BS Civil Engineering">BS Civil Engineering</option>
-                    </select>
+                    <div class="form-group">
+                        <label for="courseType">Course</label>
+                        <input type="text" class="form-control" id="courseType" name="courseType" value="<%= typeof courseType != 'undefined'? courseType : '' %>">
+                    </div>
                 </div>
-                <!-- Add more Faculty-specific fields here -->
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <form action="/uploads" method="POST" enctype="multipart/form-data">
+                <label for="fileDocu">Upload your documents here:(.pdf,.doc,.docx..10MB limit)</label>
+                <input type="file" id="fileDocu" name="fileDocu" accept=".pdf, .doc, .docx">
+                <br>
+            </form>
+            <br>
+            <button type="submit" class="btn btn-primary" id="registerButton">Register</button>
             <p class="mt-3">Already registered? <a href="/deanadmin/deanlogin">Log in here</a></p>
         </form>
     </div>
@@ -99,9 +107,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <script>
-        // JavaScript code to show/hide alumni-specific fields based on user type
+        registerButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        document.querySelector('form').submit();
+        });
+    </script>
+    <script>
         const userTypeSelect = document.getElementById('userType');
         const facultyFields= document.getElementById('FacultyFields');
 

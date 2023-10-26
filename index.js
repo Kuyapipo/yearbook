@@ -65,7 +65,7 @@ app.set('view engine', 'ejs');
 
 
 //Bodyparser
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 
 //Express session 
 app.use(session({
@@ -73,7 +73,6 @@ app.use(session({
     resave: true,
     saveUninitialized: true
   }));
-
 
 
 //Passport Middleware

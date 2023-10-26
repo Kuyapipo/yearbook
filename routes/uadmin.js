@@ -4,8 +4,9 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { ensureAuthenticatedUadmin } = require('../config/auth');
 
-//University Model
+//Dean Model
 const User = require('../models/User');
+const UnivBackG =require('../models/UnivBackG')
 //Home Page 
 router.get('/', (req,res)=> res.render('unverhome'));
 
@@ -13,19 +14,99 @@ router.get('/', (req,res)=> res.render('unverhome'));
 router.get('/uadminlogin', (req,res)=>res.render('uadminlogin'));
 //Registration Page
 router.get('/uadminres', (req,res)=>res.render('uadminres'));
-
-router.get('/pageuadmin',ensureAuthenticatedUadmin,(req, res) => {
-    res.render('pageuadmin',{
-        userType: req.user.userType,
-        idnumber: req.user.idnumber,
-        fullname: req.user.fullname,
-        iemail: req.user.iemail,
-        schoolType: req.user.schoolType,
-        dateOfbirth: req.user.dateOfbirth,
-        addressInput:req.user.addressInput
-        
-    });
+//University background
+router.post('/pageuadmin', ensureAuthenticatedUadmin ,async (req,res)=>{
+    let{UnivAddTitle,UnivEst,UBackground}=req.body;
+    if(!UnivAddTitle||!UnivEst||!UBackground){
+        req.flash('error_msg', 'Please Fill all the fields before saving...');
+        return res.redirect('/uadmin/pageuadmin');
+    }else{
+        const newUnivBackG = new UnivBackG({
+            UnivAddTitle,
+            UnivEst,
+            UBackground
+        });
+        newUnivBackG.save()
+            .then(uniBackG =>{
+                req.flash('success_msg','University Background Inputted!');
+                return res.redirect('/uadmin/pageuadmin');
+            })
+            .catch(err => {
+                console.error(err);
+                req.flash('error_msg', 'An error occurred while saving data.');
+                return res.redirect('/uadmin/pageuadmin');
+            });
+    }
     
+    console.log(req.body);
+});
+router.get('/pageuadmin',ensureAuthenticatedUadmin, async(req, res) => {
+
+    try {
+        // Fetch user data for Dean Admin user types
+        const DeanAdminUserData = await User.find({ userType: 'Dean' });
+        
+        
+
+        if (!DeanAdminUserData) {
+            throw new Error("No Dean Admin user data found");
+        }
+
+        res.render('pageuadmin', {
+            allUserData: DeanAdminUserData,
+            userType: req.user.userType,
+            idnumber: req.user.idnumber,
+            fullname: req.user.fullname,
+            iemail: req.user.iemail,
+            schoolType: req.user.schoolType,
+            dateOfbirth: req.user.dateOfbirth,
+            addressInput:req.user.addressInput
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+router.post('/updatestatus/:userId', ensureAuthenticatedUadmin, async (req, res) => {
+    const userId = req.params.userId;
+    //const universityId = req.params.universityId;
+    const newStatus = req.body.status;
+    
+    try {
+        // Find the user by ID
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new Error("User not found");
+        }
+        if (newStatus === user.status) {
+            req.flash('error_msg', 'Status is already ' + newStatus);
+            return res.redirect('/uadmin/pageuadmin');
+        } else if (newStatus === "Active") {
+            user.status = newStatus;
+            await user.save();
+            req.flash('success_msg', 'University admin status changed to ' + newStatus);
+            return res.redirect('/uadmin/pageuadmin');
+            
+            
+        } else if (newStatus === "Pending" || newStatus === 'Decline') {
+            user.status = newStatus;
+            await user.save();
+            req.flash('success_msg', 'University admin status changed to ' + newStatus);
+            return res.redirect('/uadmin/pageuadmin');
+        }
+        else if(newStatus === 'Delete'){
+           await  User.findByIdAndRemove(userId);
+           req.flash('success_msg','University Admin deleted');
+           return res.redirect('/uadmin/pageuadmin');
+        }
+        
+        console.log('Status: ',newStatus);
+        return res.redirect('/uadmin/pageuadmin');
+    } catch (err) {
+        console.error(err);
+        // Handle the error (e.g., red  irect to an error page)
+        res.status(500).send('Internal Server Error');
+    }
 });
 //Register Handling 
 router.post('/uadminres', (req,res)=>{

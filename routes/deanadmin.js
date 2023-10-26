@@ -42,22 +42,21 @@ router.get('/deanres', async (req, res) => {
         console.error(error);
         res.status(500).send('Internal Server Error');
     }
+    
 });
-
-
 
 
 
 //Register Handling 
 router.post('/deanres', (req,res)=>{
-    let{userType, idnumber, fullname,iemail,password,password2,schoolType,dateOfbirth,department, courseType,graduationDate,graduationYear,fileDocu}=req.body;
+    let{userType, idnumber, fullname,iemail,password,password2,schoolType,dateOfbirth,department, courseType,graduationDate,graduationYear,fileDocu,addressInput,status}=req.body;
     let errors=[];
     if(userType==='Faculty'){
         graduationDate='000';
         graduationYear='000';
         fileDocu='NA';
         //fill form
-        if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType|| !dateOfbirth || !department || !courseType||!graduationDate||!graduationYear||!fileDocu){
+        if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType|| !dateOfbirth || !department || !courseType||!graduationDate||!graduationYear||!fileDocu||!addressInput){
             
             errors.push({msg:'Please fill all the fields'});
         }
@@ -71,7 +70,7 @@ router.post('/deanres', (req,res)=>{
         graduationYear='000';
         fileDocu='NA';
         courseType='NA';
-        if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType||!dateOfbirth || !department || !courseType||!graduationDate||!graduationYear||!fileDocu){
+        if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType||!dateOfbirth || !department || !courseType||!graduationDate||!graduationYear||!fileDocu||!addressInput){
            
             errors.push({msg:'Please fill all the fields'});
         }
@@ -110,7 +109,9 @@ router.post('/deanres', (req,res)=>{
                     courseType,
                     graduationDate,
                     graduationYear,
-                    fileDocu
+                    fileDocu,
+                    status,
+                    addressInput
                 });
             })
             .catch((error) => {
@@ -139,7 +140,9 @@ router.post('/deanres', (req,res)=>{
                         courseType,
                         graduationDate,
                         graduationYear,
-                        fileDocu
+                        fileDocu,
+                        status,
+                        addressInput
                     });
                 }else{
                     const newDean = new User({
@@ -155,7 +158,9 @@ router.post('/deanres', (req,res)=>{
                         courseType,
                         graduationDate,
                         graduationYear,
-                        fileDocu
+                        fileDocu,
+                        status,
+                        addressInput
                     });
                     
                     //Hash password
@@ -167,14 +172,14 @@ router.post('/deanres', (req,res)=>{
                         //save user
                         newDean.save()
                         .then(user =>{
-                            req.flash('success_msg','You are now registered and can log in');
+                            req.flash('success_msg','You are now registered and but your account is under approval currently your account is on Pending Status');
                             res.redirect('/deanadmin/deanlogin');
                         })
                         .catch(err => console.log(err));
                     }))
                 }
             });
-            req.flash('success_msg', 'You are now registered and can log in');
+            req.flash('success_msg', 'You are now registered and but your account is under approval currently your account is on Pending Status');
             return res.redirect('/deanadmin/deanlogin');
 
     }

@@ -9,7 +9,6 @@
         body {
             font-family: Arial, Helvetica, sans-serif;
             margin: 0; 
-            padding: 0;
             background-color: cornsilk;
         }
         a {
@@ -20,8 +19,10 @@
         }
         .container-fluid {
             background-color: rgb(248, 236, 186);
-            position: relative;
-            margin: auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 80px;
         }
         .container-fluid li{
             position: relative;
@@ -33,7 +34,8 @@
             align-items: center; 
         }
         .header h1 {
-            margin: 0; 
+            margin: 0;
+            padding-left: 2px;
             font-size: 35px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
@@ -54,16 +56,74 @@
             padding-left: 45%;
             padding-top: 15px
         }
+        p1{
+            font-style: italic;
+            font-size: 11px;
+        }
+        .dashboard-content {
+            position: fixed;
+            top: 150px;
+            left: 0;
+            width: 100%;
+            align-items: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
         .dashboard-content h1 {
             text-align: left;
             font-size: 25px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
+        .scrollable-table {
+            max-height: 600px; 
+            overflow: auto; 
+        }
+        .scrollable-table tbody {
+            background-color: cornsilk;
+            font-size: 12px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            
+        }
+        .scrollable-table thead {
+            position: sticky;
+            top: 0;
+            background-color: rgb(255, 238, 171); 
+            z-index: 1;
+            font-size: 13px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .scrollable-table thead tr th{
+            color: black;
+        }
+        .scrollable-table tbody tr td{
+            
+            color: black;
+        }
+        .scrollable-table tbody tr a{
+            color: rgb(126, 126, 97);
+            
+        }
+        .scrollable-table tbody tr a.hover{
+            color: rgb(185, 185, 185);
+        }
+        .custom-select {
+            background-color: cornsilk;
+            border: thin solid black;
+            border-radius: 4px;
+            display: inline-block;
+            font: inherit;
+            line-height: 1.5em;
+            padding: 0.5em 1em 0.5em 1em; 
+            margin: 0;      
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
         .navbar{
-            padding-top: 15px;
-            margin-top: 0;
-            padding-left: 25px;
+            position: fixed;
+            top: 80px;
+            left: 0;
             width: 100%;
+            align-items: center;
         }
         
         .navbar .table tr{
@@ -76,7 +136,7 @@
 
         }
         .navbar .table tr th a{
-            font-size: 12px;
+            font-size: 11px;
             color: black;
             text-align: center;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -88,12 +148,31 @@
             border: 15px 15px;
             border-color: black; 
         }
+        .formBackground{
+            margin: 0;
+            width: 35%;
+            height: 400px;
+            background-color: rgb(250, 230, 150);
+            
+            text-align: center;
+        }
+        .formBackground label{
+            padding-top: 25px;
+            color: black;
+            font-size: 15px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .form-group .form-control {
+            padding-left:25px;
+            width: 350px;
+        }
     </style>
 </head>
 <body>
     <div class="container-fluid">
         <header class="header">
             <div class="header-container">
+                <img src="/pictures/yearbook.png" alt="Logo" width="90" height="80">
                 <h1>My Final Yearbook</h1>
                 <p>Welcome <%= fullname %></p>
                 <a href="/uadmin/logout" class="btnCustom">
@@ -119,22 +198,190 @@
     <div class="container-2">
         <div class="tab-content dashboard-content">
             <div class="tab-pane active" id="aboutU">
-                <h1>About University info content</h1>
+                <%- include ("./partials/message") %> 
+                <p1>*University Information</p1>
+                <div class="formBackground">
+                    <form action="/uadmin/pageuadmin" method="POST">
+                        <div class="form-group">
+                            <label for="UnivAddTitle">University Name</label>
+                            <input type="text" class="form-control" id="UnivAddTitle" name="UnivAddTitle" value="<%= schoolType %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="UnivEst">University Established</label>
+                            <input type="text" class="form-control" id="UnivEst" name="UnivEst" value="<%= dateOfbirth %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="UBackground">University Body/Background</label>
+                            <input type="text" class="form-control" id="UBackground" name="UBackground" value="<%= typeof UBackground != 'undefined'? UBackground : '' %>">
+                        </div>
+                        <button type="submit" class="btn btn-outline-dark">Save Data</button>
+                    </form>
+                </div>
+
+               
             </div>
             <div class="tab-pane" id="addD">
-                <h1>Add dean department content</h1>
+                <p1>*This content if for adding Dean department that will be posted to the registration form for alumni/student </p1>
+                <div class="scrollable-table" id="table1"  >
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>University</th>
+                                <th>ID Number</th>
+                                <th>Full Name</th>
+                                <th>Institutional Email</th>
+                                <th>Date Of Birth</th>
+                                <th>Department</th>
+                                <th>Documents</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        
+                      </table>
+                </div>
             </div>
             <div class="tab-pane" id="ad">
-                <h1>Active Dean content</h1>
+                <p1>*Credentials for Dean Admin account that is 'Active'</p1>
+                <div class="scrollable-table" id="table1"  >
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>University</th>
+                                <th>ID Number</th>
+                                <th>Full Name</th>
+                                <th>Institutional Email</th>
+                                <th>Date Of Birth</th>
+                                <th>Department</th>
+                                <th>Documents</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% allUserData.forEach(function(user) { %>
+                                <% if (user.schoolType === schoolType) { %>
+                                    <% if (user.status === 'Active') { %>
+                                        <tr>
+                                            <td><%= user.schoolType %></td>
+                                            <td><%= user.idnumber %></td>
+                                            <td><%= user.fullname %></td>
+                                            <td><%= user.iemail %></td>     
+                                            <td><%= user.dateOfbirth %></td>
+                                            <td><%= user.department %></td>
+                                            <td><%= user.fileDocu %></td>
+                                            <td>
+                                                <form action="/uadmin/updatestatus/<%= user._id %>" method="POST">
+                                                    <select class="custom-select" name="status">
+                                                        <option value="<%= user.status %>"><%= user.status %></option>
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Decline">Decline</option>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-outline-success">Update</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                <% } %>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="tab-pane" id="pd">
-                <h1>Pending Dean content</h1>
+                <p1>*Credentials for Dean Admin account that is 'Pending'</p1>
+                <div class="scrollable-table" id="table1"  >
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>University</th>
+                                <th>ID Number</th>
+                                <th>Full Name</th>
+                                <th>Institutional Email</th>
+                                <th>Date Of Birth</th>
+                                <th>Department</th>
+                                <th>Documents</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <% allUserData.forEach(function(user) { %>
+                            <% if (user.schoolType === schoolType) { %>
+                                <% if (user.status === 'Pending') { %>
+                                    <tr>
+                                        <td><%= user.schoolType %></td>
+                                        <td><%= user.idnumber %></td>
+                                        <td><%= user.fullname %></td>
+                                        <td><%= user.iemail %></td>     
+                                        <td><%= user.dateOfbirth %></td>
+                                        <td><%= user.department %></td>
+                                        <td><%= user.fileDocu %></td>
+                                        <td>
+                                            <form action="/uadmin/updatestatus/<%= user._id %>" method="POST">
+                                                <select class="custom-select" name="status">
+                                                    <option value="<%= user.status %>"><%= user.status %></option>
+                                                    <option value="Active">Active</option>
+                                                    <option value="Decline">Decline</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-outline-success">Update</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            <% } %>
+                            
+                        <% }); %>
+                    </tbody>
+                    </table>
+                </div>
             </div>
             <div class="tab-pane" id="DecD">
-                <h1>Decline Dean content</h1>
+                <p1>*Credentials for Dean Admin account that is 'Decline'</p1>
+                <div class="scrollable-table" id="table1"  >
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>University</th>
+                                <th>ID Number</th>
+                                <th>Full Name</th>
+                                <th>Institutional Email</th>
+                                <th>Date Of Birth</th>
+                                <th>Department</th>
+                                <th>Documents</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% allUserData.forEach(function(user) { %>
+                                <% if (user.schoolType === schoolType) { %>
+                                    <% if (user.status === 'Decline') { %>
+                                        <tr>
+                                            <td><%= user.schoolType %></td>
+                                            <td><%= user.idnumber %></td>
+                                            <td><%= user.fullname %></td>
+                                            <td><%= user.iemail %></td>
+                                            <td><%= user.dateOfbirth %></td>
+                                            <td><%= user.addressInput %></td>
+                                            <td><%= user.fileDocu %></td>
+                                            <td>
+                                                <form action="/uadmin/updatestatus/<%= user._id %>" method="POST">
+                                                    <select class="custom-select" name="status">
+                                                        <option value="<%= user.status %>"><%= user.status %></option>
+                                                        <option value="Pending">Restore to Pending</option>
+                                                        <option value="Delete">Delete</option>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-outline-success">Update</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                <% } %>
+                                
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="tab-pane" id="uap">
-                <h1>University admin profile content</h1>
+                <p1>*University Admin profile</p1>
+                
             </div>
         </div>
         
@@ -159,6 +406,16 @@
             e.preventDefault();
             var tabId = $(this).attr('href');
             toggleTab(tabId);
+        });
+    </script>
+    <script>
+        
+        $(document).ready(function () {
+          $(".alert").not(".alert-success-msg").delay(3000).fadeOut(300, function () {
+            $(this).alert('close');
+          });
+      
+          $(".alert-success-msg").delay(5000).fadeOut(300);
         });
     </script>
     
