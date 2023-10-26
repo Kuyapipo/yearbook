@@ -223,7 +223,7 @@
                                     <% if (udata.changeStatus !== 'Active') { %>
                                         <tr>
                                             <td><%= udata.addUniversity %></td>
-                                            <td><%= udata.dateRegistered %></td>
+                                            <td><%= udata.dateRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
                                             <td>
                                                 <form action="/superadmin/updateuniversitystatus/<%= udata._id %>" method="POST" >
                                                     <select class="custom-select" name="changeStatus">
@@ -263,7 +263,7 @@
                                     <% if (udata.changeStatus === 'Active') { %>
                                         <tr>
                                             <td><%= udata.addUniversity %></td>
-                                            <td><%= udata.dateRegistered %></td>
+                                            <td><%= udata.dateRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
                                             <td><%= udata.changeStatus %></td>
                                             <td>
                                                 <form action="/superadmin/updateuniversitystatus/<%= udata._id %>" method="POST">
@@ -305,7 +305,7 @@
                                         <td><%= user.idnumber %></td>
                                         <td><%= user.fullname %></td>
                                         <td><%= user.iemail %></td>     
-                                        <td><%= user.dateOfbirth %></td>
+                                        <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
                                         <td><%= user.addressInput %></td>
                                         <td><%= user.fileDocu %></td>
                                         <td>
@@ -350,7 +350,7 @@
                                         <td><%= user.idnumber %></td>
                                         <td><%= user.fullname %></td>
                                         <td><%= user.iemail %></td>
-                                        <td><%= user.dateOfbirth %></td>
+                                        <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
                                         <td><%= user.addressInput %></td>
                                         <td><%= user.fileDocu %></td>
                                         <td>
@@ -395,7 +395,7 @@
                                         <td><%= user.idnumber %></td>
                                         <td><%= user.fullname %></td>
                                         <td><%= user.iemail %></td>
-                                        <td><%= user.dateOfbirth %></td>
+                                        <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
                                         <td><%= user.addressInput %></td>
                                         <td><%= user.fileDocu %></td>
                                         <td>

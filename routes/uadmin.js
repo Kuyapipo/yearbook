@@ -15,37 +15,55 @@ router.get('/uadminlogin', (req,res)=>res.render('uadminlogin'));
 //Registration Page
 router.get('/uadminres', (req,res)=>res.render('uadminres'));
 //University background
-router.post('/pageuadmin', ensureAuthenticatedUadmin ,async (req,res)=>{
-    let{UnivAddTitle,UnivEst,UBackground}=req.body;
-    if(!UnivAddTitle||!UnivEst||!UBackground){
-        req.flash('error_msg', 'Please Fill all the fields before saving...');
-        return res.redirect('/uadmin/pageuadmin');
-    }else{
-        const newUnivBackG = new UnivBackG({
-            UnivAddTitle,
-            UnivEst,
-            UBackground
-        });
-        newUnivBackG.save()
-            .then(uniBackG =>{
-                req.flash('success_msg','University Background Inputted!');
-                return res.redirect('/uadmin/pageuadmin');
-            })
-            .catch(err => {
-                console.error(err);
-                req.flash('error_msg', 'An error occurred while saving data.');
-                return res.redirect('/uadmin/pageuadmin');
+router.post('/pageuadmin', ensureAuthenticatedUadmin, async (req, res) => {
+    let { UnivAddTitle, UnivEst, UBackground, addressB } = req.body;
+
+    try {
+        const univbackgId = req.body.univbackgId;
+        if(!UnivAddTitle||!UnivEst||!UBackground||!addressB){
+            req.flash('error_msg', 'Please fill all the details');
+            return res.redirect('/uadmin/pageuadmin');
+        }
+        // Check if a document with the same UnivAddTitle exists
+        const existingUnivBackG = await UnivBackG.findOne({ UnivAddTitle });
+
+        if (existingUnivBackG) {
+            // Update the existing document
+            const updatedUnivBackG = {
+                UnivEst,
+                UBackground,
+                addressB
+            };
+
+            await UnivBackG.findByIdAndUpdate(existingUnivBackG._id, updatedUnivBackG);
+            req.flash('success_msg', 'University Background Updated!');
+        } else {
+            // Create a new document
+            const newUnivBackG = new UnivBackG({
+                UnivAddTitle,
+                UnivEst,
+                addressB,
+                UBackground
             });
+
+            await newUnivBackG.save();
+            req.flash('success_msg', 'University Background Inputted!');
+        }
+
+        return res.redirect('/uadmin/pageuadmin');
+    } catch (err) {
+        console.error(err);
+        req.flash('error_msg', 'An error occurred while saving data.');
+        return res.redirect('/uadmin/pageuadmin');
     }
-    
-    console.log(req.body);
 });
+
 router.get('/pageuadmin',ensureAuthenticatedUadmin, async(req, res) => {
 
     try {
         // Fetch user data for Dean Admin user types
         const DeanAdminUserData = await User.find({ userType: 'Dean' });
-        
+        const UniversityBackData = await UnivBackG.find({ UnivAddTitle: req.user.schoolType });
         
 
         if (!DeanAdminUserData) {
@@ -53,6 +71,7 @@ router.get('/pageuadmin',ensureAuthenticatedUadmin, async(req, res) => {
         }
 
         res.render('pageuadmin', {
+            uBackgroundData:UniversityBackData,
             allUserData: DeanAdminUserData,
             userType: req.user.userType,
             idnumber: req.user.idnumber,
