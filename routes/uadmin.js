@@ -7,6 +7,7 @@ const { ensureAuthenticatedUadmin } = require('../config/auth');
 //Dean Model
 const User = require('../models/User');
 const UnivBackG =require('../models/UnivBackG')
+const AddD=require('../models/AddD');
 //Home Page 
 router.get('/', (req,res)=> res.render('unverhome'));
 
@@ -64,6 +65,7 @@ router.get('/pageuadmin',ensureAuthenticatedUadmin, async(req, res) => {
         // Fetch user data for Dean Admin user types
         const DeanAdminUserData = await User.find({ userType: 'Dean' });
         const UniversityBackData = await UnivBackG.find({ UnivAddTitle: req.user.schoolType });
+        const departmentData = await AddD.find();
         
 
         if (!DeanAdminUserData) {
@@ -71,6 +73,7 @@ router.get('/pageuadmin',ensureAuthenticatedUadmin, async(req, res) => {
         }
 
         res.render('pageuadmin', {
+            departmentData:departmentData,
             uBackgroundData:UniversityBackData,
             allUserData: DeanAdminUserData,
             userType: req.user.userType,
@@ -86,10 +89,44 @@ router.get('/pageuadmin',ensureAuthenticatedUadmin, async(req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+router.post('/updatedepartmentstatus/:adddId', ensureAuthenticatedUadmin, async (req, res) => {
+    const adddId = req.params.adddId;
+    const newStatus = req.body.changeStatusD;
+    const userStatus = req.body.status;
+    try {
+        console.log('Department ID:', adddId);
+        console.log('New Status:', newStatus);
+
+        const addDepartment = await AddD.findById(adddId);
+        console.log('Found Department:', addDepartment);
+        if (!addDepartment) {
+            throw new Error("Department not found");
+        }
+        console.log(newStatus);
+        addDepartment.changeStatusD = newStatus;
+        console.log('Deparment saved with new status:', addDepartment);
+        if (newStatus === "Active") {
+            await addDepartment.save();
+            req.flash('success_msg','Department Registered');
+            return res.redirect('/uadmin/pageuadmin');
+        }
+        if (newStatus === 'Remove') {
+            await AddD.findByIdAndRemove(adddId);
+            console.log('University removed:', addDepartment);
+            req.flash('success_msg','Department Remove');
+            return res.redirect('/uadmin/pageuadmin');
+        }
+        return res.redirect('/uadmin/pageuadmin');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
 router.post('/updatestatus/:userId', ensureAuthenticatedUadmin, async (req, res) => {
     const userId = req.params.userId;
     //const universityId = req.params.universityId;
     const newStatus = req.body.status;
+    const changeStatusD = req.body.changeStatusD; 
     
     try {
         // Find the user by ID
@@ -103,6 +140,25 @@ router.post('/updatestatus/:userId', ensureAuthenticatedUadmin, async (req, res)
         } else if (newStatus === "Active") {
             user.status = newStatus;
             await user.save();
+            if(user.department){
+                const addDepartment = user.department;
+                const existingDepartment =  await AddD.findOne({addDepartment});
+                if(existingDepartment){
+                    req.flash('success_msg', 'Dean admin is Active but the Department Name already exist');
+                    return res.redirect('/uadmin/pageuadmin');
+                }else{
+                    const newAddD = new AddD({
+                        addDUniversity:user.schoolType,
+                        addDepartment: user.department,
+                        dateDRegistered: new Date(),
+                        changeStatusD,
+                    });
+                    await newAddD.save();
+                    req.flash('success_msg', 'Department name added but on Pending status');
+                    return res.redirect('/uadmin/pageuadmin');
+                }
+                
+            }
             req.flash('success_msg', 'University admin status changed to ' + newStatus);
             return res.redirect('/uadmin/pageuadmin');
             

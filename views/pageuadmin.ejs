@@ -74,7 +74,7 @@
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
         .scrollable-table {
-            max-height: 600px; 
+            height: 600px; 
             overflow: auto; 
         }
         .scrollable-table tbody {
@@ -211,9 +211,10 @@
             flex: 1;
             margin-right:20px;
         }
-        .scrollable-table1 tbody {
+        .scrollable-table1 tbody td {
             background-color: cornsilk;
             color: black;
+            font-size: 12px;
         }
         .scrollable-table1 thead {
             color: black;
@@ -309,7 +310,30 @@
                                     <th>Deploy</th>
                                 </tr>
                             </thead>
-                            
+                            <tbody>
+                                <% departmentData.forEach(function(ddata) { %>
+                                    <% if (ddata.changeStatusD !== 'Active') { %>
+                                        <% if (ddata.addDUniversity === schoolType ){ %>
+                                            <tr>
+                                                <td><%= ddata.addDUniversity %></td>
+                                                <td><%= ddata.addDepartment %></td>
+                                                <td><%= ddata.dateDRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                <td>
+                                                    <form action="/uadmin/updatedepartmentstatus/<%= ddata._id %>" method="POST" >
+                                                        <select class="custom-select" name="changeStatusD">
+                                                            <option value="<%= ddata.changeStatusD %>"><%= ddata.changeStatusD %></option>
+                                                            <option value="Active">Active</option>
+                                                        </select>
+                                                        <button type="submit" class="btn btn-outline-success">Update</button>
+                                                        
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                        
+                                    <% } %>
+                                <% }); %>
+                            </tbody>
                         </table>
                     </div>
                     <div class="scrollable-table1" id="table3"  >
@@ -322,7 +346,25 @@
                                     <th>Deployed</th>
                                 </tr>
                             </thead>
-                            
+                            <tbody>
+                                <% departmentData.forEach(function(ddata) { %>
+                                    <% if (ddata.changeStatusD === 'Active') { %>
+                                        <% if (ddata.addDUniversity === schoolType ){ %>
+                                            <tr>
+                                                <td><%= ddata.addDUniversity %></td>
+                                                <td><%= ddata.addDepartment %></td>
+                                                <td><%= ddata.dateDRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                <td>
+                                                    <form action="/uadmin/updatedepartmentstatus/<%= ddata._id %>" method="POST">
+                                                        <button type="submit" name="changeStatusD" value="Remove" class="btn btn-outline-danger">Remove</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                        
+                                    <% } %>
+                                <% }); %>
+                            </tbody>
                         </table>
                     </div>
                 </div>

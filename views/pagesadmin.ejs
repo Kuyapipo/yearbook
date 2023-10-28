@@ -10,6 +10,7 @@
         body {
             font-family: Arial, Helvetica, sans-serif;
             margin: 0; /* Add this to remove default body margin */
+            background-color: cornsilk;
         }
         a {
          text-decoration: none;
@@ -23,9 +24,9 @@
             position: fixed;
             top: 0;
             left: 0;
-            background-color: cornsilk;
+            background-color: rgb(247, 229, 161);
             padding-top: 20px;
-        }
+        }   
         .sidebar ul li a {
             margin-left: 16px;
             padding: 20px 0;
@@ -35,7 +36,7 @@
             display: block;
         }
         .sidebar ul li a:hover {
-            background-color: rgb(243, 227, 165);
+            background-color: rgb(172, 165, 139);
         }
         .sidebar h1{
             font-size: 30px;
@@ -82,7 +83,7 @@
             right: 70px;;
         }
         .scrollable-table tbody {
-            background-color: cornsilk;
+            background-color: rgb(218, 207, 166);
         }
         .scrollable-table thead {
             position: sticky;
@@ -135,7 +136,7 @@
             margin-right:20px;
         }
         .scrollable-table1 tbody {
-            background-color: cornsilk;
+            background-color: rgb(218, 207, 166);
         }
         .scrollable-table1 thead {
             position: sticky;
@@ -195,13 +196,12 @@
     <div class="container-2">
         <div class="tab-content dashboard-content">
             <div class="tab-pane active" id="addUniversity">
-                <p1>*In this section it will show the list of Universities that registered on database and to be shown to the registrations forms for Students/Alumni and Dean/Faculty</p1>
                 <%- include ("./partials/message") %> 
+                <p1>*In this section it will show the list of Universities that registered on database and to be shown to the registrations forms for Students/Alumni and Dean/Faculty</p1>
+
                 <br>
                 <div class="table-container">
-                    <form action="/superadmin/directsaving" method="POST">
-                        
-                    </form>
+                    
                     <div class="scrollable-table1" id="table1"  >
                         <table class="table table-dark table-hover" id="modTable">
                             <thead>

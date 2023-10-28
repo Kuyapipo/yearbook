@@ -26,10 +26,10 @@ router.post('/updateuniversitystatus/:universityId', ensureAuthenticatedSadmin, 
         if (!addUniversity) {
             throw new Error("University not found");
         }
+
         console.log(newStatus);
         addUniversity.changeStatus = newStatus;
         console.log('University saved with new status:', addUniversity);
-
         if (newStatus === "Active") {
             await addUniversity.save();
             req.flash('success_msg','University Registered');
@@ -71,7 +71,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
                 const addUniversity = user.schoolType;
                 const existingUniversity =  await University.findOne({addUniversity});
                 if (existingUniversity){
-                    req.flash('success_msg', 'University Registered but the University Name or School Name already exist');
+                    req.flash('success_msg', 'University Admin Account is Active but the University Name or School Name already exist');
                     return res.redirect('/superadmin/pagesadmin');
                 }else{
                     
@@ -82,7 +82,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
                     });
 
                     await newUniversity.save();
-                    req.flash('success_msg', 'University Registered');
+                    req.flash('success_msg', 'Univeristy name added but on Pending status');
                     return res.redirect('/superadmin/pagesadmin');
                 }
                 
