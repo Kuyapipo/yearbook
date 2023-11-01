@@ -5,7 +5,7 @@ const passport = require('passport');
 const {ensureAuthenticatedDean} = require('../config/auth');
 //University model
 const University=require('../models/University');
-
+const AddD = require('../models/AddD');
 //Dean Model
 const User = require('../models/User');
 //Home Page 
@@ -29,14 +29,17 @@ router.get('/pagedean',ensureAuthenticatedDean, (req, res) => {
 router.get('/deanres', async (req, res) => {
     try {
         const universityData = await University.find({ changeStatus: { $ne: 'Pending' } }, 'addUniversity');
-
+        const departmentData =await AddD.find({changeStatusD:{$ne: 'Pending'}},'addDepartment');
         if (!universityData || universityData.length === 0) {
             // Handle the case when no data is found
             return res.status(404).send('No universities found');
         }
-
+        if(!departmentData||departmentData.length===0){
+            return res.status(404).send('No department found');
+        }
         res.render('deanres', {
-            universityData: universityData
+            universityData: universityData,
+            departmentData: departmentData
         });
     } catch (error) {
         console.error(error);

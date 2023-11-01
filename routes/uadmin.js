@@ -15,9 +15,11 @@ router.get('/', (req,res)=> res.render('unverhome'));
 router.get('/uadminlogin', (req,res)=>res.render('uadminlogin'));
 //Registration Page
 router.get('/uadminres', (req,res)=>res.render('uadminres'));
+
+
 //University background
 router.post('/pageuadmin', ensureAuthenticatedUadmin, async (req, res) => {
-    let { UnivAddTitle, UnivEst, UBackground, addressB } = req.body;
+    let { UnivAddTitle, UnivEst, UBackground, addressB} = req.body;
 
     try {
         const univbackgId = req.body.univbackgId;
@@ -25,9 +27,9 @@ router.post('/pageuadmin', ensureAuthenticatedUadmin, async (req, res) => {
             req.flash('error_msg', 'Please fill all the details');
             return res.redirect('/uadmin/pageuadmin');
         }
+        
         // Check if a document with the same UnivAddTitle exists
         const existingUnivBackG = await UnivBackG.findOne({ UnivAddTitle });
-
         if (existingUnivBackG) {
             // Update the existing document
             const updatedUnivBackG = {
@@ -82,7 +84,9 @@ router.get('/pageuadmin',ensureAuthenticatedUadmin, async(req, res) => {
             iemail: req.user.iemail,
             schoolType: req.user.schoolType,
             dateOfbirth: req.user.dateOfbirth,
-            addressInput:req.user.addressInput
+            addressInput:req.user.addressInput,
+            password: req.user.password,
+            _id:req.user._id
         });
     } catch (err) {
         console.error(err);
@@ -182,6 +186,88 @@ router.post('/updatestatus/:userId', ensureAuthenticatedUadmin, async (req, res)
         // Handle the error (e.g., red  irect to an error page)
         res.status(500).send('Internal Server Error');
     }
+});
+
+//Changing Name and Password Updadte
+router.post('/updateName/:id',ensureAuthenticatedUadmin, async (req,res)=>{
+    let{newfullname}=req.body;
+    const existingfullname=req.user.fullname;
+    const userId = req.user._id;
+
+    const user = await User.findById(userId);
+    try{
+        if(newfullname===existingfullname){
+            console.log('Name Already ExistL', req.body);
+            req.flash('error_msg','Name currently exist!');
+            return res.redirect('/uadmin/pageuadmin');
+        }
+        else{
+    
+            user.fullname = newfullname
+            
+            await user.save();
+            console.log('Proceed to saving',req.user.fullname);
+            req.flash('success_msg','Name successfully updated!');
+            return res.redirect('/uadmin/pageuadmin');
+        }
+        
+    }catch (err) {
+        console.error(err);
+        // Handle the error (e.g., red  irect to an error page)
+        res.status(500).send('Internal Server Error');
+    }
+    
+});
+//Changing Name and Password Updadte
+router.post('/updatePassword/:id',ensureAuthenticatedUadmin, async (req,res)=>{
+    let{currPass,newPass,newPass2}=req.body;
+    const existingpassword=req.user.password2;
+    const userId = req.user._id;
+
+    try{
+        const user = await User.findById(userId);
+        if(!user){
+            throw new Error("User not found");
+        }
+        if(currPass === existingpassword){
+            console.log('Current Password Validated!');
+            if(newPass!==newPass2){
+                req.flash('error_msg','Password did not match!');
+                return res.redirect('/uadmin/pageuadmin');
+            }else{
+                user.password = newPass;
+                user.password2 = newPass2;
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(user.password, salt, (err, hash) => {
+                      if (err) throw err;
+                      // Set password to the hashed value
+                      user.password = hash;
+                      // Save the user
+                      user.save()
+                        .then(user => {
+                          req.flash('success_msg', 'Password successfully updated!');
+                          res.redirect('/uadmin/uadminlogin');
+                        })
+                        .catch(err => console.log(err));
+                  
+                      console.log('Proceed to Password', user.password);
+                      console.log('Proceed to Password2', user.password2);
+                      req.flash('success_msg', 'Password successfully updated!');
+                      return res.redirect('/uadmin/pageuadmin');
+                    });
+                  });
+            }
+        }else{
+            req.flash('error_msg','Current Password Incorrect');
+            return res.redirect('/uadmin/pageuadmin');
+        }
+        
+    }catch (err) {
+        console.error(err);
+        // Handle the error (e.g., red  irect to an error page)
+        res.status(500).send('Internal Server Error');
+    }
+    
 });
 //Register Handling 
 router.post('/uadminres', (req,res)=>{

@@ -26,7 +26,7 @@
         }
         .container-fluid li{
             position: relative;
-            padding-left: 250px;
+            padding-left: 248px;
             padding-bottom: 15px;
         }
         .header-container {
@@ -36,7 +36,7 @@
         .header h1 {
             margin: 0;
             padding-left: 2px;
-            font-size: 35px;
+            font-size: 30px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
         .header a {
@@ -152,19 +152,19 @@
             display: flex;
         }
         .formBackground{
-            margin-left: 15px;
+            margin-left: 13px;
             width: 35%;
-            height: 530px;
+            height: 450px;
             background-color: rgb(250, 230, 150);
             border: 5px 5px solid;
             border-color: rgb(10, 10, 10);
             border-radius: 3%;
-            padding-left: 50px;
+            padding-left: 45px;
         }
         .formBackground label{
-            padding-top: 22px;
+            padding-top: 10px;
             color: black;
-            font-size: 13px;
+            font-size: 12px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
         .form-group .form-control {
@@ -172,13 +172,13 @@
             font-size: 12px;
         }
         .bContainer{
-            padding-left: 40px;
+            padding-left: 25px;
             overflow: auto; 
         }
         .backgroundContent{
             background-color: rgb(236, 185, 123);
-            height: 530px;
-            width: 100%;
+            height: 460px;
+            width: 99%;
             padding: 25px;
             overflow-y: scroll;
             border: 10px;
@@ -190,11 +190,12 @@
             left: 0px;
             width: 850px;
             padding-top: 10px;
+            font-size: 13px;
         }
         .backgroundContent .imgC,
         .backgroundContent h1,
         .backgroundContent h6{
-            text-align: center;
+            text-align: justify;
         }
         .addDContent{
             position: fixed;
@@ -223,6 +224,85 @@
             text-align: center;
             background-color: rgb(255, 238, 171); 
             z-index: 1;
+        }
+        .profileContainer{
+            margin: 0;
+            height: 100%;
+            position: fixed;
+        }
+        .profile-card {
+            width: 70%;
+            height: 480px;
+            margin-left: 400px;
+            background-color:rgb(230, 211, 139);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-card h2 {
+            margin-top: 0;
+            font-size: 25px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .profile-card p {
+            font-size: 15px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin: 5px 0;
+        }
+        .profile-card .imgC{
+            text-align: center;
+        }
+        .profile-card a{
+            text-decoration: none;
+            list-style: none;
+            font-size: 15px;
+        }
+        .edit-modal{
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .edit-Name{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            position: relative;
+            top: 250px;
+            left: 25%;
+            width: 50%;
+            padding: 20px;
+            border: 20px;
+            border-radius: 10px;
+            text-align: justify;
+            height: 250px;
+            background-color: rgb(231, 213, 140);
+        }
+        .edit-Name label{
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .edit-Pass{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            position: relative;
+            top: 180px;
+            left: 25%;
+            width: 50%;
+            border: 20px;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: justify;
+            height: 400px;
+            background-color: rgb(231, 213, 140);
+        }
+        .edit-Pass label{
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
     </style>
 </head>
@@ -275,7 +355,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="UBackground">University Body/Background (*Type all the University background)</label>
-                                <textarea class="form-control" id="UBackground" rows="6" name="UBackground" value="<%= typeof UBackground != 'undefined'? UBackground : '' %>"></textarea>
+                                <textarea class="form-control" id="UBackground" rows="4" name="UBackground" value="<%= typeof UBackground != 'undefined'? UBackground : '' %>"></textarea>
                                 
                             </div>
                             <button type="submit" class="btn btn-outline-dark">Save Data</button>
@@ -285,10 +365,10 @@
                         <div class="backgroundContent">
                             <% uBackgroundData.forEach(function(backData){%>
                                 <div class="imgC"><img src="/pictures/noimage.png" alt="Logo" width="220" height="220"></div>
-                                <h1><%= backData.UnivAddTitle %></h1>
-                                <h6><%= backData.UnivEst %></h6>
-                                <h6><%= backData.addressB %></h6>
-                                <p><%= backData.UBackground %></p>
+                                <h1>School Name: <%= backData.UnivAddTitle %></h1>
+                                <h6>Established: <%= backData.UnivEst %></h6>
+                                <h6>Address: <%= backData.addressB %></h6>
+                                <p>Background: <br><%= backData.UBackground %></p>
                             <%});%>
                         </div>
                     </div>
@@ -510,18 +590,105 @@
                 </div>
             </div>
             <div class="tab-pane" id="uap">
-                <p1>*University Admin profile</p1>
+                <div class="profileContainer">
+                    <div class="profile-card">
+                        <h2>Admin Profile</h2>
+                        <div class="imgC"><img src="/pictures/noimage.png" alt="Logo" width="200" height="180" style="border-radius: 50%;"></div>
+                        <br>
+                        <p><strong>University Admin Name: </strong><%= fullname %>  <a href="#editName" class="editNameBtn">Edit</a></p>
+                        <p><strong>ID Number:</strong> <%= idnumber %></p>
+                        <p><strong>Password: </strong>..*******...<a href="#editPass" class="editPassBtn">Edit</a></p>
+                        <p><strong>Email:</strong> <%= iemail %></p>
+                        <p><strong>School / University:</strong> <%= schoolType%></p>
+                        <p><strong>Date Established: </strong><%= dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></p>
+                    </div>
+                    <div class="edit-modal" id="editNameModal">
+                        <div class="edit-Name" >
+                            <form action="/uadmin/updateName/<%= _id %>" method="POST">
+                                <%- include ("./partials/message") %> 
+                                <h6>Change Name Details</h6>
+                                <label for="newfullname">Change Full Name</label>
+                                <input type="text" class="form-control" id="newfullname" name="newfullname" required value="<%= typeof newfullname != 'undefined'? newfullname : '' %>">
+                                <br>
+                                <button type="submit" class="btn btn-success" >Save Details</button>
+                                <button type="button" class="btn btn-danger" id="closeModal">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="edit-modal" id="editPassModal">
+                        <div class="edit-Pass" >
+                            <form action="/uadmin/updatePassword/<%= _id %>" method="POST">
+                                <%- include ("./partials/message") %> 
+                                <h6>Change Password Details</h6>
+                                <label for="currPass">Current Password</label>
+                                <input type="password" class="form-control" id="currPass" name="currPass" required value="<%= typeof currPass != 'undefined'? currPass : '' %>">
+                                <label for="newPass">New Password</label>
+                                <input type="password" class="form-control" id="newPass" name="newPass" required value="<%= typeof newPass != 'undefined'? newPass : '' %>">
+                                <label for="newPass2">Confirm New Password</label>
+                                <input type="password" class="form-control" id="newPass2" name="newPass2" required value="<%= typeof newPass2 != 'undefined'? newPass2 : '' %>"> <button type="button" class="btn btn-light" id="toggleCurrPass">Show Password</button>
+                                <br>
+                                <br>
+                                <button type="submit" class="btn btn-success" >Save Details</button>
+                                <button type="button" class="btn btn-danger" id="closeModal2">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
                 
             </div>
         </div>
         
     </div>
+    <script>
+        const toggleCurrPass = document.getElementById('toggleCurrPass');
+        const currPassInput = document.getElementById('currPass');
+        const newPassInput = document.getElementById('newPass');
+        const newPass2Input = document.getElementById('newPass2');
 
+      
+        toggleCurrPass.addEventListener('click', () => {
+          togglePasswordVisibility(currPassInput);
+          togglePasswordVisibility(newPassInput);
+          togglePasswordVisibility(newPass2Input);
+        });
+        function togglePasswordVisibility(inputField) {
+          if (inputField.type === 'password') {
+            inputField.type = 'text';
+            inputField.setAttribute('aria-label', 'Hide password');
+          } else {
+            inputField.type = 'password';
+            inputField.setAttribute('aria-label', 'Show password');
+          }
+        }
+      </script>
+    <script>
+        const editNameBtn = document.querySelector('.editNameBtn');
+        const editPassBtn = document.querySelector('.editPassBtn');
+        const editNameModal = document.getElementById('editNameModal');
+        const editPassModal=document.getElementById('editPassModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const closeModalBtn2 =document.getElementById('closeModal2');
+        
+        editNameBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            editNameModal.style.display = 'block';
+        });    
+        closeModalBtn.addEventListener('click', () => {
+            editNameModal.style.display = 'none';
+        });
+        editPassBtn.addEventListener('click',(r)=>{
+            r.preventDefault();
+            editPassModal.style.display='block';
+        });
+        closeModalBtn2.addEventListener('click',()=>{
+            editPassModal.style.display='none';
+        });
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
     <script>
         function toggleTab(tabId) {
             // Hide all tab panes

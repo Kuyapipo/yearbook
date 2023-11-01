@@ -34,6 +34,7 @@ module.exports=function(passport){
                             return done(null, false, { message: 'Wrong password' });
                         }
                     });
+                   
                 })
                 .catch(err => console.log(err));
 

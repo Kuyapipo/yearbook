@@ -66,6 +66,20 @@
                     <% } %>	
                 </select>
             </div>
+            <div>
+                <label for="department">Department</label>
+                <select class="form-control" id="department" name="department" disabled>
+                    <option value="nofields">Choose...</option>
+                    <% if (departmentData) { %>
+                        <% departmentData.forEach(function(ddata) { %>
+                            <% if (ddata.changeStatusD !== 'Pending') { %>
+                                <option value="<%= ddata.addDepartment%>"><%= ddata.addDepartment %></option>
+                            <% } %>
+                        <% }); %>
+                    <% } %>	
+                </select>
+            </div>
+            
             <div class="form-group">
                 <label for="dateOfbirth">Date of Birth</label>
                 <input type="date" class="form-control" id="dateOfbirth" name="dateOfbirth" value="<%= typeof dateOfbirth != 'undefined'? dateOfbirth : '' %>">
@@ -74,14 +88,7 @@
                 <label for="addressInput">Full Address</label>
                 <input type="text" class="form-control" id="addressInput" name="addressInput" value="<%= typeof addressInput != 'undefined'? addressInput : '' %>">
             </div>
-            <div>
-                <label for="department">Department</label>
-                <select class="form-control" id="department" name="department" value="<%= typeof department != 'undefined'? courseType : '' %>">
-                    <option value="nofields">Choose...</option>
-                    <option value="CASE">CASE</option>
-                    <option value="CEA">CEA</option>
-                </select>
-            </div> 
+            
             <div id="FacultyFields" style="display:none;">
                 <br>
                 <div>
@@ -107,6 +114,32 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const schoolTypeSelect = document.getElementById('schoolType');
+        const departmentSelect = document.getElementById('department');
+    
+        schoolTypeSelect.addEventListener('change', () => {
+            if (schoolTypeSelect.value !== 'nofields') {
+                departmentSelect.disabled = false;
+                filterDepartmentOptions(schoolTypeSelect.value);
+            } else {
+                departmentSelect.disabled = true;
+            }
+        });
+    
+        function filterDepartmentOptions(selectedUniversity, departmentData){
+            const departmentOptions = document.querySelectorAll('#department option');
+            departmentOptions.forEach(option => {
+                if (option.value === 'nofields' || option.value === selectedUniversity) {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+            console.log(departmentData);
+        }
+    </script>
+
     <script>
         registerButton.addEventListener('click', (event) => {
         event.preventDefault();
