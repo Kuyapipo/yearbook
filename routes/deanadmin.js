@@ -29,17 +29,12 @@ router.get('/pagedean',ensureAuthenticatedDean, (req, res) => {
 router.get('/deanres', async (req, res) => {
     try {
         const universityData = await University.find({ changeStatus: { $ne: 'Pending' } }, 'addUniversity');
-        const departmentData =await AddD.find({changeStatusD:{$ne: 'Pending'}},'addDepartment');
         if (!universityData || universityData.length === 0) {
             // Handle the case when no data is found
             return res.status(404).send('No universities found');
         }
-        if(!departmentData||departmentData.length===0){
-            return res.status(404).send('No department found');
-        }
         res.render('deanres', {
-            universityData: universityData,
-            departmentData: departmentData
+            universityData: universityData
         });
     } catch (error) {
         console.error(error);
@@ -48,35 +43,36 @@ router.get('/deanres', async (req, res) => {
     
 });
 
+router.get('/facultyres', async (req, res) => {
+    const schoolTypeVal = req.query.schoolTypeVal;
+    try {
+        const universityData = await University.find();
+        
+        res.render('facultyres', {
+            universityData: universityData,
+            schoolTypeVal
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+    console.log('Value',schoolTypeVal);
+    
+});
 
-
-//Register Handling 
+//Register Handling Dean
 router.post('/deanres', (req,res)=>{
     let{userType, idnumber, fullname,iemail,password,password2,schoolType,dateOfbirth,department, courseType,graduationDate,graduationYear,fileDocu,addressInput,status}=req.body;
     let errors=[];
-    if(userType==='Faculty'){
-        graduationDate='000';
-        graduationYear='000';
-        fileDocu='NA';
-        //fill form
-        if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType|| !dateOfbirth || !department || !courseType||!graduationDate||!graduationYear||!fileDocu||!addressInput){
-            
-            errors.push({msg:'Please fill all the fields'});
-        }
-        if(courseType === 'nofields'){
-            errors.push({msg:'Select a Course'});
-        }
-        
-    }else{
-        //fill form
-        graduationDate='000';
-        graduationYear='000';
-        fileDocu='NA';
-        courseType='NA';
-        if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType||!dateOfbirth || !department || !courseType||!graduationDate||!graduationYear||!fileDocu||!addressInput){
-           
-            errors.push({msg:'Please fill all the fields'});
-        }
+
+    //fill form
+    graduationDate='000';
+    graduationYear='000';
+    fileDocu='NA';
+    courseType='NA';
+    if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType||!dateOfbirth || !department || !courseType||!graduationDate||!graduationYear||!fileDocu||!addressInput){
+       
+        errors.push({msg:'Please fill all the fields'});
     }
 
     //School/Univeristy
@@ -174,6 +170,137 @@ router.post('/deanres', (req,res)=>{
                         newDean.password = hash;
                         //save user
                         newDean.save()
+                        .then(user =>{
+                            req.flash('success_msg','You are now registered and but your account is under approval currently your account is on Pending Status');
+                            res.redirect('/deanadmin/deanlogin');
+                        })
+                        .catch(err => console.log(err));
+                    }))
+                }
+            });
+            req.flash('success_msg', 'You are now registered and but your account is under approval currently your account is on Pending Status');
+            return res.redirect('/deanadmin/deanlogin');
+
+    }
+    
+});
+
+//Register Handling Faculty
+router.post('/facultyres', (req,res)=>{
+    let{userType, idnumber, fullname,iemail,password,password2,schoolType,dateOfbirth,department, courseType,graduationDate,graduationYear,fileDocu,addressInput,status}=req.body;
+    let errors=[];
+    
+    graduationDate='000';
+    graduationYear='000';
+    fileDocu='NA';
+        //fill form
+    if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType|| !dateOfbirth || !department || !courseType||!graduationDate||!graduationYear||!fileDocu||!addressInput){
+            
+        errors.push({msg:'Please fill all the fields'});
+    }
+    if(department === 'nofields'){
+        errors.push({msg:'Select a Course'});
+     }
+     
+    if(courseType === 'nofields'){
+       errors.push({msg:'Select a Course'});
+    }
+    
+    //School/Univeristy
+    if(schoolType === 'nofields'){
+        errors.push({msg:'Select a School or University'});
+    }
+
+    //Confirmation password match
+    if (password !==password2){
+        errors.push({msg: 'Password do not match'});
+    }
+    //password validation length
+    if(password.length < 8){
+        errors.push({msg:'Password should be atleast 8 characters'});
+    }
+    console.log(req.body);
+   
+    if(errors.length > 0 ){
+        University.find({ changeStatus: { $ne: 'Pending' } }, 'addUniversity')
+            .then((universityData) => {
+                res.render('facultyres', {
+                    universityData: universityData,
+                    errors,
+                    userType,
+                    idnumber,
+                    fullname,
+                    iemail,
+                    password,
+                    password2,
+                    schoolType,
+                    dateOfbirth,
+                    department,
+                    courseType,
+                    graduationDate,
+                    graduationYear,
+                    fileDocu,
+                    status,
+                    addressInput
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send('Internal Server Error');
+            });
+
+    }else{
+        //Validation to database
+        User.findOne({iemail: iemail})
+            .then(user =>{
+                if(user){
+                    //user exist
+                    errors.push({msg:'Email is already registered'});
+                    res.render('facultyres',{
+                        errors,
+                        userType,
+                        idnumber,
+                        fullname,
+                        iemail,
+                        password,
+                        password2,
+                        schoolType,
+                        dateOfbirth,
+                        department,
+                        courseType,
+                        graduationDate,
+                        graduationYear,
+                        fileDocu,
+                        status,
+                        addressInput
+                    });
+                }else{
+                    const newFaculty = new User({
+                        userType,
+                        idnumber,
+                        fullname,
+                        iemail,
+                        password,
+                        password2,
+                        schoolType,
+                        dateOfbirth,
+                        department,
+                        courseType,
+                        graduationDate,
+                        graduationYear,
+                        fileDocu,
+                        status,
+                        addressInput
+                    });
+                    
+                    //Hash password
+                    bcrypt.genSalt(10, (err,salt) => bcrypt.hash(newFaculty.password, salt, (err,hash) =>
+                    {
+                        if(err) throw(err);
+                        //Set password to hash
+                        newFaculty.password = hash;
+                        //save user
+                        newFaculty.save()
                         .then(user =>{
                             req.flash('success_msg','You are now registered and but your account is under approval currently your account is on Pending Status');
                             res.redirect('/deanadmin/deanlogin');

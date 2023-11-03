@@ -8,6 +8,7 @@ const { ensureAuthenticatedUadmin } = require('../config/auth');
 const User = require('../models/User');
 const UnivBackG =require('../models/UnivBackG')
 const AddD=require('../models/AddD');
+const University =require('../models/University');
 //Home Page 
 router.get('/', (req,res)=> res.render('unverhome'));
 
@@ -67,7 +68,7 @@ router.get('/pageuadmin',ensureAuthenticatedUadmin, async(req, res) => {
         // Fetch user data for Dean Admin user types
         const DeanAdminUserData = await User.find({ userType: 'Dean' });
         const UniversityBackData = await UnivBackG.find({ UnivAddTitle: req.user.schoolType });
-        const departmentData = await AddD.find();
+        const universityData = await University.find();
         
 
         if (!DeanAdminUserData) {
@@ -75,7 +76,7 @@ router.get('/pageuadmin',ensureAuthenticatedUadmin, async(req, res) => {
         }
 
         res.render('pageuadmin', {
-            departmentData:departmentData,
+            universityData:universityData,
             uBackgroundData:UniversityBackData,
             allUserData: DeanAdminUserData,
             userType: req.user.userType,
@@ -93,15 +94,15 @@ router.get('/pageuadmin',ensureAuthenticatedUadmin, async(req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-router.post('/updatedepartmentstatus/:adddId', ensureAuthenticatedUadmin, async (req, res) => {
-    const adddId = req.params.adddId;
+router.post('/updatedepartmentstatus/:universityId', ensureAuthenticatedUadmin, async (req, res) => {
+    const universityId = req.params.universityId;
     const newStatus = req.body.changeStatusD;
     const userStatus = req.body.status;
     try {
-        console.log('Department ID:', adddId);
+        console.log('Department ID:', universityId);
         console.log('New Status:', newStatus);
 
-        const addDepartment = await AddD.findById(adddId);
+        const addDepartment = await University.findById(universityId);
         console.log('Found Department:', addDepartment);
         if (!addDepartment) {
             throw new Error("Department not found");
@@ -115,7 +116,7 @@ router.post('/updatedepartmentstatus/:adddId', ensureAuthenticatedUadmin, async 
             return res.redirect('/uadmin/pageuadmin');
         }
         if (newStatus === 'Remove') {
-            await AddD.findByIdAndRemove(adddId);
+            await addDepartment.save();
             console.log('University removed:', addDepartment);
             req.flash('success_msg','Department Remove');
             return res.redirect('/uadmin/pageuadmin');
@@ -146,18 +147,20 @@ router.post('/updatestatus/:userId', ensureAuthenticatedUadmin, async (req, res)
             await user.save();
             if(user.department){
                 const addDepartment = user.department;
-                const existingDepartment =  await AddD.findOne({addDepartment});
+                const existingDepartment =  await University.findOne({addDepartment});
                 if(existingDepartment){
                     req.flash('success_msg', 'Dean admin is Active but the Department Name already exist');
                     return res.redirect('/uadmin/pageuadmin');
                 }else{
-                    const newAddD = new AddD({
-                        addDUniversity:user.schoolType,
-                        addDepartment: user.department,
-                        dateDRegistered: new Date(),
-                        changeStatusD,
-                    });
-                    await newAddD.save();
+                    const addUniversity = user.schoolType;
+                    const university = await University.findOne({ addUniversity });
+                    if (university) {
+                        university.addDepartment = user.department;
+                        university.dateDRegistered = new Date("2023-11-03T00:00:00.000+00:00");
+                        university.changeStatusD = "Pending";
+                        const updatedUniversity = await university.save();
+                        console.log(updatedUniversity);
+                    }
                     req.flash('success_msg', 'Department name added but on Pending status');
                     return res.redirect('/uadmin/pageuadmin');
                 }

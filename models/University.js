@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const universitySchema = new mongoose.Schema({
     addUniversity: {
         type: String,
-        required: true
+        required: false
     },
     dateRegistered: {
         type: Date,
@@ -12,6 +12,19 @@ const universitySchema = new mongoose.Schema({
     changeStatus:{
         type:String,
         default: 'Pending',
+    },
+    addDepartment: {
+        type: String,
+        default: 'NA'
+    },
+    dateDRegistered: {
+        type: Date,
+        default: new Date().toISOString().split('T')[0],
+        required:true
+    },
+    changeStatusD:{
+        type:String,
+        default: 'Pending'
     }
     
 });

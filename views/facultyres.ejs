@@ -23,13 +23,13 @@
 <body>
     <a href="/deanadmin" class="btn btn-outline-dark">Home</a>
     <div class="container mt-5">
-        <h1>Dean Registration</h1>
+        <h1>Faculty Registration</h1>
         <%- include ("./partials/message") %> 
-        <form action="/deanadmin/deanres" method="POST">
+        <form action="/deanadmin/facultyres" method="POST">
             <div class="form-group">
                 <label for="userType">Select User Type</label>
                 <select class="form-control" id="userType" name="userType" value="<%= typeof userType != 'undefined'? userType : '' %>" >
-                    <option value="Dean">Dean</option>
+                    <option value="Faculty">Faculty</option>
                 </select>
             </div>
             <div class="form-group">
@@ -54,7 +54,7 @@
             </div>
             <div>
                 <label for="schoolType">School/University</label>
-                <select class="form-control" id="schoolType" name="schoolType" value="<%= typeof schoolType != 'undefined'? schoolType : '' %>">
+                <select class="form-control" id="schoolType" name="schoolType" >
                     <option value="nofields">Choose...</option>
                     <% if (universityData) { %>
                         <% universityData.forEach(function(udata) { %>
@@ -67,8 +67,30 @@
             </div>
             <div>
                 <label for="department">Department</label>
-                <input type="text" class="form-control" id="department" name="department" value="<%= typeof department != 'undefined'? department : '' %>">
-                
+                <select class="form-control" id="department" name="department" disabled>
+                    <option value="nofields">Choose...</option>
+                    <% if (universityData) { %>
+                        <% universityData.forEach(function(udata) { %>
+                          <% if (udata.addUniversity === schoolTypeVal) { %>
+                            <% console.log('udata.addUniversity:', udata.addUniversity); %>
+                            <% console.log('schoolTypeVal:', schoolTypeVal); %>
+                            <% if (udata.changeStatusD === 'Active') { %>
+                                <% console.log('changeStatusD:', udata.changeStatusD); %>
+                                <% console.log('Department to show:', udata.addDepartment ); %>
+                                <option value="<%= udata.addDepartment %>"><%= udata.addDepartment %></option>
+                            <% } %>
+                          <% } else { %>
+                            <% console.log('University Remove:', udata.addUniversity); %>
+                          <% } %>
+                        <% }); %>
+                    <% } %>
+                </select>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label for="courseType">Course</label>
+                    <input type="text" class="form-control" id="courseType" name="courseType" value="<%= typeof courseType != 'undefined'? courseType : '' %>">
+                </div>
             </div>
             <div class="form-group">
                 <label for="dateOfbirth">Date of Birth</label>
@@ -94,7 +116,39 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+    <script>
+        
+        const schoolTypeSelect = document.getElementById('schoolType');
+        const departmentSelect = document.getElementById('department');
+        
+        
+        schoolTypeSelect.addEventListener('change', () => {
+            const schoolTypeVal=schoolTypeSelect.value;
+            
+            if (schoolTypeSelect.value !== 'nofields') {
+                departmentSelect.disabled = false;
+                console.log('School Type Val:', schoolTypeVal);
+            } else {
+                departmentSelect.disabled = true;
+                console.log('School Type Val:', schoolTypeVal);
+                
+            }
+            if (schoolTypeVal) {
+                $.ajax({
+                    url: `/deanadmin/facultyres?schoolTypeVal=${encodeURIComponent(schoolTypeVal)}`,
+                    method: 'GET',
+                    success: function(response) {
+                        // Update the relevant parts of the page with the response data
+                        // Example: $('#resultContainer').html(response);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            }
+        });
+
+    </script>
     <script>
         registerButton.addEventListener('click', (event) => {
         event.preventDefault();
@@ -103,7 +157,6 @@
     </script>
     
     <script>
-        
         $(document).ready(function () {
           $(".alert").not(".alert-success-msg").delay(3000).fadeOut(300, function () {
             $(this).alert('close');
@@ -111,6 +164,6 @@
       
           $(".alert-success-msg").delay(5000).fadeOut(300);
         });
-      </script>
+    </script>
 </body>
 </html>
