@@ -12,19 +12,6 @@ const universitySchema = new mongoose.Schema({
     changeStatus:{
         type:String,
         default: 'Pending',
-    },
-    addDepartment: {
-        type: String,
-        default: 'NA'
-    },
-    dateDRegistered: {
-        type: Date,
-        default: new Date().toISOString().split('T')[0],
-        required:true
-    },
-    changeStatusD:{
-        type:String,
-        default: 'Pending'
     }
     
 });

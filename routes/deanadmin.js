@@ -46,10 +46,11 @@ router.get('/deanres', async (req, res) => {
 router.get('/facultyres', async (req, res) => {
     const schoolTypeVal = req.query.schoolTypeVal;
     try {
-        const universityData = await University.find();
-        
+        const departmentData = await AddD.find();
+        const universityData=await University.find();
         res.render('facultyres', {
-            universityData: universityData,
+            departmentData: departmentData,
+            universityData:universityData,
             schoolTypeVal
         });
     } catch (error) {

@@ -378,7 +378,7 @@
                
             </div>
             <div class="tab-pane" id="addD">
-                <p1>*This content if for adding Dean department that will be posted to the registration form for alumni/student </p1>
+                <p1>*This content if for adding Dean department name that will be posted to the registration form to faculty and alumni/student </p1>
                 <div class="addDContent">
                     <div class="scrollable-table1" id="table2"  >
                         <table class="table table-dark table-hover">
@@ -391,17 +391,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% universityData.forEach(function(udata) { %>
-                                    <% if (udata.changeStatusD === 'Pending') { %>
-                                        <% if (udata.addUniversity === schoolType ){ %>
+                                <% departmentData.forEach(function(ddata) { %>
+                                    <% if (ddata.changeStatusD === 'Pending') { %>
+                                        <% if (ddata.addDUniversity === schoolType ){ %>
                                             <tr>
-                                                <td><%= udata.addUniversity %></td>
-                                                <td><%= udata.addDepartment %></td>
-                                                <td><%= udata.dateDRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                <td><%= ddata.addDUniversity %></td>
+                                                <td><%= ddata.addDepartment %></td>
+                                                <td><%= ddata.dateDRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
                                                 <td>
-                                                    <form action="/uadmin/updatedepartmentstatus/<%= udata._id %>" method="POST" >
+                                                    <form action="/uadmin/updatedepartmentstatus/<%= ddata._id %>" method="POST" >
                                                         <select class="custom-select" name="changeStatusD">
-                                                            <option value="<%= udata.changeStatusD %>"><%= udata.changeStatusD %></option>
+                                                            <option value="<%= ddata.changeStatusD %>"><%= ddata.changeStatusD %></option>
                                                             <option value="Active">Active</option>
                                                         </select>
                                                         <button type="submit" class="btn btn-outline-success">Update</button>
@@ -427,15 +427,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% universityData.forEach(function(udata) { %>
-                                    <% if (udata.changeStatusD === 'Active') { %>
-                                        <% if (udata.addUniversity === schoolType ){ %>
+                                <% departmentData.forEach(function(ddata) { %>
+                                    <% if (ddata.changeStatusD === 'Active') { %>
+                                        <% if (ddata.addDUniversity === schoolType ){ %>
                                             <tr>
-                                                <td><%= udata.addUniversity %></td>
-                                                <td><%= udata.addDepartment %></td>
-                                                <td><%= udata.dateDRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                <td><%= ddata.addDUniversity %></td>
+                                                <td><%= ddata.addDepartment %></td>
+                                                <td><%= ddata.dateDRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
                                                 <td>
-                                                    <form action="/uadmin/updatedepartmentstatus/<%= udata._id %>" method="POST">
+                                                    <form action="/uadmin/updatedepartmentstatus/<%= ddata._id %>" method="POST">
                                                         <button type="submit" name="changeStatusD" value="Remove" class="btn btn-outline-danger">Remove</button>
                                                     </form>
                                                 </td>
