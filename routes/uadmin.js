@@ -116,7 +116,7 @@ router.post('/updatedepartmentstatus/:adddId', ensureAuthenticatedUadmin, async 
             return res.redirect('/uadmin/pageuadmin');
         }
         if (newStatus === 'Remove') {
-            await  User.findByIdAndRemove(adddId);
+            await  AddD.findByIdAndRemove(adddId);
             req.flash('success_msg','Department Remove');
             return res.redirect('/uadmin/pageuadmin');
         }

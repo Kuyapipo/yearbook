@@ -69,19 +69,7 @@
                 <label for="department">Department</label>
                 <select class="form-control" id="department" name="department">
                     <option value="nofields">Choose...</option>
-                    <% if (departmentData) { %>
-                        <% departmentData.forEach(function(ddata) { %>
-                            <% if (ddata.changeStatusD !== 'Pending') { %>
-                                
-                                <option value="<%= ddata.addDepartment %>"><%= ddata.addDepartment %></option>
-                                <% console.log('schoolTypeVal:',schoolTypeVal);%>
-                                <% console.log('ddata.addDUniversity:',ddata.addDUniversity);%>
-                                <% console.log('ddata.addDepartment:',ddata.addDepartment);%>
-                                
-                            <% } %> 
-                                                     
-                        <% }); %>
-                    <% } %>
+                    
                 </select>
             </div>
             <div>
@@ -115,36 +103,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        
         const schoolTypeSelect = document.getElementById('schoolType');
         const departmentSelect = document.getElementById('department');
-        
-        
+    
         schoolTypeSelect.addEventListener('change', () => {
-            const schoolTypeVal=schoolTypeSelect.value;
-            if (schoolTypeSelect.value !== 'nofields') {
-                
-                console.log('School Type Val:', schoolTypeVal);
-            } else {
-                
-                console.log('School Type Val:', schoolTypeVal);
-                
-            }
-            if (schoolTypeVal) {
+            const selectedUniversity = schoolTypeSelect.value;
+            if (selectedUniversity !== 'nofields') {
+                // Make an AJAX request to fetch department data for the selected university
                 $.ajax({
-                    url: `/deanadmin/facultyres?schoolTypeVal=${encodeURIComponent(schoolTypeVal)}`,
+                    url: '/deanadmin/fetch-departments',
                     method: 'GET',
-                    success: function(response) {
-                        // Update the relevant parts of the page with the response data
-                        // Example: $('#resultContainer').html(response);
+                    data: { schoolTypeVal: selectedUniversity },
+                    success: function (data) {
+                        // Update the "Department" dropdown with the received data
+                        departmentSelect.innerHTML = '<option value="nofields">Choose...</option>';
+                        data.forEach(function (ddata) {
+                            if (ddata.changeStatusD !== 'Pending') {
+                                const option = document.createElement('option');
+                                option.value = ddata.addDepartment;
+                                option.textContent = ddata.addDepartment;
+                                departmentSelect.appendChild(option);
+                            }
+                        });
                     },
-                    error: function(error) {
+                    error: function (error) {
                         console.error(error);
                     }
                 });
+            } else {
+                // Reset the "Department" dropdown if no university is selected
+                departmentSelect.innerHTML = '<option value="nofields">Choose...</option>';
             }
         });
-
     </script>
     <script>
         registerButton.addEventListener('click', (event) => {

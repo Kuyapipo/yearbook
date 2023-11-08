@@ -60,6 +60,16 @@ router.get('/facultyres', async (req, res) => {
     console.log('Value',schoolTypeVal);
     
 });
+router.get('/fetch-departments', async (req, res) => {
+    const schoolTypeVal = req.query.schoolTypeVal;
+    try {
+        const departmentData = await AddD.find({ addDUniversity: schoolTypeVal });
+        res.json(departmentData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 //Register Handling Dean
 router.post('/deanres', (req,res)=>{
