@@ -21,149 +21,22 @@
     }
 </style>
 <body>
-    <a href="/deanadmin" class="btn btn-outline-dark">Home</a>
+    
     <div class="container mt-5">
-        <h1>Dean / Faculty Registration</h1>
+        <h1>Sample Upload</h1>
         <%- include ("./partials/message") %> 
-        <form action="/deanadmin/deanres" method="POST">
+        <form action="/sampleroutes" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="userType">Select User Type</label>
-                <select class="form-control" id="userType" name="userType" value="<%= typeof userType != 'undefined'? userType : '' %>" >
-                    <option value="nofields" >Choose..</option>
-					<option value="Dean" >Dean</option>
-                    <option value="Faculty">Faculty</option>
-                </select>
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" name="title" value="<%= typeof title != 'undefined'? title : '' %>">
             </div>
-            <div id="DeanFields" style="display:none;">
-                <!-- Dean-specific form fields -->
-                <div class="form-group">
-                    <label for="idnumber">ID Number: (18-xxxx-xxx)</label>
-                    <input type="text" class="form-control" id="idnumber" name="idnumber" value="<%= typeof idnumber != 'undefined'? idnumber : '' %>">
-                </div>
-                <div class="form-group">
-                    <label for="fullname">Full Name</label>
-                    <input type="text" class="form-control" id="fullname" name="fullname" value="<%= typeof fullname != 'undefined'? fullname : '' %>">
-                </div>
-				<div class="form-group">
-					<label for="iemail">Institutional Email</label>
-					<input type="email" class="form-control" id="iemail" name="iemail" value="<%= typeof iemail != 'undefined'? iemail : '' %>">
-				</div>
-				<div class="form-group">
-					<label for="password">Password</label>
-					<input type="password" class="form-control" id="password" name="password" value="<%= typeof password != 'undefined'? password : '' %>">
-				</div>
-				<div class="form-group">
-					<label for="password2">Confirm Password</label>
-					<input type="password" class="form-control" id="password2" name="password2" value="<%= typeof password2 != 'undefined'? password2 : '' %>">
-				</div>
-				<div>
-					<label for="schoolType">School/University</label>
-					<select class="form-control" id="schoolType" name="schoolType" value="<%= typeof schoolType != 'undefined'? schoolType : '' %>">
-						<option value="nofields">Choose...</option>
-						<% if (universityData) { %>
-							<% universityData.forEach(function(udata) { %>
-								<% if (udata.changeStatus !== 'Pending') { %>
-									<option value="<%= udata.addUniversity%>"><%= udata.addUniversity %></option>
-								<% } %>
-							<% }); %>
-						<% } %>	
-					</select>
-				</div>
-				<div>
-					<label for="department">Department</label>
-					<input type="text" class="form-control" id="department" name="department" value="<%= typeof department != 'undefined'? department : '' %>">
-				</div>
-				<div class="form-group">
-					<label for="dateOfbirth">Date of Birth</label>
-					<input type="date" class="form-control" id="dateOfbirth" name="dateOfbirth" value="<%= typeof dateOfbirth != 'undefined'? dateOfbirth : '' %>">
-				</div>
-				<div class="form-group">
-					<label for="addressInput">Full Address</label>
-					<input type="text" class="form-control" id="addressInput" name="addressInput" value="<%= typeof addressInput != 'undefined'? addressInput : '' %>">
-				</div>
-	
-				<br>
-				<form action="/uploads" method="POST" enctype="multipart/form-data">
-					<label for="fileDocu">Upload your documents here:(.pdf,.doc,.docx..10MB limit)</label>
-					<input type="file" id="fileDocu" name="fileDocu" accept=".pdf, .doc, .docx">
-					<br>
-				</form>
-                <!-- Add other Dean-specific fields here -->
+			<div class="form-group">
+                <label for="fileDocu">Upload your documents here:(.pdf 10MB limit)</label>
+			    <input type="file" id="fileDocu" name="fileDocu">
             </div>
-            <div id="FacultyFields" style="display:none;">
-                <!-- Faculty-specific form fields -->
-                <div class="form-group">
-                    <label for="idnumber">ID Number: (18-xxxx-xxx)</label>
-                    <input type="text" class="form-control" id="idnumber" name="idnumber" value="<%= typeof idnumber != 'undefined'? idnumber : '' %>">
-                </div>
-                <div class="form-group">
-                    <label for="fullname">Full Name</label>
-                    <input type="text" class="form-control" id="fullname" name="fullname" value="<%= typeof fullname != 'undefined'? fullname : '' %>">
-                </div>
-				<div class="form-group">
-					<label for="iemail">Institutional Email</label>
-					<input type="email" class="form-control" id="iemail" name="iemail" value="<%= typeof iemail != 'undefined'? iemail : '' %>">
-				</div>
-				<div class="form-group">
-					<label for="password">Password</label>
-					<input type="password" class="form-control" id="password" name="password" value="<%= typeof password != 'undefined'? password : '' %>">
-				</div>
-				<div class="form-group">
-					<label for="password2">Confirm Password</label>
-					<input type="password" class="form-control" id="password2" name="password2" value="<%= typeof password2 != 'undefined'? password2 : '' %>">
-				</div>
-				<div>
-					<label for="schoolType">School/University</label>
-					<select class="form-control" id="schoolType" name="schoolType" value="<%= typeof schoolType != 'undefined'? schoolType : '' %>">
-						<option value="nofields">Choose...</option>
-						<% if (universityData) { %>
-							<% universityData.forEach(function(udata) { %>
-								<% if (udata.changeStatus !== 'Pending') { %>
-									<option value="<%= udata.addUniversity%>"><%= udata.addUniversity %></option>
-								<% } %>
-							<% }); %>
-						<% } %>	
-					</select>
-				</div>
-				<div>
-					<label for="department">Department</label>
-					<select class="form-control" id="department" name="department" disabled>
-						<option value="nofields">Choose...</option>
-						<% if (departmentData) { %>
-							<% departmentData.forEach(function(ddata) { %>
-								<% if (ddata.changeStatusD !== 'Pending') { %>
-									<option value="<%= ddata.addDepartment%>"><%= ddata.addDepartment %></option>
-								<% } %>
-							<% }); %>
-						<% } %>	
-					</select>
-				</div>
-				<div>
-                    <div class="form-group">
-                        <label for="courseType">Course</label>
-                        <input type="text" class="form-control" id="courseType" name="courseType" value="<%= typeof courseType != 'undefined'? courseType : '' %>">
-                    </div>
-                </div>
-				<div class="form-group">
-					<label for="dateOfbirth">Date of Birth</label>
-					<input type="date" class="form-control" id="dateOfbirth" name="dateOfbirth" value="<%= typeof dateOfbirth != 'undefined'? dateOfbirth : '' %>">
-				</div>
-				<div class="form-group">
-					<label for="addressInput">Full Address</label>
-					<input type="text" class="form-control" id="addressInput" name="addressInput" value="<%= typeof addressInput != 'undefined'? addressInput : '' %>">
-				</div>
-	
-				<br>
-				<form action="/uploads" method="POST" enctype="multipart/form-data">
-					<label for="fileDocu">Upload your documents here:(.pdf,.doc,.docx..10MB limit)</label>
-					<input type="file" id="fileDocu" name="fileDocu" accept=".pdf, .doc, .docx">
-					<br>
-				</form>
-                <!-- Add other Faculty-specific fields here -->
-            </div>
+			<br> 
             <br>
             <button type="submit" class="btn btn-primary" id="registerButton">Register</button>
-            <p class="mt-3">Already registered? <a href="/deanadmin/deanlogin">Log in here</a></p>
             
         </form>
     </div>
@@ -172,53 +45,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
-        const schoolTypeSel = document.getElementById('schoolType');
-        const departmentSel = document.getElementById('department');
-        let schoolTypeValue;
-        schoolTypeSel.addEventListener('change', async function() {
-          // Get the selected school type
-          schoolTypeValue = schoolTypeSel.value;
-          if(schoolTypeValue === 'nofields'){
-            departmentSel.disabled = true;
-            console.log('School Type Value from AddD:',departments.addDUniversity);
-            
-          }else{
-            console.log('School Type Value:',schoolTypeValue);
-            // Enable the department dropdown
-            departmentSel.disabled = false;
-          }
-                    
-          
+        const registerButton = document.getElementById('registerButton');
+        const titleName = document.getElementById('title');
+        const fileUpload = document.getElementById('fileDocu');
+        let titleNameVal,fileUploadVal;
+        registerButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            document.querySelector('form').submit();
         });
+        
     </script>
     
-
-    <script>
-        registerButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        document.querySelector('form').submit();
-        });
-    </script>
-    <script>
-        const userTypeSelect = document.getElementById('userType');
-        const deanFields = document.getElementById('DeanFields');
-        const facultyFields = document.getElementById('FacultyFields');
-
-        userTypeSelect.addEventListener('change', () => {
-        if (userTypeSelect.value === 'Faculty') {
-            facultyFields.style.display = 'block';
-			deanFields.style.display = 'none';
-
-        } else if(userTypeSelect.value === 'Dean'){
-            facultyFields.style.display = 'none';
-			deanFields.style.display = 'block';
-        }else{
-			facultyFields.style.display = 'none';
-			deanFields.style.display = 'none';
-		}
-        });
-    </script>
     
     <script>
         

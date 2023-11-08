@@ -4,20 +4,19 @@ const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const session = require('express-session');
-const gridfs = require('gridfs-stream');
-const Grid = require('gridfs-stream');
 const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+const methodOverride= require('method-override');
 const crypto = require('crypto');
 const path = require('path');
 const cors = require('cors');
 
 
-
-
-
 const app = express();
 
 app.use(cors());
+app.use(express.static('./public'));
 
 //Pictures files
 app.use('/pictures', express.static(__dirname + '/pictures'));
@@ -32,31 +31,8 @@ const db = require('./config/keys').MongoURI;
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {   
         console.log('MongoDB Connected...');
-        initGridFS();
     })
     .catch(err => console.log(err));
-
-let gfs;
-
-function initGridFS() {
-    const conn = mongoose.connection;
-    gfs = Grid(conn.db, mongoose.mongo);
-    gfs.collection('uploads');
-}
-
-
-
-const storage = multer.diskStorage({
-    destination: './uploads', // Define your upload destination
-    filename: function (req, file, cb) {
-        crypto.pseudoRandomBytes(16, function (err, raw) {
-            if (err) return cb(err);
-            cb(null, raw.toString('hex') + path.extname(file.originalname));
-        });
-    }
-});
-
-const upload = multer({ storage: storage });
 
 
 //EJS Extenstion
@@ -66,6 +42,7 @@ app.set('view engine', 'ejs');
 
 //Bodyparser
 app.use(express.urlencoded({extended: true}));
+app.use(methodOverride('_method'));
 
 //Express session 
 app.use(session({

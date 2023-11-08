@@ -4,23 +4,263 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Final Yearbook</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0; 
+            background-color: cornsilk;
+        }
+        a {
+            text-decoration: none;
+        }
+        li{
+            list-style: none;
+        }
+        .container-fluid {
+            background-color: rgb(248, 236, 186);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 80px;
+        }
+        .container-fluid li{
+            position: relative;
+            padding-left: 248px;
+            padding-bottom: 15px;
+        }
+        .header-container {
+            display: flex; 
+            align-items: center; 
+        }
+        .header h1 {
+            margin: 0;
+            padding-left: 2px;
+            font-size: 30px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .header a {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 15px;
+            color: black;
+            text-decoration: underline;
+            padding-left: 8px;
+        }
+        .header a :hover{
+            color: rgb(230, 218, 174);
+        }
+        .header p {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 15px;
+            color: black;
+            padding-left: 40%;
+            padding-top: 15px
+        }
+        .custom-select {
+            background-color: cornsilk;
+            border: thin solid black;
+            border-radius: 4px;
+            display: inline-block;
+            font: inherit;
+            line-height: 1.5em;
+            padding: 0.5em 1em 0.5em 1em; 
+            margin: 0;      
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .navbar{
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            align-items: center;
+        }
+        
+        .navbar .table tr{
+            background-color: rgb(252, 238, 182);
+            margin: 0;
+            padding: 0;
+        }
+        .navbar .table tr :hover{
+            background-color: rgb(224, 217, 162);
+
+        }
+        .navbar .table tr th a{
+            font-size: 11px;
+            color: black;
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .navbar li a{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            color: black; 
+            border: 15px 15px;
+            border-color: black; 
+        }
+        .dashboard-content {
+            position: fixed;
+            top: 150px;
+            left: 0;
+            width: 100%;
+            align-items: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .dashboard-content h1 {
+            text-align: left;
+            font-size: 25px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        p1{
+            font-style: italic;
+            font-size: 11px;
+        }
+        
+    </style>
 </head>
 <body>
-    <h1>My Final Yearbook</h1>
-    <p>Welcome <%= userType %></p>
-    <ul>
-        <li><strong>ID Number:</strong> <%= idnumber %></li>
-        <li><strong>Full Name:</strong> <%= fullname %></li>
-        <li><strong>Email:</strong> <%= iemail %></li>
-        <li><strong>School/University:</strong> <%= schoolType %></li>
-        <li><strong>Date of Birth</strong> <%= dateOfbirth %></li>
-        <li><strong>Graduation D    ate:</strong> <%= graduationDate %></li>
-        <li><strong>Department:</strong> <%= department %></li>
-        <li><strong>Course Type:</strong> <%= courseType %></li>
-       
-    </ul>
+    <% if(userType==='Dean'){ %>
+        <div class="container-fluid">
+            <header class="header">
+                <div class="header-container">
+                    <img src="/pictures/yearbook.png" alt="Logo" width="90" height="80">
+                    <h1>My Final Yearbook(<%= userType %> Auth%>)</h1>
+                    <p>Welcome <%= fullname %></p>
+                    <a href="/deanadmin/logout" class="btnCustom">
+                        Logout
+                    </a>
+                </div>
+            </header>
+        </div>
+        <nav  class="navbar">
+            <table class="table table-bordered" id="modTable">
+                <tbody>
+                    <tr>
+                        <th><a href="#fc"  class="nav-link nav-link-aboutU active">Faculty/Courses</a></th>
+                        <th><a href="#acd" class="nav-link nav-link-acd">Add Course Department</a></th>
+                        <th><a href="#afa" class="nav-link nav-link-afa">Active Faculty Account</a></th>
+                        <th><a href="#pfa" class="nav-link nav-link-pfa">Pending Faculty Account</a></th>
+                        <th><a href="#dfa" class="nav-link nav-link-dfa">Declined Faculty Account</a></th>
+                        <th><a href="#dap" class="nav-link nav-link-dap">Dean Admin Profile</a></th> 
+                        <th><a href="#hc" class="nav-link nav-link-hc">Hiring Companies</a></th> 
+                    </tr>
+                </tbody> 
+            </table>  
+        </nav>
+        <div class="container-fluid2">
+            <div class="tab-content dashboard-content">
+                <div class="tab-pane active" id="fc">
+                    <p1>*Faculty or Courses that includes faculty handler and its students</p1>
+                </div>
+                <div class="tab-pane" id="acd">
+                    <p1>*Adding courses name to the database</p1>
+                </div>
+                <div class="tab-pane" id="afa">
+                    <p1>*Active Faculty admins credentials</p1>
+                </div>
+                <div class="tab-pane" id="pfa">
+                    <p1>*Pending Faculty admins credentials</p1>
+                </div>
+                <div class="tab-pane" id="dfa">
+                    <p1>*Decline Faculty admins credentials</p1>
+                </div>
+                <div class="tab-pane" id="dap">
+                    <p1>*Dean Admin Profile</p1>
+                </div>
+                <div class="tab-pane" id="hc">
+                    <p1>*adding hiring Companies</p1>
+                </div>
+            </div>
+        </div>
+    <% }else {%>
+   
+        <div class="container-fluid">
+            <header class="header">
+                <div class="header-container">
+                    <img src="/pictures/yearbook.png" alt="Logo" width="90" height="80">
+                    <h1>My Final Yearbook(<%= userType %>)</h1>
+                    
+                    <p>Welcome <%= fullname %></p>
+                    <a href="/deanadmin/logout" class="btnCustom">
+                        Logout
+                    </a>
+                </div>
+            </header>
+        </div>
+        <nav  class="navbar">
+            <table class="table table-bordered" id="modTable">
+                <tbody>
+                    <tr>
+                        <th><a href="#gs"  class="nav-link nav-link-gs active">Graduating Student</a></th>
+                        <th><a href="#alum"  class="nav-link nav-link-alum ">Alumni</a></th>
+                        <th><a href="#aga" class="nav-link nav-link-aga">Active Graduating/Alumni Account</a></th>
+                        <th><a href="#pga" class="nav-link nav-link-pga">Pending Graduating/Alumni Account</a></th>
+                        <th><a href="#dga" class="nav-link nav-link-dga">Declined Graduating/Alumni Account</a></th>
+                        <th><a href="#fap" class="nav-link nav-link-fap">Faculty Admin Profile</a></th> 
+                    </tr>
+                </tbody> 
+            </table>  
+        </nav>
+        <div class="container-fluid2">
+            <div class="tab-content dashboard-content">
+                <div class="tab-pane active" id="gs">
+                    <p1>*List of Graduating students </p1>
+                </div>
+                <div class="tab-pane" id="alum">
+                    <p1>*List of Alumni</p1>
+                </div>
+                <div class="tab-pane" id="aga">
+                    <p1>*Active Graduating students/Alumni credentials</p1>
+                </div>
+                <div class="tab-pane" id="pga">
+                    <p1>*Pending Graduating students/Alumni credentials</p1>
+                </div>
+                <div class="tab-pane" id="dga">
+                    <p1>*Decline Graduating students/Alumni credentials</p1>
+                </div>
+                <div class="tab-pane" id="fap">
+                    <p1>*Faculty Admin Profile</p1>
+                </div>
+            </div>
+        </div>
+    <% }%>
+    
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function toggleTab(tabId) {
+            // Hide all tab panes
+            $('.tab-pane').removeClass('active');
+
+            // Show the selected tab
+            $(tabId).addClass('active');
+        }
+
+        // Click event for tab links
+        $('.nav-link').click(function (e) {
+            e.preventDefault();
+            var tabId = $(this).attr('href');
+            toggleTab(tabId);
+        });
+    </script>
+    <script>
+        
+        $(document).ready(function () {
+          $(".alert").not(".alert-success-msg").delay(3000).fadeOut(300, function () {
+            $(this).alert('close');
+          });
+      
+          $(".alert-success-msg").delay(5000).fadeOut(300);
+        });
+    </script>
+    
 </body>
 </html>
 
-<!-- Logout button -->
-<a href="/deanadmin/logout" class="btn btn-secondary">Logout</a>
+
+

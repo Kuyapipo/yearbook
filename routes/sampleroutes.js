@@ -2,30 +2,74 @@ const express = require('express');
 const router = express.Router();
 const University=require('../models/University');
 const AddD = require('../models/AddD');
+const multer = require('multer');
+const GridFSBucket = require('mongodb').GridFSBucket;
+const mongoose = require('mongoose');
 //Dean Model
 const User = require('../models/User');
-//Login Page
-router.get('/', async(req,res)=>{
-    try {
+const Sample = require('../models/Sample');
+const path = require('path');
 
-        const universityData = await University.find({ changeStatus: { $ne: 'Pending' } }, 'addUniversity');
-        const departmentData =await AddD.find({changeStatusD:{$ne: 'Pending'}},'addDepartment');
-
-        if (!universityData || universityData.length === 0) {
-            // Handle the case when no data is found
-            return res.status(404).send('No universities found');
-        }
-        if(!departmentData||departmentData.length===0){
-            return res.status(404).send('No department found');
-        }
-        res.render('sample', {
-            universityData: universityData,
-            departmentData: departmentData
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
+const storage =multer.diskStorage({
+    destination: './public/uploads/',
+    filename: function(req,file,cb){
+        cb(null,file.fieldname + '-' + Date.now() + 
+        path.extname(file.originalname));
     }
+});
+
+const upload = multer({
+    storage:storage,
+    limits: {fileSize: 1000000},//limit to 10 mb
+    fileFilter: function(req,file,cb){
+        checkFileType(file,cb)
+    }
+}).single('fileDocu');
+
+function checkFileType(file,cb){
+    const filetypes = /pdf/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+    if(mimetype && extname){
+        return cb(null, true);
+    }else{
+        cb('Error: Pdf Only!');
+    }
+
+}
+
+//Login Page
+router.get('/', (req,res)=>res.render('sample'));
+router.post('/',(req,res)=>{
+    let{fileDocu,title}=req.body;
+    console.log('Filedocu:',fileDocu );
+    console.log('title:', title);
+    if(!fileDocu||!title){
+        req.flash('error_msg', 'Please fill all the fiels');
+        return res.redirect('/sampleroutes');
+    }else{
+        const newSample = new Sample({
+            fileDocu,
+            title
+        });
+        newSample.save()
+        .then(user =>{
+            req.flash('success_msg', 'Success Upload!');
+            return res.redirect('/sampleroutes');
+        })
+        .catch(err => console.log(err));
+        upload(req,res,(err) =>{
+            if(err){
+                req.flash('error_msg', err);
+                return res.redirect('/sampleroutes');
+            }else{
+                console.log(req.file);
+                    
+    
+            }
+        });
+    }
+    
 });
 
 module.exports=router;
