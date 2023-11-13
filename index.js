@@ -32,7 +32,7 @@ mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {   
         console.log('MongoDB Connected...');
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log('MongoDB Connection Error:', err));
 
 
 //EJS Extenstion
