@@ -34,7 +34,8 @@
     "multer-gridfs-storage": "^5.0.2",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "vercel": "^32.5.3"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
