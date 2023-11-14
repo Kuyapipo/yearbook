@@ -56,7 +56,7 @@
             </div>
             <div>
                 <label for="schoolType">School/University</label>
-                <select class="form-control" id="schoolType" name="schoolType" value="<%= typeof schoolType != 'undefined'? schoolType : '' %>">
+                <select class="form-control" id="schoolType" name="schoolType" >
                     <option value="nofields">Choose...</option>
                     <% if (universityData) { %>
                         <% universityData.forEach(function(udata) { %>
@@ -67,6 +67,19 @@
                     <% } %>	
                 </select>
             </div>
+            <div>
+                <label for="department">Department</label>
+                <select class="form-control" id="department" name="department">
+                    <option value="nofields">Choose...</option>
+                    
+                </select>
+            </div>
+            <div>
+                <label for="courseType">Course</label>
+                <select class="form-control" id="courseType" name="courseType" value="<%= typeof courseType != 'undefined'? courseType : '' %>">
+                    <option value="nofields">Choose...</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="dateOfbirth">Date of Birth</label>
                 <input type="date" class="form-control" id="dateOfbirth" name="dateOfbirth" value="<%= typeof dateOfbirth != 'undefined'? graduationDate : '' %>">
@@ -75,23 +88,7 @@
                 <label for="graduationDate">Graduation Date</label>
                 <input type="date" class="form-control" id="graduationDate" name="graduationDate" value="<%= typeof graduationDate != 'undefined'? graduationDate : '' %>">
             </div>
-            <div>
-                <label for="department">Department</label>
-                <select class="form-control" id="department" name="department" value="<%= typeof department != 'undefined'? courseType : '' %>">
-                    <option value="nofields">Choose...</option>
-                    <option value="CASE">CASE</option>
-                    <option value="CEA">CEA</option>
-                </select>
-            </div>
-            <div>
-                <label for="courseType">Course</label>
-                <select class="form-control" id="courseType" name="courseType" value="<%= typeof courseType != 'undefined'? courseType : '' %>">
-                    <option value="nofields">Choose...</option>
-                    <option value="BS Computer Engineering">BS Computer Engineering</option>
-                    <option value="BS Civil Engineering">BS Civil Engineering</option>
-                </select>
-            </div>
-            
+
             <div id="AlumniFields" style="display:none;">
                 <div class="form-group">
                     <label for="graduationYear">Graduation Year</label>
@@ -110,11 +107,85 @@
         </form>
     </div>
 
-    
+    <script>
+        registerButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        document.querySelector('form').submit();
+        });
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script>
+        const schoolTypeSelect = document.getElementById('schoolType');
+        const departmentSelect = document.getElementById('department');
+        schoolTypeSelect.addEventListener('change', () => {
+            const selectedUniversity = schoolTypeSelect.value;
+            const selectedepartment = departmentSelect.value;
+            console.log('University Data: ', selectedUniversity);
+            if (selectedUniversity !== 'nofields') {
+                // Make an AJAX request to fetch department data for the selected university
+                $.ajax({
+                    url: '/fetch-departments',
+                    method: 'GET',
+                    data: { schoolTypeVal: selectedUniversity },
+                    success: function (data) {
+                        // Update the "Department" dropdown with the received data
+                        departmentSelect.innerHTML = '<option value="nofields">Choose...</option>';
+                        data.forEach(function (ddata) {
+                            if (ddata.changeStatusD !== 'Pending') {
+                                const option = document.createElement('option');
+                                option.value = ddata.addDepartment;
+                                option.textContent = ddata.addDepartment;
+                                departmentSelect.appendChild(option);
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            }else {
+                // Reset the "Department" dropdown if no university is selected
+                departmentSelect.innerHTML = '<option value="nofields">Choose...</option>';
+            }
+        });
+    </script>
+    <script>
+        const courseSelect = document.getElementById('courseType');
+        departmentSelect.addEventListener('change', () => {
+            const selectedUniversity = schoolTypeSelect.value;
+            const selectedDepartment = departmentSelect.value;
+            if (selectedDepartment !== 'nofields' && selectedUniversity !== 'nofields') {
+                // Make an AJAX request to fetch course data for the selected department
+                $.ajax({
+                    url: '/fetch-courseType',
+                    method: 'GET',
+                    data: { schoolTypeVal: selectedUniversity, courseTypeVal: selectedDepartment },
+                    success: function (data) {
+                        // Clear existing options before adding new ones
+                        courseSelect.innerHTML = '<option value="nofields">Choose...</option>';
+                        data.forEach(function (fdata) {
+                            if (fdata.changeStatusF !== 'Pending') {
+                                const option = document.createElement('option');
+                                option.value = fdata.addFaculty;
+                                option.textContent = fdata.addFaculty;
+                                courseSelect.appendChild(option);
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            } else {
+                // Reset the "Course Type" dropdown if no department is selected
+                courseSelect.innerHTML = '<option value="nofields">Choose...</option>';
+            }
+        });
+    </script>
+    
+    
     <script>
         const userTypeSelect = document.getElementById('userType');
         const alumniFields = document.getElementById('AlumniFields');
@@ -140,6 +211,6 @@
       
           $(".alert-success-msg").delay(5000).fadeOut(300);
         });
-      </script>
+    </script>
 </body>
 </html>

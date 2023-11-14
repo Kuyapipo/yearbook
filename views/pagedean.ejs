@@ -116,7 +116,203 @@
             font-style: italic;
             font-size: 11px;
         }
-        
+        .scrollable-table {
+            height: 600px; 
+            overflow: auto; 
+        }
+        .scrollable-table tbody {
+            background-color: cornsilk;
+            font-size: 12px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            
+        }
+        .scrollable-table thead {
+            position: sticky;
+            top: 0;
+            background-color: rgb(255, 238, 171); 
+            z-index: 1;
+            font-size: 13px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .scrollable-table thead tr th{
+            color: black;
+        }
+        .scrollable-table tbody tr td{
+            
+            color: black;
+        }
+        .scrollable-table tbody tr a{
+            color: rgb(126, 126, 97);
+            
+        }
+        .scrollable-table tbody tr a.hover{
+            color: rgb(185, 185, 185);
+        }
+        .addDContent{
+            position: fixed;
+            background-color: rgb(236, 185, 123);
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+        .scrollable-table1{
+            padding-left: 50px;
+            max-height: 500px; 
+            overflow: auto;
+            right: 80px;
+            flex: 1;
+            margin-right:20px;
+        }
+        .scrollable-table1 tbody td {
+            background-color: cornsilk;
+            color: black;
+            font-size: 12px;
+        }
+        .scrollable-table1 thead {
+            color: black;
+            position: sticky;
+            top: 0;
+            text-align: center;
+            background-color: rgb(255, 238, 171); 
+            z-index: 1;
+        }
+        .profileContainer{
+            margin: 0;
+            height: 100%;
+            position: fixed;
+        }
+        .profile-card {
+            width: 70%;
+            height: 480px;
+            margin-left: 400px;
+            background-color:rgb(230, 211, 139);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow-y: scroll;
+        }
+
+        .profile-card h2 {
+            margin-top: 0;
+            font-size: 25px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .profile-card p {
+            font-size: 15px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin: 5px 0;
+        }
+        .profile-card .imgC{
+            text-align: center;
+        }
+        .profile-card a{
+            text-decoration: none;
+            list-style: none;
+            font-size: 15px;
+        }
+        .edit-modal{
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .edit-Name{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            position: relative;
+            top: 250px;
+            left: 25%;
+            width: 50%;
+            padding: 20px;
+            border: 20px;
+            border-radius: 10px;
+            text-align: justify;
+            height: 250px;
+            background-color: rgb(231, 213, 140);
+        }
+        .edit-Name label{
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .edit-Pass{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            position: relative;
+            top: 180px;
+            left: 25%;
+            width: 50%;
+            border: 20px;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: justify;
+            height: 400px;
+            background-color: rgb(231, 213, 140);
+        }
+        .edit-Pass label{
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .hiringContainer{
+            display: flex;
+        }
+        .formHiring{
+            margin-left: 13px;
+            width: 35%;
+            height: 450px;
+            background-color: rgb(250, 230, 150);
+            border: 5px 5px solid;
+            border-color: rgb(10, 10, 10);
+            border-radius: 3%;
+            padding-left: 45px;
+            overflow-y: scroll;
+        }
+        .hiringContent{
+            padding-left: 25px;
+            overflow: auto; 
+        }
+        .hiringPosting{
+            background-color: rgb(236, 185, 123);
+            height: 460px;
+            width: 99%;
+            padding: 25px;
+            overflow-y: scroll;
+            border: 10px;
+            border-radius: 3%;
+        }
+        .formHiring p{
+            background-color: rgb(236, 185, 123);
+            position: relative;
+            left: 0px;
+            width: 850px;
+            padding-top: 10px;
+            font-size: 13px;
+        }
+        .form-group .form-control {
+            width: 350px;
+            font-size: 12px;
+        }
+        .formHiring .imgC,
+        .formHiring h1,
+        .formHiring h6{
+            text-align: justify;
+        }
+        .hiringContent{
+            padding-left: 25px;
+            overflow: auto; 
+        }
+        .hiringPosting{
+            background-color: rgb(236, 185, 123);
+            height: 460px;
+            width: 350px;
+            padding: 25px;
+            overflow-y: scroll;
+            border: 10px;
+            border-radius: 3%;
+        }
     </style>
 </head>
 <body>
@@ -151,25 +347,355 @@
         <div class="container-fluid2">
             <div class="tab-content dashboard-content">
                 <div class="tab-pane active" id="fc">
+                    <%- include ("./partials/message") %> 
                     <p1>*Faculty or Courses that includes faculty handler and its students</p1>
                 </div>
                 <div class="tab-pane" id="acd">
-                    <p1>*Adding courses name to the database</p1>
+                    <p1>*Adding Courses/Faculty name to the database and to be posted on registration for Alumni/Graduating Student</p1>
+                    <div class="addDContent">
+                        <div class="scrollable-table1" id="table2"  >
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>University</th>                                  
+                                        <th>Department</th>
+                                        <th>Courses/Faculty</th>
+                                        <th>Date Registered</th>
+                                        <th>Deploy</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% facultyData.forEach(function(fdata) { %>
+                                        <% if (fdata.changeStatusF === 'Pending') { %>
+                                            <% if (fdata.addFUniversity === schoolType ){ %>
+                                                <tr>
+                                                    <td><%= fdata.addFUniversity %></td>
+                                                    <td><%= fdata.addFDepartment %></td>
+                                                    <td><%= fdata.addFaculty%></td>
+                                                    <td><%= fdata.dateFRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                    <td>
+                                                        <form action="/deanadmin/updatefacultystatus/<%= fdata._id %>" method="POST" >
+                                                            <select class="custom-select" name="changeStatusF">
+                                                                <option value="<%= fdata.changeStatusF %>"><%= fdata.changeStatusF %></option>
+                                                                <option value="Active">Active</option>
+                                                            </select>
+                                                            <button type="submit" class="btn btn-outline-success">Update</button>
+                                                            
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            <% } %>
+                                            
+                                        <% } %>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="scrollable-table1" id="table3"  >
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>University</th>                                  
+                                        <th>Department</th>
+                                        <th>Courses/Faculty</th>
+                                        <th>Date Registered</th>
+                                        <th>Deployed</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% facultyData.forEach(function(fdata) { %>
+                                        <% if (fdata.changeStatusF === 'Active') { %>
+                                            <% if (fdata.addFUniversity === schoolType ){ %>
+                                                <tr>
+                                                    <td><%= fdata.addFUniversity %></td>
+                                                    <td><%= fdata.addFDepartment %></td>
+                                                    <td><%= fdata.addFaculty%></td>
+                                                    <td><%= fdata.dateFRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                    <td>
+                                                        <form action="/deanadmin/updatefacultystatus/<%= fdata._id %>" method="POST">
+                                                            <button type="submit" name="changeStatusF" value="Remove" class="btn btn-outline-danger">Remove</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            <% } %>
+                                            
+                                        <% } %>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane" id="afa">
                     <p1>*Active Faculty admins credentials</p1>
+                    <div class="scrollable-table" id="table1"  >
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>University</th>
+                                    <th>ID Number</th>
+                                    <th>Full Name</th>
+                                    <th>Institutional Email</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Department</th>
+                                    <th>Course/Faculty</th>
+                                    <th>Documents</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% allUserData.forEach(function(user) { %>
+                                    <% if (user.schoolType === schoolType) { %>
+                                        <% if (user.status === 'Active'&& user.department === department) { %>
+                                            <tr>
+                                                <td><%= user.schoolType %></td>
+                                                <td><%= user.idnumber %></td>
+                                                <td><%= user.fullname %></td>
+                                                <td><%= user.iemail %></td>     
+                                                <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                <td><%= user.department %></td>
+                                                <td><%= user.courseType %></td>
+                                                <td><%= user.fileDocu %></td>
+                                                <td>
+                                                    <form action="/deanadmin/updatestatus/<%= user._id %>" method="POST">
+                                                        <select class="custom-select" name="status">
+                                                            <option value="<%= user.status %>"><%= user.status %></option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Decline">Decline</option>
+                                                        </select>
+                                                        <button type="submit" class="btn btn-outline-success">Update</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    <% } %>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="tab-pane" id="pfa">
                     <p1>*Pending Faculty admins credentials</p1>
+                    <div class="scrollable-table" id="table1"  >
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>University</th>
+                                    <th>ID Number</th>
+                                    <th>Full Name</th>
+                                    <th>Institutional Email</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Department</th>
+                                    <th>Course/Faculty</th>
+                                    <th>Documents</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% allUserData.forEach(function(user) { %>
+                                    <% if (user.schoolType === schoolType) { %>
+                                        <% if (user.status === 'Pending' && user.department === department) { %>
+                                            <tr>
+                                                <td><%= user.schoolType %></td>
+                                                <td><%= user.idnumber %></td>
+                                                <td><%= user.fullname %></td>
+                                                <td><%= user.iemail %></td>     
+                                                <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                <td><%= user.department %></td>
+                                                <td><%= user.courseType %></td>
+                                                <td><%= user.fileDocu %></td>
+                                                <td>
+                                                    <form action="/deanadmin/updatestatus/<%= user._id %>" method="POST">
+                                                        <select class="custom-select" name="status">
+                                                            <option value="<%= user.status %>"><%= user.status %></option>
+                                                            <option value="Active">Active</option>
+                                                            <option value="Decline">Decline</option>
+                                                        </select>
+                                                        <button type="submit" class="btn btn-outline-success">Update</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    <% } %>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="tab-pane" id="dfa">
                     <p1>*Decline Faculty admins credentials</p1>
+                    <div class="scrollable-table" id="table1"  >
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>University</th>
+                                    <th>ID Number</th>
+                                    <th>Full Name</th>
+                                    <th>Institutional Email</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Department</th>
+                                    <th>Course/Faculty</th>
+                                    <th>Documents</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% allUserData.forEach(function(user) { %>
+                                    <% if (user.schoolType === schoolType) { %>
+                                        <% if (user.status === 'Decline'&& user.department === department) { %>
+                                            <tr>
+                                                <td><%= user.schoolType %></td>
+                                                <td><%= user.idnumber %></td>
+                                                <td><%= user.fullname %></td>
+                                                <td><%= user.iemail %></td>
+                                                <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                <td><%= user.department %></td>
+                                                <td><%= user.courseType %></td>
+                                                <td><%= user.fileDocu %></td>
+                                                <td>
+                                                    <form action="/deanadmin/updatestatus/<%= user._id %>" method="POST">
+                                                        <select class="custom-select" name="status">
+                                                            <option value="<%= user.status %>"><%= user.status %></option>
+                                                            <option value="Pending">Restore to Pending</option>
+                                                            <option value="Delete">Delete</option>
+                                                        </select>
+                                                        <button type="submit" class="btn btn-outline-success">Update</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    <% } %>
+                                    
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="tab-pane" id="dap">
                     <p1>*Dean Admin Profile</p1>
+                    <div class="profileContainer">
+                        <div class="profile-card">
+                            <h2>Admin Profile</h2>
+                            <div class="imgC"><img src="/pictures/noimage.png" alt="Logo" width="200" height="180" style="border-radius: 50%;"></div>
+                            <br>
+                            <p><strong>Dean Admin Name: </strong><%= fullname %>  <a href="#editName" class="editNameBtn">Edit</a></p>
+                            <p><strong>ID Number:</strong> <%= idnumber %></p>
+                            <p><strong>Password: </strong>..*******...<a href="#editPass" class="editPassBtn">Edit</a></p>
+                            <p><strong>Email:</strong> <%= iemail %></p>
+                            <p><strong>School / University:</strong> <%= schoolType%></p>
+                            <p><strong>Department:</strong> <%= department%></p>
+                            <p><strong>Date of Birth: </strong><%= dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></p>
+                        </div>
+                        <div class="edit-modal" id="editNameModal">
+                            <div class="edit-Name" >
+                                <form action="/deanadmin/updateName/<%= _id %>" method="POST">
+                                    <h6>Change Name Details</h6>
+                                    <label for="newfullname">Change Full Name</label>
+                                    <input type="text" class="form-control" id="newfullname" name="newfullname" required value="<%= typeof newfullname != 'undefined'? newfullname : '' %>">
+                                    <br>
+                                    <button type="submit" class="btn btn-success" >Save Details</button>
+                                    <button type="button" class="btn btn-danger" id="closeModal">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="edit-modal" id="editPassModal">
+                            <div class="edit-Pass" >
+                                <form action="/deanadmin/updatePassword/<%= _id %>" method="POST">
+                                    
+                                    <h6>Change Password Details</h6>
+                                    <label for="currPass">Current Password</label>
+                                    <input type="password" class="form-control" id="currPass" name="currPass" required value="<%= typeof currPass != 'undefined'? currPass : '' %>">
+                                    <label for="newPass">New Password</label>
+                                    <input type="password" class="form-control" id="newPass" name="newPass" required value="<%= typeof newPass != 'undefined'? newPass : '' %>">
+                                    <label for="newPass2">Confirm New Password</label>
+                                    <input type="password" class="form-control" id="newPass2" name="newPass2" required value="<%= typeof newPass2 != 'undefined'? newPass2 : '' %>"> <button type="button" class="btn btn-light" id="toggleCurrPass">Show Password</button>
+                                    <br>
+                                    <br>
+                                    <button type="submit" class="btn btn-success" >Save Details</button>
+                                    <button type="button" class="btn btn-danger" id="closeModal2">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+    
+                    </div>
                 </div>
                 <div class="tab-pane" id="hc">
-                    <p1>*adding hiring Companies</p1>
+                    <p1>*Adding hiring Companies</p1>
+                    <div class="hiringContainer">
+                        <div class="formHiring" id="formHiring">
+                            <form action="/deanadmin/pagedean" method="POST">
+                                 <!-- Company Information -->
+                                <div class="form-group">
+                                    <label for="companyName">Company Name:</label>
+                                    <input type="text" class="form-control" id="companyName" name="companyName" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="jobTitle">Job Title:</label>
+                                    <input type="text" class="form-control" id="jobTitle" name="jobTitle" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="jobDescription">Job Description:</label>
+                                    <textarea id="jobDescription" class="form-control" name="jobDescription" ></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="jobRequirements">Job Requirements:</label>
+                                    <textarea id="jobRequirements" class="form-control" name="jobRequirements" ></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="applicationInstructions">Application Instructions:</label>
+                                    <textarea id="applicationInstructions" class="form-control" name="applicationInstructions" ></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactName">Contact Person's Name:</label>
+                                    <input type="text" id="contactName" class="form-control" name="contactName" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactEmail">Contact Person's Email:</label>
+                                    <input type="email" id="contactEmail" class="form-control" name="contactEmail">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactNumber">Contact Person's Number:</label>
+                                    <input type="string" id="contactNumber" class="form-control" name="contactNumber">
+                                </div>
+
+                                <!-- Submission Button -->
+                                <button type="submit"class="btn btn-outline-dark">Post Job</button>
+                            </form>
+                        </div>
+                        <div class="hiringContent">
+                            <div class="scrollable-table1" id="table4"  >
+                                <table class="table table-dark table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Company</th>                                  
+                                            <th>Job Title</th>
+                                            <th>Contact Person Name</th>
+                                            <th>Contact Person Email</th>
+                                            <th>Contact Person Number</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% HireData.forEach(function(hdata) { %>
+                                            <tr>
+                                                <td><%= hdata.companyName %></td>
+                                                <td><%= hdata.jobTitle%></td>   
+                                                <td><%= hdata.contactName %></td>   
+                                                <td><%= hdata.contactEmail%></td>   
+                                                <td><%= hdata.contactNumber%></td>
+                                                <form action="/deanadmin/updatehirestatus/<%= hdata._id %>" method="POST">
+                                                    <td><button type="submit" name="changeStatusH" value="Remove" class="btn btn-outline-danger" >X</button></td> 
+                                                </form>
+                                            </tr>      
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -221,13 +747,103 @@
                 </div>
                 <div class="tab-pane" id="fap">
                     <p1>*Faculty Admin Profile</p1>
+                    <div class="profileContainer">
+                        <div class="profile-card">
+                            <h2>Admin Profile</h2>
+                            <div class="imgC"><img src="/pictures/noimage.png" alt="Logo" width="200" height="180" style="border-radius: 50%;"></div>
+                            <br>
+                            <p><strong>Dean Admin Name: </strong><%= fullname %>  <a href="#editName" class="editNameBtn">Edit</a></p>
+                            <p><strong>ID Number:</strong> <%= idnumber %></p>
+                            <p><strong>Password: </strong>..*******...<a href="#editPass" class="editPassBtn">Edit</a></p>
+                            <p><strong>Email:</strong> <%= iemail %></p>
+                            <p><strong>School / University:</strong> <%= schoolType%></p>
+                            <p><strong>Department:</strong> <%= department%></p>
+                            <p><strong>Course/Faculty:</strong> <%= courseType%></p>
+                            <p><strong>Date of Birth: </strong><%= dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></p>
+                        </div>
+                        <div class="edit-modal" id="editNameModal">
+                            <div class="edit-Name" >
+                                <form action="/deanadmin/updateName/<%= _id %>" method="POST">
+                                    <h6>Change Name Details</h6>
+                                    <label for="newfullname">Change Full Name</label>
+                                    <input type="text" class="form-control" id="newfullname" name="newfullname" required value="<%= typeof newfullname != 'undefined'? newfullname : '' %>">
+                                    <br>
+                                    <button type="submit" class="btn btn-success" >Save Details</button>
+                                    <button type="button" class="btn btn-danger" id="closeModal">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="edit-modal" id="editPassModal">
+                            <div class="edit-Pass" >
+                                <form action="/deanadmin/updatePassword/<%= _id %>" method="POST">
+                                    
+                                    <h6>Change Password Details</h6>
+                                    <label for="currPass">Current Password</label>
+                                    <input type="password" class="form-control" id="currPass" name="currPass" required value="<%= typeof currPass != 'undefined'? currPass : '' %>">
+                                    <label for="newPass">New Password</label>
+                                    <input type="password" class="form-control" id="newPass" name="newPass" required value="<%= typeof newPass != 'undefined'? newPass : '' %>">
+                                    <label for="newPass2">Confirm New Password</label>
+                                    <input type="password" class="form-control" id="newPass2" name="newPass2" required value="<%= typeof newPass2 != 'undefined'? newPass2 : '' %>"> <button type="button" class="btn btn-light" id="toggleCurrPass">Show Password</button>
+                                    <br>
+                                    <br>
+                                    <button type="submit" class="btn btn-success" >Save Details</button>
+                                    <button type="button" class="btn btn-danger" id="closeModal2">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+    
+                    </div>
                 </div>
             </div>
         </div>
     <% }%>
     
     
-    
+    <script>
+        const toggleCurrPass = document.getElementById('toggleCurrPass');
+        const currPassInput = document.getElementById('currPass');
+        const newPassInput = document.getElementById('newPass');
+        const newPass2Input = document.getElementById('newPass2');
+
+      
+        toggleCurrPass.addEventListener('click', () => {
+          togglePasswordVisibility(currPassInput);
+          togglePasswordVisibility(newPassInput);
+          togglePasswordVisibility(newPass2Input);
+        });
+        function togglePasswordVisibility(inputField) {
+          if (inputField.type === 'password') {
+            inputField.type = 'text';
+            inputField.setAttribute('aria-label', 'Hide password');
+          } else {
+            inputField.type = 'password';
+            inputField.setAttribute('aria-label', 'Show password');
+          }
+        }
+      </script>
+    <script>
+        const editNameBtn = document.querySelector('.editNameBtn');
+        const editPassBtn = document.querySelector('.editPassBtn');
+        const editNameModal = document.getElementById('editNameModal');
+        const editPassModal=document.getElementById('editPassModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const closeModalBtn2 =document.getElementById('closeModal2');
+        
+        editNameBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            editNameModal.style.display = 'block';
+        });    
+        closeModalBtn.addEventListener('click', () => {
+            editNameModal.style.display = 'none';
+        });
+        editPassBtn.addEventListener('click',(r)=>{
+            r.preventDefault();
+            editPassModal.style.display='block';
+        });
+        closeModalBtn2.addEventListener('click',()=>{
+            editPassModal.style.display='none';
+        });
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

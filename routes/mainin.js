@@ -11,6 +11,8 @@ const crypto = require('crypto');
 const path = require('path');
 //University model
 const University=require('../models/University');
+const AddD = require('../models/AddD');
+const AddF = require('../models/AddF');
 
 const storage = multer.diskStorage({
     destination: './uploads', // Define your upload destination
@@ -32,20 +34,44 @@ router.get('/', (req,res)=> res.render('main'));
 router.get('/userlogin', (req,res)=>res.render('userlogin'));
 //Registration Page
 router.get('/userres', async (req, res) => {
+    const schoolTypeVal = req.query.schoolTypeVal;
     try {
-        const universityData = await University.find({ changeStatus: { $ne: 'Pending' } }, 'addUniversity');
-
-        if (!universityData || universityData.length === 0) {
-            // Handle the case when no data is found
-            return res.status(404).send('No universities found');
-        }
-
+        const departmentData = await AddD.find();
+        const facultyData = await AddF.find();
+        const universityData = await University.find();
         res.render('userres', {
-            universityData: universityData
+            facultyData: facultyData,
+            departmentData: departmentData,
+            universityData: universityData, // This is passed to the template
+            schoolTypeVal
         });
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
+    }
+});
+router.get('/fetch-departments', async (req, res) => {
+    const schoolTypeVal = req.query.schoolTypeVal;
+    console.log('Value:',schoolTypeVal);
+    try {
+        const departmentData = await AddD.find({ addDUniversity: schoolTypeVal });
+        res.json(departmentData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+router.get('/fetch-courseType', async (req, res) => {
+    const courseTypeVal = req.query.courseTypeVal;
+     const schoolTypeVal = req.query.schoolTypeVal;
+    console.log('ValueCourseType:',courseTypeVal);
+    console.log('ValueSchoolType:',schoolTypeVal);
+    try {
+        const facultyData = await AddF.find({ addFUniversity: schoolTypeVal, addFDepartment:courseTypeVal });
+        res.json(facultyData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 //Page after log in

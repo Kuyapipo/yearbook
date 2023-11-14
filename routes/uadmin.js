@@ -146,7 +146,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedUadmin, async (req, res)
             await user.save();
             if(user.department){
                 const addDepartment = user.department;
-                const existingDepartment =  await AddD.findOne({addDepartment});
+                const existingDepartment =  await AddD.findOne({addDUniversity: user.schoolType, addDepartment});
                 if(existingDepartment){
                     req.flash('success_msg', 'Dean admin is Active but the Department Name already exist');
                     return res.redirect('/uadmin/pageuadmin');
@@ -155,7 +155,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedUadmin, async (req, res)
                         addDUniversity: user.schoolType,
                         addDepartment:user.department,
                         changeStatusD,
-                        dateRegistered: new Date(),
+                        dateDRegistered: new Date(),
                     });
 
                     await newAddD.save();

@@ -605,7 +605,6 @@
                     <div class="edit-modal" id="editNameModal">
                         <div class="edit-Name" >
                             <form action="/uadmin/updateName/<%= _id %>" method="POST">
-                                <%- include ("./partials/message") %> 
                                 <h6>Change Name Details</h6>
                                 <label for="newfullname">Change Full Name</label>
                                 <input type="text" class="form-control" id="newfullname" name="newfullname" required value="<%= typeof newfullname != 'undefined'? newfullname : '' %>">
@@ -618,7 +617,6 @@
                     <div class="edit-modal" id="editPassModal">
                         <div class="edit-Pass" >
                             <form action="/uadmin/updatePassword/<%= _id %>" method="POST">
-                                <%- include ("./partials/message") %> 
                                 <h6>Change Password Details</h6>
                                 <label for="currPass">Current Password</label>
                                 <input type="password" class="form-control" id="currPass" name="currPass" required value="<%= typeof currPass != 'undefined'? currPass : '' %>">
