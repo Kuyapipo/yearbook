@@ -11,10 +11,11 @@ const methodOverride= require('method-override');
 const crypto = require('crypto');
 const path = require('path');
 const cors = require('cors');
-
+const dotenv = require('dotenv');
 
 const app = express();
 
+dotenv.config();
 app.use(cors());
 app.use(express.static('./public'));
 
