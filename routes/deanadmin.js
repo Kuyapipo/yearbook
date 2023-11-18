@@ -50,7 +50,7 @@ router.post('/pagedean', ensureAuthenticatedDean, async (req, res) => {
     try {
         if(!companyName||!jobTitle||!jobDescription||!jobRequirements||!applicationInstructions||!contactName||!contactEmail||!contactNumber){
             req.flash('error_msg', 'Please fill all the details');
-            return res.redirect('/uadmin/pageuadmin');
+            return res.redirect('/deanadmin/pagedean');
         }else {
             // Create a new document
             const newHire = new Hire({
@@ -72,7 +72,7 @@ router.post('/pagedean', ensureAuthenticatedDean, async (req, res) => {
     } catch (err) {
         console.error(err);
         req.flash('error_msg', 'An error occurred while saving data.');
-        return res.redirect('/pageadmin/pagedean');
+        return res.redirect('/deanadmin/pagedean');
     }
 });
 //Registration Page
@@ -121,25 +121,25 @@ router.post('/updatefacultystatus/:addfId', ensureAuthenticatedDean, async (req,
     const newStatus = req.body.changeStatusF;
     const userStatus = req.body.status;
     try {
-        console.log('Department ID:', addfId);
+        console.log('Faculty ID:', addfId);
         console.log('New Status:', newStatus);
 
         const addFaculty = await AddF.findById(addfId);
-        console.log('Found Department:', addFaculty);
+        console.log('Found Courses:', addFaculty);
         if (!addFaculty) {
             throw new Error("Faculty not found");
         }
         console.log(newStatus);
         addFaculty.changeStatusF = newStatus;
-        console.log('Deparment saved with new status:', addFaculty);
+        console.log('Courses saved with new status:', addFaculty);
         if (newStatus === "Active") {
             await addFaculty.save();
-            req.flash('success_msg','Department Registered');
+            req.flash('success_msg','Courses Registered');
             return res.redirect('/deanadmin/pagedean');
         }
         if (newStatus === 'Remove') {
             await  AddF.findByIdAndRemove(addfId);
-            req.flash('success_msg','Department Remove');
+            req.flash('success_msg','Courses Remove');
             return res.redirect('/deanadmin/pagedean');
         }
         return res.redirect('/deanadmin/pagedean');
