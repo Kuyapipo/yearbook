@@ -121,30 +121,42 @@ router.post('/updatefacultystatus/:addfId', ensureAuthenticatedDean, async (req,
     const newStatus = req.body.changeStatusF;
     const userStatus = req.body.status;
     try {
-        console.log('Faculty ID:', addfId);
+        console.log('Department ID:', addfId);
         console.log('New Status:', newStatus);
-
+    
         const addFaculty = await AddF.findById(addfId);
-        console.log('Found Courses:', addFaculty);
+        console.log('Found Department:', addFaculty );
+    
         if (!addFaculty) {
-            throw new Error("Faculty not found");
+            throw new Error("Department not found");
         }
-        console.log(newStatus);
-        addFaculty.changeStatusF = newStatus;
-        console.log('Courses saved with new status:', addFaculty);
-        if (newStatus === "Active") {
-            await addFaculty.save();
-            req.flash('success_msg','Courses Registered');
-            return res.redirect('/deanadmin/pagedean');
+    
+        console.log('Previous Status:', addFaculty.changeStatusD);
+    
+        // Trim and convert to lowercase for case-insensitive comparison
+        const trimmedNewStatus = newStatus.trim().toLowerCase();
+        const trimmedPreviousStatus = addFaculty.changeStatusF.trim().toLowerCase();
+    
+        if (trimmedNewStatus === trimmedPreviousStatus) {
+            console.log('Status is already ' + newStatus);
+            req.flash('error_msg', 'Status is already ' + newStatus);
+        } else {
+            if (newStatus === 'Remove') {
+                await AddF.findByIdAndRemove(addfId);
+                console.log('Department removed from the database');
+                req.flash('success_msg', 'Department removed from the database');
+            } else {
+                addFaculty.changeStatusF = newStatus;
+                await addFaculty.save();
+                console.log('Department saved with new status:', addFaculty);
+                req.flash('success_msg', 'Department Name ' + newStatus);
+            }
         }
-        if (newStatus === 'Remove') {
-            await  AddF.findByIdAndRemove(addfId);
-            req.flash('success_msg','Courses Remove');
-            return res.redirect('/deanadmin/pagedean');
-        }
+    
         return res.redirect('/deanadmin/pagedean');
     } catch (err) {
         console.error(err);
+        req.flash('error_msg', 'Internal Server Error');
         res.status(500).send('Internal Server Error');
     }
 });
@@ -171,7 +183,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedDean, async (req, res) =
                 const addFaculty = user.courseType;
                 const existingFaculty =  await AddF.findOne({addFUniversity:user.schoolType,addFDepartment:user.department,addFaculty});
                 if(existingFaculty ){
-                    req.flash('success_msg', 'Faculty admin is Active but the Course Name already exist');
+                    req.flash('success_msg', 'Department Chair admin is Active but the Department Name already exist');
                     return res.redirect('/deanadmin/pagedean');
                 }else{
                     const newAddF = new AddF({
@@ -183,24 +195,24 @@ router.post('/updatestatus/:userId', ensureAuthenticatedDean, async (req, res) =
                     });                    
 
                     await newAddF.save();
-                    req.flash('success_msg', 'Faculty name added but on Pending status');
+                    req.flash('success_msg', 'Department name added but on Pending status');
                     return res.redirect('/deanadmin/pagedean');
                 }
                 
             }
-            req.flash('success_msg', 'University admin status changed to ' + newStatus);
+            req.flash('success_msg', 'Department Chair admin status changed to ' + newStatus);
             return res.redirect('/deanadmin/pagedean');
             
             
         } else if (newStatus === "Pending" || newStatus === 'Decline') {
             user.status = newStatus;
             await user.save();
-            req.flash('success_msg', 'University admin status changed to ' + newStatus);
+            req.flash('success_msg', 'Department Chair admin status changed to ' + newStatus);
             return res.redirect('/deanadmin/pagedean');
         }
         else if(newStatus === 'Delete'){
            await  User.findByIdAndRemove(userId);
-           req.flash('success_msg','University Admin deleted');
+           req.flash('success_msg','Department Chair Admin deleted');
            return res.redirect('/deanadmin/pagedean');
         }
         

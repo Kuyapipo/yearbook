@@ -39,22 +39,31 @@
             font-size: 30px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
-        .header a {
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            font-size: 15px;
-            color: black;
-            text-decoration: underline;
-            padding-left: 8px;
+        .header h6 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: solid; /* Remove bold style if not needed */
         }
         .header a :hover{
             color: rgb(230, 218, 174);
         }
-        .header p {
+        .NameHead p,
+        .NameHead a {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             font-size: 15px;
             color: black;
-            padding-left: 51%;
-            padding-top: 15px
+            display: inline; /* Set the display to inline */
+            margin: 0; /* Remove default margin on the elements */
+            padding-left: 10px;
+        }
+        .NameHead{
+            position: fixed;
+            left:78%;
+            display: inline-block; 
+        }
+        .pclass{
+            font-weight: bold;
+            font-style: oblique;
         }
         p1{
             font-style: italic;
@@ -214,6 +223,7 @@
         }
         .scrollable-table1 tbody td {
             background-color: cornsilk;
+            text-align: center;
             color: black;
             font-size: 12px;
         }
@@ -304,6 +314,13 @@
             text-align: center;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
+        .text-green {
+            color: green;
+        }
+
+        .text-red {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -311,11 +328,20 @@
         <header class="header">
             <div class="header-container">
                 <img src="/pictures/yearbook.png" alt="Logo" width="90" height="80">
-                <h1>My Final Yearbook</h1>
-                <p>Welcome <%= fullname %></p>
-                <a href="/uadmin/logout" class="btnCustom">
-                    Logout
-                </a>
+                <div class="headN">
+                    <h6>The Final Yearbook</h6>
+                    <h1><%= schoolType%></h1>
+                </div>
+                
+                <div class="NameHead">
+                    <div class="pclass"><p><%=userType%></p><br></div>
+                    
+                    <p>Welcome <%= fullname %></p>
+                    <a href="/uadmin/logout" class="btnCustom">
+                        Logout
+                    </a>
+                </div>
+                
             </div>
         </header>
     </div>
@@ -324,7 +350,7 @@
             <tbody>
                 <tr>
                     <th><a href="#aboutU"  class="nav-link nav-link-aboutU active">University</a></th>
-                    <th><a href="#addD" class="nav-link nav-link-addD">Add Dean Department</a></th>
+                    <th><a href="#addD" class="nav-link nav-link-addD">Add College Name </a></th>
                     <th><a href="#ad" class="nav-link nav-link-ad">Active Dean Account</a></th>
                     <th><a href="#pd" class="nav-link nav-link-pd">Pending Dean Account</a></th>
                     <th><a href="#DecD" class="nav-link nav-link-DecD">Declined Dean Account</a></th>
@@ -384,69 +410,41 @@
                         <table class="table table-dark table-hover">
                             <thead>
                                 <tr>
-                                    <th>University</th>                                  
-                                    <th>Department</th>
+                                                                   
+                                    <th>College</th>
                                     <th>Date Registered</th>
-                                    <th>Deploy</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <% departmentData.forEach(function(ddata) { %>
-                                    <% if (ddata.changeStatusD === 'Pending') { %>
+                                    
                                         <% if (ddata.addDUniversity === schoolType ){ %>
                                             <tr>
-                                                <td><%= ddata.addDUniversity %></td>
+                                                
                                                 <td><%= ddata.addDepartment %></td>
                                                 <td><%= ddata.dateDRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
                                                 <td>
                                                     <form action="/uadmin/updatedepartmentstatus/<%= ddata._id %>" method="POST" >
-                                                        <select class="custom-select" name="changeStatusD">
+                                                        <select class="custom-select <%= ddata.changeStatusD === 'Active' ? 'text-green' : (ddata.changeStatusD === 'Pending' ? 'text-red' : '') %>" name="changeStatusD">
                                                             <option value="<%= ddata.changeStatusD %>"><%= ddata.changeStatusD %></option>
                                                             <option value="Active">Active</option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Remove">Remove</option>
                                                         </select>
-                                                        <button type="submit" class="btn btn-outline-success">Update</button>
+                                                        <button type="submit" class="btn btn-outline-dark">Update</button>
                                                         
                                                     </form>
                                                 </td>
                                             </tr>
                                         <% } %>
                                         
-                                    <% } %>
+                                    
                                 <% }); %>
                             </tbody>
                         </table>
                     </div>
-                    <div class="scrollable-table1" id="table3"  >
-                        <table class="table table-dark table-hover">
-                            <thead>
-                                <tr>
-                                    <th>University</th>                                  
-                                    <th>Department</th>
-                                    <th>Date Registered</th>
-                                    <th>Deployed</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% departmentData.forEach(function(ddata) { %>
-                                    <% if (ddata.changeStatusD === 'Active') { %>
-                                        <% if (ddata.addDUniversity === schoolType ){ %>
-                                            <tr>
-                                                <td><%= ddata.addDUniversity %></td>
-                                                <td><%= ddata.addDepartment %></td>
-                                                <td><%= ddata.dateDRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
-                                                <td>
-                                                    <form action="/uadmin/updatedepartmentstatus/<%= ddata._id %>" method="POST">
-                                                        <button type="submit" name="changeStatusD" value="Remove" class="btn btn-outline-danger">Remove</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        <% } %>
-                                        
-                                    <% } %>
-                                <% }); %>
-                            </tbody>
-                        </table>
-                    </div>
+                    
                 </div>
                 
             </div>
@@ -456,12 +454,11 @@
                     <table class="table table-dark table-hover">
                         <thead>
                             <tr>
-                                <th>University</th>
+                                <th>College</th>
                                 <th>ID Number</th>
                                 <th>Full Name</th>
                                 <th>Institutional Email</th>
                                 <th>Date Of Birth</th>
-                                <th>Department</th>
                                 <th>Documents</th>
                                 <th>Status</th>
                             </tr>
@@ -471,12 +468,11 @@
                                 <% if (user.schoolType === schoolType) { %>
                                     <% if (user.status === 'Active') { %>
                                         <tr>
-                                            <td><%= user.schoolType %></td>
+                                            <td><%= user.department %></td>
                                             <td><%= user.idnumber %></td>
                                             <td><%= user.fullname %></td>
                                             <td><%= user.iemail %></td>     
                                             <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
-                                            <td><%= user.department %></td>
                                             <td><%= user.fileDocu %></td>
                                             <td>
                                                 <form action="/uadmin/updatestatus/<%= user._id %>" method="POST">
@@ -502,12 +498,11 @@
                     <table class="table table-dark table-hover">
                         <thead>
                             <tr>
-                                <th>University</th>
+                                <th>College</th>
                                 <th>ID Number</th>
                                 <th>Full Name</th>
                                 <th>Institutional Email</th>
                                 <th>Date Of Birth</th>
-                                <th>Department</th>
                                 <th>Documents</th>
                                 <th>Status</th>
                             </tr>
@@ -516,12 +511,11 @@
                             <% if (user.schoolType === schoolType) { %>
                                 <% if (user.status === 'Pending') { %>
                                     <tr>
-                                        <td><%= user.schoolType %></td>
+                                        <td><%= user.department %></td>
                                         <td><%= user.idnumber %></td>
                                         <td><%= user.fullname %></td>
                                         <td><%= user.iemail %></td>     
                                         <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
-                                        <td><%= user.department %></td>
                                         <td><%= user.fileDocu %></td>
                                         <td>
                                             <form action="/uadmin/updatestatus/<%= user._id %>" method="POST">
@@ -548,12 +542,11 @@
                     <table class="table table-dark table-hover">
                         <thead>
                             <tr>
-                                <th>University</th>
+                                <th>College</th>
                                 <th>ID Number</th>
                                 <th>Full Name</th>
                                 <th>Institutional Email</th>
                                 <th>Date Of Birth</th>
-                                <th>Department</th>
                                 <th>Documents</th>
                                 <th>Status</th>
                             </tr>
@@ -563,12 +556,11 @@
                                 <% if (user.schoolType === schoolType) { %>
                                     <% if (user.status === 'Decline') { %>
                                         <tr>
-                                            <td><%= user.schoolType %></td>
+                                            <td><%= user.department %></td>
                                             <td><%= user.idnumber %></td>
                                             <td><%= user.fullname %></td>
                                             <td><%= user.iemail %></td>
                                             <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
-                                            <td><%= user.addressInput %></td>
                                             <td><%= user.fileDocu %></td>
                                             <td>
                                                 <form action="/uadmin/updatestatus/<%= user._id %>" method="POST">
@@ -688,6 +680,20 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        $(document).ready(function() {
+          $('.nav-link').on('click', function() {
+            // Check if the clicked link already has the 'active' class
+            if (!$(this).hasClass('active')) {
+              // Remove the 'active' class from all links
+              $('.nav-link').removeClass('active');
+              
+              // Add the 'active' class to the clicked link
+              $(this).addClass('active');
+            }
+          });
+        });
+        </script>
+    <script>
         function toggleTab(tabId) {
             // Hide all tab panes
             $('.tab-pane').removeClass('active');
@@ -715,4 +721,5 @@
     </script>
     
 </body>
+
 </html>

@@ -99,30 +99,43 @@ router.post('/updatedepartmentstatus/:adddId', ensureAuthenticatedUadmin, async 
     const newStatus = req.body.changeStatusD;
     const userStatus = req.body.status;
     try {
-        console.log('Department ID:', adddId);
+        console.log('College ID:', adddId);
         console.log('New Status:', newStatus);
-
+    
         const addDepartment = await AddD.findById(adddId);
-        console.log('Found Department:', addDepartment);
+        console.log('Found College:', addDepartment);
+    
         if (!addDepartment) {
-            throw new Error("Department not found");
+            throw new Error("College not found");
         }
-        console.log(newStatus);
-        addDepartment.changeStatusD = newStatus;
-        console.log('Deparment saved with new status:', addDepartment);
-        if (newStatus === "Active") {
-            await addDepartment.save();
-            req.flash('success_msg','Department Registered');
-            return res.redirect('/uadmin/pageuadmin');
+    
+        console.log('Previous Status:', addDepartment.changeStatusD);
+    
+        const trimmedNewStatus = newStatus.trim().toLowerCase();
+        const trimmedPreviousStatus = addDepartment.changeStatusD.trim().toLowerCase();
+    
+        if (trimmedNewStatus === trimmedPreviousStatus) {
+            console.log('Status is already ' + newStatus);
+            req.flash('error_msg', 'Status is already ' + newStatus);
+        } else {
+            if (newStatus === 'Remove') {
+                // Remove the document from the database
+                await AddD.findByIdAndRemove(adddId);
+                console.log('Department removed from the database');
+                req.flash('success_msg', 'College name removed from the database');
+            } else {
+                // Update the status if a new status is selected
+                addDepartment.changeStatusD = newStatus;
+                await addDepartment.save();
+                console.log('Department saved with new status:', addDepartment);
+                req.flash('success_msg', 'College Name ' + newStatus);
+            }
         }
-        if (newStatus === 'Remove') {
-            await  AddD.findByIdAndRemove(adddId);
-            req.flash('success_msg','Department Remove');
-            return res.redirect('/uadmin/pageuadmin');
-        }
+    
         return res.redirect('/uadmin/pageuadmin');
     } catch (err) {
         console.error(err);
+        req.flash('error_msg', 'Internal Server Error');
         res.status(500).send('Internal Server Error');
     }
 });
@@ -171,12 +184,12 @@ router.post('/updatestatus/:userId', ensureAuthenticatedUadmin, async (req, res)
         } else if (newStatus === "Pending" || newStatus === 'Decline') {
             user.status = newStatus;
             await user.save();
-            req.flash('success_msg', 'University admin status changed to ' + newStatus);
+            req.flash('success_msg', 'Dean admin status changed to ' + newStatus);
             return res.redirect('/uadmin/pageuadmin');
         }
         else if(newStatus === 'Delete'){
            await  User.findByIdAndRemove(userId);
-           req.flash('success_msg','University Admin deleted');
+           req.flash('success_msg','Dean Admin deleted');
            return res.redirect('/uadmin/pageuadmin');
         }
         

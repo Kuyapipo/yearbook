@@ -50,6 +50,15 @@ router.get('/userres', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+router.get('/universities', async (req, res) => {
+    try {
+        const universities = await University.find({ changeStatus: { $ne: 'Pending' } }).select('addUniversity');
+        res.json(universities);
+    } catch (error) {
+       res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 router.get('/fetch-departments', async (req, res) => {
     const schoolTypeVal = req.query.schoolTypeVal;
     console.log('Value:',schoolTypeVal);

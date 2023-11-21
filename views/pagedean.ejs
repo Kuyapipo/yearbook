@@ -49,12 +49,23 @@
         .header a :hover{
             color: rgb(230, 218, 174);
         }
-        .header p {
+        .NameHead p,
+        .NameHead a {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             font-size: 15px;
             color: black;
-            padding-left: 40%;
-            padding-top: 15px
+            display: inline; /* Set the display to inline */
+            margin: 0; /* Remove default margin on the elements */
+            padding-left: 10px;
+        }
+        .NameHead{
+            position: fixed;
+            left:78%;
+            display: inline-block; 
+        }
+        .pclass{
+            font-weight: bold;
+            font-style: oblique;
         }
         .custom-select {
             background-color: cornsilk;
@@ -334,6 +345,59 @@
             font-size: 20px;
             padding-top: 2px;
         }
+        .text-green {
+            color: green;
+        }
+
+        .text-red {
+            color: red;
+        }
+        .modalButton {
+            background-color: #db3f34; 
+            color: #0c0a0a; 
+            padding: 10px 20px; 
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s; 
+
+        }
+
+        .modalButton:hover {
+            background-color: rgb(112, 43, 22);
+        }
+        .select-modal{
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .edit-Name{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            position: relative;
+            top: 250px;
+            left: 40%;
+            width: 25%;
+            padding: 20px;
+            border: 20px;
+            border-radius: 10px;
+            text-align: justify;
+            height: 250px;
+            background-color: rgb(231, 213, 140);
+        }
+        .links-container {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            top: 40px;
+            right: 35px;
+        }
+
     </style>
 </head>
 <body>
@@ -342,11 +406,19 @@
             <header class="header">
                 <div class="header-container">
                     <img src="/pictures/yearbook.png" alt="Logo" width="90" height="80">
-                    <h1>My Final Yearbook(<%= userType %> Auth%>)</h1>
-                    <p>Welcome <%= fullname %></p>
-                    <a href="/deanadmin/logout" class="btnCustom">
-                        Logout
-                    </a>
+                    <div class="headN">
+                        <h6>The Final Yearbook</h6>
+                        <h1><%= schoolType%>(<%=department%>)</h1>
+                    </div>
+                    
+                    <div class="NameHead">
+                        <div class="pclass"><p><%=userType%> Admin</p><br></div>
+                        
+                        <p>Welcome <%= fullname %></p>
+                        <a href="/deanadmin/logout" class="btnCustom">
+                            Logout
+                        </a>
+                    </div>
                 </div>
             </header>
         </div>
@@ -354,13 +426,13 @@
             <table class="table table-bordered" id="modTable">
                 <tbody>
                     <tr>
-                        <th><a href="#fc"  class="nav-link nav-link-aboutU active">Faculty/Courses</a></th>
-                        <th><a href="#acd" class="nav-link nav-link-acd">Add Course Department</a></th>
-                        <th><a href="#afa" class="nav-link nav-link-afa">Active Faculty Account</a></th>
-                        <th><a href="#pfa" class="nav-link nav-link-pfa">Pending Faculty Account</a></th>
-                        <th><a href="#dfa" class="nav-link nav-link-dfa">Declined Faculty Account</a></th>
+                        <th><a href="#fc"  class="nav-link nav-link-aboutU active">Department Chairman</a></th>
+                        <th><a href="#acd" class="nav-link nav-link-acd">Add Department Name</a></th>
+                        <th><a href="#afa" class="nav-link nav-link-afa">Active Department Chair Account</a></th>
+                        <th><a href="#pfa" class="nav-link nav-link-pfa">Pending Department Chair Account</a></th>
+                        <th><a href="#dfa" class="nav-link nav-link-dfa">Declined Department Chair Account</a></th>
                         <th><a href="#dap" class="nav-link nav-link-dap">Dean Admin Profile</a></th> 
-                        <th><a href="#hc" class="nav-link nav-link-hc">Hiring Companies</a></th> 
+                        <th><a href="#hc" class="nav-link nav-link-hc">Hiring Company Posting</a></th> 
                     </tr>
                 </tbody> 
             </table>  
@@ -379,8 +451,8 @@
                                     </div>
                                     <tr>
                                         <th></th>  
-                                        <th>Faculty</th>                                  
-                                        <th>Name</th>
+                                        <th>Department</th>                                  
+                                        <th>Chairman Name</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -408,69 +480,34 @@
                             <table class="table table-dark table-hover">
                                 <thead>
                                     <tr>
-                                        <th>University</th>                                  
                                         <th>Department</th>
-                                        <th>Courses/Faculty</th>
                                         <th>Date Registered</th>
                                         <th>Deploy</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <% facultyData.forEach(function(fdata) { %>
-                                        <% if (fdata.changeStatusF === 'Pending') { %>
+                                        
                                             <% if (fdata.addFUniversity === schoolType ){ %>
                                                 <tr>
-                                                    <td><%= fdata.addFUniversity %></td>
-                                                    <td><%= fdata.addFDepartment %></td>
                                                     <td><%= fdata.addFaculty%></td>
                                                     <td><%= fdata.dateFRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
                                                     <td>
                                                         <form action="/deanadmin/updatefacultystatus/<%= fdata._id %>" method="POST" >
-                                                            <select class="custom-select" name="changeStatusF">
+                                                            <select class="custom-select <%= fdata.changeStatusF === 'Active' ? 'text-green' : (fdata.changeStatusF === 'Pending' ? 'text-red' : '') %>" name="changeStatusF">
                                                                 <option value="<%= fdata.changeStatusF %>"><%= fdata.changeStatusF %></option>
                                                                 <option value="Active">Active</option>
+                                                                <option value="Pending">Pending</option>
+                                                                <option value="Remove">Remove</option>
                                                             </select>
-                                                            <button type="submit" class="btn btn-outline-success">Update</button>
+                                                            <button type="submit" class="btn btn-outline-dark">Update</button>
                                                             
                                                         </form>
                                                     </td>
                                                 </tr>
                                             <% } %>
                                             
-                                        <% } %>
-                                    <% }); %>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="scrollable-table1" id="table3"  >
-                            <table class="table table-dark table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>University</th>                                  
-                                        <th>Department</th>
-                                        <th>Courses/Faculty</th>
-                                        <th>Date Registered</th>
-                                        <th>Deployed</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% facultyData.forEach(function(fdata) { %>
-                                        <% if (fdata.changeStatusF === 'Active') { %>
-                                            <% if (fdata.addFUniversity === schoolType ){ %>
-                                                <tr>
-                                                    <td><%= fdata.addFUniversity %></td>
-                                                    <td><%= fdata.addFDepartment %></td>
-                                                    <td><%= fdata.addFaculty%></td>
-                                                    <td><%= fdata.dateFRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
-                                                    <td>
-                                                        <form action="/deanadmin/updatefacultystatus/<%= fdata._id %>" method="POST">
-                                                            <button type="submit" name="changeStatusF" value="Remove" class="btn btn-outline-danger">Remove</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            <% } %>
-                                            
-                                        <% } %>
+                                        
                                     <% }); %>
                                 </tbody>
                             </table>
@@ -483,13 +520,12 @@
                         <table class="table table-dark table-hover">
                             <thead>
                                 <tr>
-                                    <th>University</th>
+                                    <th>College</th>
+                                    <th>Department</th>
                                     <th>ID Number</th>
-                                    <th>Full Name</th>
+                                    <th>Department Chair Name</th>
                                     <th>Institutional Email</th>
                                     <th>Date Of Birth</th>
-                                    <th>Department</th>
-                                    <th>Course/Faculty</th>
                                     <th>Documents</th>
                                     <th>Status</th>
                                 </tr>
@@ -499,13 +535,12 @@
                                     <% if (user.schoolType === schoolType) { %>
                                         <% if (user.status === 'Active'&& user.department === department) { %>
                                             <tr>
-                                                <td><%= user.schoolType %></td>
+                                                <td><%= user.department %></td>
+                                                <td><%= user.courseType %></td>
                                                 <td><%= user.idnumber %></td>
                                                 <td><%= user.fullname %></td>
                                                 <td><%= user.iemail %></td>     
                                                 <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
-                                                <td><%= user.department %></td>
-                                                <td><%= user.courseType %></td>
                                                 <td><%= user.fileDocu %></td>
                                                 <td>
                                                     <form action="/deanadmin/updatestatus/<%= user._id %>" method="POST">
@@ -531,13 +566,12 @@
                         <table class="table table-dark table-hover">
                             <thead>
                                 <tr>
-                                    <th>University</th>
+                                    <th>College</th>
+                                    <th>Department</th>
                                     <th>ID Number</th>
-                                    <th>Full Name</th>
+                                    <th>Department Chair Name</th>
                                     <th>Institutional Email</th>
                                     <th>Date Of Birth</th>
-                                    <th>Department</th>
-                                    <th>Course/Faculty</th>
                                     <th>Documents</th>
                                     <th>Status</th>
                                 </tr>
@@ -547,13 +581,12 @@
                                     <% if (user.schoolType === schoolType) { %>
                                         <% if (user.status === 'Pending' && user.department === department) { %>
                                             <tr>
-                                                <td><%= user.schoolType %></td>
+                                                <td><%= user.department %></td>
+                                                <td><%= user.courseType %></td>
                                                 <td><%= user.idnumber %></td>
                                                 <td><%= user.fullname %></td>
                                                 <td><%= user.iemail %></td>     
                                                 <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
-                                                <td><%= user.department %></td>
-                                                <td><%= user.courseType %></td>
                                                 <td><%= user.fileDocu %></td>
                                                 <td>
                                                     <form action="/deanadmin/updatestatus/<%= user._id %>" method="POST">
@@ -579,13 +612,12 @@
                         <table class="table table-dark table-hover">
                             <thead>
                                 <tr>
-                                    <th>University</th>
+                                    <th>College</th>
+                                    <th>Department</th>
                                     <th>ID Number</th>
-                                    <th>Full Name</th>
+                                    <th>Department Chair Name</th>
                                     <th>Institutional Email</th>
                                     <th>Date Of Birth</th>
-                                    <th>Department</th>
-                                    <th>Course/Faculty</th>
                                     <th>Documents</th>
                                     <th>Status</th>
                                 </tr>
@@ -595,13 +627,12 @@
                                     <% if (user.schoolType === schoolType) { %>
                                         <% if (user.status === 'Decline'&& user.department === department) { %>
                                             <tr>
-                                                <td><%= user.schoolType %></td>
-                                                <td><%= user.idnumber %></td>
-                                                <td><%= user.fullname %></td>
-                                                <td><%= user.iemail %></td>
-                                                <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
                                                 <td><%= user.department %></td>
                                                 <td><%= user.courseType %></td>
+                                                <td><%= user.idnumber %></td>
+                                                <td><%= user.fullname %></td>
+                                                <td><%= user.iemail %></td>     
+                                                <td><%= user.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
                                                 <td><%= user.fileDocu %></td>
                                                 <td>
                                                     <form action="/deanadmin/updatestatus/<%= user._id %>" method="POST">
@@ -634,7 +665,7 @@
                             <p><strong>Password: </strong>..*******...<a href="#editPass" class="editPassBtn">Edit</a></p>
                             <p><strong>Email:</strong> <%= iemail %></p>
                             <p><strong>School / University:</strong> <%= schoolType%></p>
-                            <p><strong>Department:</strong> <%= department%></p>
+                            <p><strong>College:</strong> <%= department%></p>
                             <p><strong>Date of Birth: </strong><%= dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></p>
                         </div>
                         <div class="edit-modal" id="editNameModal">
@@ -734,10 +765,22 @@
                                                 <td><%= hdata.contactName %></td>   
                                                 <td><%= hdata.contactEmail%></td>   
                                                 <td><%= hdata.contactNumber%></td>
-                                                <form action="/deanadmin/updatehirestatus/<%= hdata._id %>" method="POST">
-                                                    <td><button type="submit" name="changeStatusH" value="Remove" class="btn btn-outline-danger" >X</button></td> 
-                                                </form>
-                                            </tr>      
+                                                <td><button type="submit" name="changeStatusH" class="modalButton" >X</button></td> 
+                                    
+                                            </tr>
+                                            <% let indexCounter = 0; %>
+
+                                            <div class="select-modal" id="selectModal<%= indexCounter %>">
+                                                <div class="edit-Name" >
+                                                    <h4>Are You Sure to Remove this Company Details in Hiring Posting?</h4>
+                                                    <div class="links-container">
+                                                        <form action="/deanadmin/updatehirestatus/<%= hdata._id %>" method="POST">
+                                                            <button type="button" class="btn btn-success" value="Remove" id="closeModal2<%= indexCounter %>">Yes</button>                                   
+                                                        </form>
+                                                            <button type="button" class="btn btn-danger"  id="closeModal3<%= indexCounter %>">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>  
                                         <% }); %>
                                     </tbody>
                                 </table>
@@ -842,14 +885,49 @@
                                 </form>
                             </div>
                         </div>
-    
+                        
                     </div>
                 </div>
             </div>
         </div>
     <% }%>
+    <script>
+        // JavaScript logic using the incremented indexCounter
+        const modalChoiceBtns = document.querySelectorAll('.modalButton');
     
+        modalChoiceBtns.forEach((modalChoiceBtn, indexCounter) => {
+            const selectModal = document.getElementById(`selectModal${indexCounter}`);
+            const closeModalBtn2 = document.getElementById(`closeModal2${indexCounter}`);
+            const closeModalBtn3 = document.getElementById(`closeModal3${indexCounter}`);
     
+            modalChoiceBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                selectModal.style.display = 'block';
+            });
+    
+            closeModalBtn2.addEventListener('click', () => {
+                selectModal.style.display = 'none';
+                // Additional logic for 'Yes' button
+            });
+    
+            closeModalBtn3.addEventListener('click', () => {
+                selectModal.style.display = 'none';
+            });
+        });
+    </script>
+    <script>
+        const modalChoiceBtn = document.querySelector('.modalButton');
+        const selectModal = document.getElementById('selectModal');
+        const closeModal4=document.getElementById('closeModal3');
+        modalChoiceBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            selectModal.style.display = 'block';
+        });    
+        closeModal4.addEventListener('click', () => {
+            selectModal.style.display = 'none';
+        });
+        
+    </script>
     <script>
         const toggleCurrPass = document.getElementById('toggleCurrPass');
         const currPassInput = document.getElementById('currPass');
