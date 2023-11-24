@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Final year book",
   "main": "index.js",
-  "engines": {
-    "node": "18.x"
-  },
+  
   "directories": {
     "lib": "lib"
   },
@@ -16,7 +14,6 @@
   "author": "Group1",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1502.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "connect-flash": "^0.1.1",
