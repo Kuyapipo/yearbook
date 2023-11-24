@@ -397,7 +397,28 @@
             top: 40px;
             right: 35px;
         }
-
+        .links-container .btn-success{
+            background-color: #28a745; 
+            color: #fff;
+            border: none;
+            padding: 10px 33px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .links-container .btn-success  :hover{
+            background-color: #195727;
+        }
+        .links-container .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .links-container .btn-danger:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
     </style>
 </head>
 <body>
@@ -758,24 +779,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% HireData.forEach(function(hdata) { %>
+                                        <% HireData.forEach(function(hdata, indexCounter) { %>
                                             <tr>
                                                 <td><%= hdata.companyName %></td>
                                                 <td><%= hdata.jobTitle%></td>   
                                                 <td><%= hdata.contactName %></td>   
                                                 <td><%= hdata.contactEmail%></td>   
                                                 <td><%= hdata.contactNumber%></td>
-                                                <td><button type="submit" name="changeStatusH" class="modalButton" >X</button></td> 
+                                                <td><button type="submit"  class="modalButton" >X</button></td> 
                                     
                                             </tr>
-                                            <% let indexCounter = 0; %>
 
                                             <div class="select-modal" id="selectModal<%= indexCounter %>">
                                                 <div class="edit-Name" >
                                                     <h4>Are You Sure to Remove this Company Details in Hiring Posting?</h4>
                                                     <div class="links-container">
                                                         <form action="/deanadmin/updatehirestatus/<%= hdata._id %>" method="POST">
-                                                            <button type="button" class="btn btn-success" value="Remove" id="closeModal2<%= indexCounter %>">Yes</button>                                   
+                                                            <button type="submit" name="changeStatusH" class="btn btn-success" value="Remove" id="closeModal2<%= indexCounter %>">Yes</button>                                   
                                                         </form>
                                                             <button type="button" class="btn btn-danger"  id="closeModal3<%= indexCounter %>">Cancel</button>
                                                     </div>
