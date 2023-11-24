@@ -503,13 +503,13 @@
                                     <tr>
                                         <th>Department</th>
                                         <th>Date Registered</th>
-                                        <th>Deploy</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <% facultyData.forEach(function(fdata) { %>
                                         
-                                            <% if (fdata.addFUniversity === schoolType ){ %>
+                                            <% if (fdata.addFUniversity === schoolType && fdata.addDepartment === department){ %>
                                                 <tr>
                                                     <td><%= fdata.addFaculty%></td>
                                                     <td><%= fdata.dateFRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
@@ -819,12 +819,19 @@
             <header class="header">
                 <div class="header-container">
                     <img src="/pictures/yearbook.png" alt="Logo" width="90" height="80">
-                    <h1>My Final Yearbook(<%= userType %>)</h1>
+                    <div class="headN">
+                        <h6>The Final Yearbook</h6>
+                        <h1><%= schoolType%>(<%=department%>)</h1>
+                    </div>
                     
-                    <p>Welcome <%= fullname %></p>
-                    <a href="/deanadmin/logout" class="btnCustom">
-                        Logout
-                    </a>
+                    <div class="NameHead">
+                        <div class="pclass"><p>Department Chiar Admin</p><br></div>
+                        
+                        <p>Welcome <%= fullname %></p>
+                        <a href="/deanadmin/logout" class="btnCustom">
+                            Logout
+                        </a>
+                    </div>
                 </div>
             </header>
         </div>

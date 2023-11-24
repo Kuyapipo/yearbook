@@ -56,13 +56,7 @@
                 <label for="schoolType">School/University</label>
                 <select class="form-control" id="schoolType" name="schoolType" value="<%= typeof schoolType != 'undefined'? schoolType : '' %>">
                     <option value="nofields">Choose...</option>
-                    <% if (universityData) { %>
-                        <% universityData.forEach(function(udata) { %>
-                            <% if (udata.changeStatus !== 'Pending') { %>
-                                <option value="<%= udata.addUniversity%>"><%= udata.addUniversity %></option>
-                            <% } %>
-                        <% }); %>
-                    <% } %>	
+                    
                 </select>
             </div>
             <div>
@@ -94,7 +88,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+    <script>
+        // Fetch university data from the server
+        fetch('/universities')
+          .then(response => response.json())
+          .then(data => {
+            const selectElement = document.getElementById('schoolType');
+            data.forEach(university => {
+              const option = document.createElement('option');
+              option.value = university.addUniversity;
+              option.text = university.addUniversity;
+              selectElement.add(option);
+            });
+          })
+          .catch(error => console.error('Error fetching data:', error));
+    </script>
     <script>
         registerButton.addEventListener('click', (event) => {
         event.preventDefault();

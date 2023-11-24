@@ -92,6 +92,15 @@ router.get('/deanres', async (req, res) => {
     }
     
 });
+router.get('/universities', async (req, res) => {
+    try {
+        const universities = await University.find({ changeStatus: { $ne: 'Pending' } }).select('addUniversity');
+        res.json(universities);
+    } catch (error) {
+       res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 router.post('/updatehirestatus/:hireId', ensureAuthenticatedDean, async (req,res)=>{
     const hireId = req.params.hireId;
     const newStatus = req.body.changeStatusH;
@@ -395,7 +404,7 @@ router.post('/deanres', (req,res)=>{
 
     }else{
         //Validation to database
-        User.findOne({iemail: iemail})
+        User.findOne({iemail: iemail , schoolType:schoolType})
             .then(user =>{
                 if(user){
                     //user exist
@@ -453,8 +462,6 @@ router.post('/deanres', (req,res)=>{
                     }))
                 }
             });
-            req.flash('success_msg', 'You are now registered and but your account is under approval currently your account is on Pending Status');
-            return res.redirect('/deanadmin/deanlogin');
 
     }
     
@@ -584,8 +591,6 @@ router.post('/facultyres', (req,res)=>{
                     }))
                 }
             });
-            req.flash('success_msg', 'You are now registered and but your account is under approval currently your account is on Pending Status');
-            return res.redirect('/deanadmin/deanlogin');
 
     }
     
