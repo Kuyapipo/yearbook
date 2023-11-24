@@ -12,7 +12,8 @@ const crypto = require('crypto');
 const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv');
-
+const AWS = require("aws-sdk");
+const s3 = new AWS.S3()
 const app = express();
 
 dotenv.config();
