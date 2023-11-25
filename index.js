@@ -4,11 +4,8 @@ const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const session = require('express-session');
-const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
-const Grid = require('gridfs-stream');
 const methodOverride= require('method-override');
-const crypto = require('crypto');
 const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -48,7 +45,11 @@ app.use(methodOverride('_method'));
 app.use(session({
     secret: 'strong-secret-key',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS in production
+        maxAge: 24 * 60 * 60 * 1000, // Session expiration time (in milliseconds)
+    },
   }));
 
 
@@ -78,6 +79,6 @@ app.use('/sampleroutes', require('./routes/sampleroutes'));
 
 
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT||3000;
 
 app.listen(PORT,console.log('Server running on PORT', PORT));
