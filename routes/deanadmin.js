@@ -101,7 +101,7 @@ router.get('/universities', async (req, res) => {
     }
 });
 
-router.post('/updatehirestatus/:hireId', ensureAuthenticatedDean, async (req,res)=>{
+router.post('/updatehirestatus/:hireId', async (req,res)=>{
     const hireId = req.params.hireId;
     const newStatus = req.body.changeStatusH;
 
@@ -125,7 +125,7 @@ router.post('/updatehirestatus/:hireId', ensureAuthenticatedDean, async (req,res
     }
     
 })
-router.post('/updatefacultystatus/:addfId', ensureAuthenticatedDean, async (req, res) => {
+router.post('/updatefacultystatus/:addfId', async (req, res) => {
     const addfId = req.params.addfId;
     const newStatus = req.body.changeStatusF;
     const userStatus = req.body.status;
@@ -170,7 +170,7 @@ router.post('/updatefacultystatus/:addfId', ensureAuthenticatedDean, async (req,
     }
 });
 //upddadtes status account of faculty registering
-router.post('/updatestatus/:userId', ensureAuthenticatedDean, async (req, res) => {
+router.post('/updatestatus/:userId',  async (req, res) => {
     const userId = req.params.userId;
     //const universityId = req.params.universityId;
     const newStatus = req.body.status;
@@ -262,7 +262,7 @@ router.get('/fetch-departments', async (req, res) => {
     }
 });
 //update name or change name
-router.post('/updateName/:id',ensureAuthenticatedDean, async (req,res)=>{
+router.post('/updateName/:id', async (req,res)=>{
     let{newfullname}=req.body;
     const existingfullname=req.user.fullname;
     const userId = req.user._id;
@@ -290,7 +290,7 @@ router.post('/updateName/:id',ensureAuthenticatedDean, async (req,res)=>{
     
 });
 //Change password
-router.post('/updatePassword/:id',ensureAuthenticatedDean, async (req,res)=>{
+router.post('/updatePassword/:id', async (req,res)=>{
     let{currPass,newPass,newPass2}=req.body;
     const existingpassword=req.user.password2;
     const userId = req.user._id;
