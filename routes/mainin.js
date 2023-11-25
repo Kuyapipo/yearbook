@@ -4,27 +4,14 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { ensureAuthenticatedUser} = require('../config/auth');
 const mongoose = require('mongoose');
-const gridfs = require('gridfs-stream');
-const Grid = require('gridfs-stream');
-const multer = require('multer');
-const crypto = require('crypto');
+
 const path = require('path');
 //University model
 const University=require('../models/University');
 const AddD = require('../models/AddD');
 const AddF = require('../models/AddF');
 
-const storage = multer.diskStorage({
-    destination: './uploads', // Define your upload destination
-    filename: function (req, file, cb) {
-        crypto.pseudoRandomBytes(16, function (err, raw) {
-            if (err) return cb(err);
-            cb(null, raw.toString('hex') + path.extname(file.originalname));
-        });
-    }
-});
 
-const upload = multer({ storage: storage });
 //User Model
 const User = require('../models/User');
 //Home page
