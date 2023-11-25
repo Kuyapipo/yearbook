@@ -2,41 +2,7 @@ const express = require('express');
 const router = express.Router();
 const University=require('../models/University');
 const AddD = require('../models/AddD');
-const multer = require('multer');
-const GridFSBucket = require('mongodb').GridFSBucket;
-const mongoose = require('mongoose');
-//Dean Model
-const User = require('../models/User');
-const Sample = require('../models/Sample');
-const path = require('path');
 
-const storage =multer.diskStorage({
-    destination: './public/uploads/',
-    filename: function(req,file,cb){
-        cb(null,file.fieldname + '-' + Date.now() + 
-        path.extname(file.originalname));
-    }
-});
-
-const upload = multer({
-    storage:storage,
-    limits: {fileSize: 1000000},//limit to 10 mb
-    fileFilter: function(req,file,cb){
-        checkFileType(file,cb)
-    }
-}).single('fileDocu');
-
-function checkFileType(file,cb){
-    const filetypes = /pdf/;
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = filetypes.test(file.mimetype);
-    if(mimetype && extname){
-        return cb(null, true);
-    }else{
-        cb('Error: Pdf Only!');
-    }
-
-}
 
 //Login Page
 router.get('/', (req,res)=>res.render('sample'));
