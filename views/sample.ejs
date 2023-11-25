@@ -25,7 +25,7 @@
     <div class="container mt-5">
         <h1>Sample Upload</h1>
         <%- include ("./partials/message") %> 
-        <form action="/sampleroutes" method="POST" enctype="multipart/form-data">
+        <form action="/sampleroutes" method="POST">
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" id="title" name="title" value="<%= typeof title != 'undefined'? title : '' %>">
