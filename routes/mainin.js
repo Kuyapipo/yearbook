@@ -101,8 +101,9 @@ router.post('/userres', (req,res)=>{
         
     }else{
         //fill form
+        graduationYear='000';
         if(!userType || !idnumber || !fullname || !iemail || !password || !password2 || !schoolType||!dateOfbirth || !graduationDate || !department || !courseType||!graduationYear){
-            graduationYear='NA';
+            
             errors.push({msg:'Please fill all the fields'});
         }
     }

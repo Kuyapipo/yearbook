@@ -424,6 +424,75 @@
         .links-container .btn-danger:hover {
             background-color: #c82333; /* Darker red on hover */
         }
+        .AmodalButton {
+            background-color: #42db34; 
+            color: #0c0a0a; 
+            padding: 10px 20px; 
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s; 
+
+        }
+
+        .AmodalButton:hover {
+            background-color: rgb(22, 112, 74);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: rgb(218, 194, 98);
+            padding: 20px;
+            border-radius: 5%;
+            width: 450px;
+            height: 300px;
+        }
+        .close {
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .updateModalBtn{
+            background-color: #42db34; 
+            color: #0c0a0a; 
+            padding: 10px 20px; 
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s; 
+        }
+        .updateModalBtn:hover {
+            background-color: rgb(22, 112, 74);
+        }
+        .cancelButton{
+            background-color: #db4734; 
+            color: #0c0a0a; 
+            padding: 10px 20px; 
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s; 
+        }
+        .cancelButton:hover {
+            background-color: rgb(112, 55, 22);
+        }
+        .links-container2 {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            padding-top: 100px;
+        }
     </style>
 </head>
 <body>
@@ -867,10 +936,11 @@
                                         <th>courseType</th>
                                         <th>Date of Birth</th>
                                         <th>Graduation Date</th>
+                                        <th>Change to Alumni</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% allstudentData.forEach(function(userS) { %>
+                                    <% allstudentData.forEach(function(userS,indexCounter2) { %>
                                         <% if (userS.schoolType=== schoolType && userS.userType === 'Graduating') { %>
                                             <% if (userS.department === department && userS.status === 'Active' && userS.courseType === courseType){ %>
                                                 <tr>
@@ -880,11 +950,22 @@
                                                     <td><%=userS.courseType%></td>
 						                            <td><%=userS.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
                                                     <td><%=userS.graduationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
-                                                </tr>
+                                                    <td><button type="submit"  class="AmodalButton" >Change</button></td> 
+                                                </tr> 
                                             <% } %>
                                         <% } %>
                                     <% }); %>
                                 </tbody>
+                                <div id="myModal" class="modal">
+                                    <div class="modal-content">
+                                        <span class="close" onclick="closeModal()">&times;</span>
+                                        <h4>Are you sure to change the Student to Alumni?</h4>
+                                        <div class="links-container2">
+                                            <button type="submit"  class="updateModalBtn" value="Update">Update</button>
+                                            <button type="submit"  class="cancelButton" onclick="closeModal()">Cancel</button>
+                                        </div>          
+                                    </div>
+                                </div>
                             </table>
                         </div>
                     </div>  
@@ -1120,42 +1201,30 @@
             </div>
         </div>
     <% }%>
+
+    
     <script>
-        // JavaScript logic using the incremented indexCounter
-        const modalChoiceBtns = document.querySelectorAll('.modalButton');
-    
-        modalChoiceBtns.forEach((modalChoiceBtn, indexCounter) => {
-            const selectModal = document.getElementById(`selectModal${indexCounter}`);
-            const closeModalBtn2 = document.getElementById(`closeModal2${indexCounter}`);
-            const closeModalBtn3 = document.getElementById(`closeModal3${indexCounter}`);
-    
-            modalChoiceBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                selectModal.style.display = 'block';
-            });
-    
-            closeModalBtn2.addEventListener('click', () => {
-                selectModal.style.display = 'none';
-                // Additional logic for 'Yes' button
-            });
-    
-            closeModalBtn3.addEventListener('click', () => {
-                selectModal.style.display = 'none';
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            
+            const modalChoiceBtns = document.querySelectorAll('.modalButton');
+            modalChoiceBtns.forEach((modalChoiceBtn, indexCounter) => {
+                const selectModal = document.getElementById(`selectModal${indexCounter}`);
+                const closeModalBtn2 = document.getElementById(`closeModal2${indexCounter}`);
+                const closeModalBtn3 = document.getElementById(`closeModal3${indexCounter}`);
+                modalChoiceBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    selectModal.style.display = 'block';
+                });
+                closeModalBtn2.addEventListener('click', () => {
+                    selectModal.style.display = 'none';
+                    
+                });
+                closeModalBtn3.addEventListener('click', () => {
+                    selectModal.style.display = 'none';
+                });
             });
         });
-    </script>
-    <script>
-        const modalChoiceBtn = document.querySelector('.modalButton');
-        const selectModal = document.getElementById('selectModal');
-        const closeModal4=document.getElementById('closeModal3');
-        modalChoiceBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            selectModal.style.display = 'block';
-        });    
-        closeModal4.addEventListener('click', () => {
-            selectModal.style.display = 'none';
-        });
-        
     </script>
     <script>
         const toggleCurrPass = document.getElementById('toggleCurrPass');
@@ -1201,6 +1270,30 @@
         closeModalBtn2.addEventListener('click',()=>{
             editPassModal.style.display='none';
         });
+    </script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get all buttons that open the modal
+        var modalButtons = document.querySelectorAll(".AmodalButton");
+
+        // Loop through the buttons and add the click event listener
+        modalButtons.forEach(function(button) {
+            button.addEventListener("click", function() {
+                // Get the userS.idnumber from the data-id attribute
+                var userId = this.getAttribute("data-id");
+                // You can use userId to fetch additional data or perform other actions
+
+                // Open the modal
+                modal.style.display = "flex";
+            });
+        });
+
+        // Function to close the modal
+        function closeModal() {
+            modal.style.display = "none";
+        }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

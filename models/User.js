@@ -31,12 +31,10 @@ const UserSchema = new mongoose.Schema({
     },
     dateOfbirth :{
         type: Date,
-        default: Date.now,
         required:true
     }, 
     graduationDate :{
         type: Date,
-        default: Date.now,
         required:true
     }, 
     department :{
