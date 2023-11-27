@@ -844,7 +844,7 @@
             <table class="table table-bordered" id="modTable">
                 <tbody>
                     <tr>
-                        <th><a href="#gs"  class="nav-link nav-link-gs active">Graduating Student</a></th>
+                        <th><a href="#gs"  class="nav-link nav-link-gs ">Graduating Student</a></th>
                         <th><a href="#alum"  class="nav-link nav-link-alum ">Alumni</a></th>
                         <th><a href="#aga" class="nav-link nav-link-aga">Active Graduating/Alumni Account</a></th>
                         <th><a href="#pga" class="nav-link nav-link-pga">Pending Graduating/Alumni Account</a></th>
@@ -857,6 +857,7 @@
         <div class="container-fluid2">
             <div class="tab-content dashboard-content">
                 <div class="tab-pane active" id="gs">
+                    <%- include ("./partials/message") %> 
                     <p1>*List of Graduating students </p1>
                     <div class="GraduatingList">
                         <div class="scrollable-table" id="table6"  >

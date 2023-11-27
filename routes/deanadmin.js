@@ -190,6 +190,10 @@ router.post('/updatestatus/:userId',  async (req, res) => {
         } else if (newStatus === "Active") {
             user.status = newStatus;
             await user.save();
+            if(user.userType === 'Graduating'||user.userType === 'Alumni'){
+                req.flash('success_msg', 'Student or Alumni credentials is', newStatus);
+                return res.redirect('/deanadmin/pagedean');
+            }
             if(user.courseType){
                 const addFaculty = user.courseType;
                 const existingFaculty =  await AddF.findOne({addFUniversity:user.schoolType,addFDepartment:user.department,addFaculty});
@@ -218,13 +222,25 @@ router.post('/updatestatus/:userId',  async (req, res) => {
         } else if (newStatus === "Pending" || newStatus === 'Decline') {
             user.status = newStatus;
             await user.save();
-            req.flash('success_msg', 'Department Chair admin status changed to ' + newStatus);
-            return res.redirect('/deanadmin/pagedean');
+            if(user.userType === 'Graduating'||user.userType === 'Alumni'){
+                req.flash('success_msg', 'Student or Alumni credentials is', newStatus);
+                return res.redirect('/deanadmin/pagedean');
+            }else{
+                req.flash('success_msg', 'Department Chair admin status changed to ' + newStatus);
+                return res.redirect('/deanadmin/pagedean');
+            }
+            
         }
         else if(newStatus === 'Delete'){
            await  User.findByIdAndRemove(userId);
-           req.flash('success_msg','Department Chair Admin deleted');
-           return res.redirect('/deanadmin/pagedean');
+           if(user.userType === 'Graduating'||user.userType === 'Alumni'){
+            req.flash('success_msg', 'Student or Alumni credentials is', newStatus);
+            return res.redirect('/deanadmin/pagedean');
+            }else{
+                req.flash('success_msg','Department Chair Admin deleted');
+                return res.redirect('/deanadmin/pagedean');;
+            }
+           
         }
         
         console.log('Status: ',newStatus);
