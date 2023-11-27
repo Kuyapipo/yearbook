@@ -512,9 +512,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% facultyData.forEach(function(fdata) { %>
-                                        
-                                            <% if (fdata.addFUniversity === schoolType && fdata.addDepartment === department){ %>
+                                    <% facultyData.forEach(function(fdata) { %>                        
+                                            <% if (fdata.addFUniversity === schoolType && fdata.addFDepartment === department){ %>
                                                 <tr>
                                                     <td><%= fdata.addFaculty%></td>
                                                     <td><%= fdata.dateFRegistered.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
@@ -532,8 +531,6 @@
                                                     </td>
                                                 </tr>
                                             <% } %>
-                                            
-                                        
                                     <% }); %>
                                 </tbody>
                             </table>
