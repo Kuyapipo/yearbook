@@ -67,6 +67,9 @@
             font-weight: bold;
             font-style: oblique;
         }
+        .headN h6{
+            font-weight: bold;
+        }
         .custom-select {
             background-color: cornsilk;
             border: thin solid black;
@@ -133,6 +136,7 @@
         }
         .scrollable-table tbody {
             background-color: cornsilk;
+            text-align: center;
             font-size: 12px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             
@@ -143,6 +147,7 @@
             background-color: rgb(255, 238, 171); 
             z-index: 1;
             font-size: 13px;
+            text-align: center;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
         .scrollable-table thead tr th{
@@ -821,11 +826,11 @@
                     <img src="/pictures/yearbook.png" alt="Logo" width="90" height="80">
                     <div class="headN">
                         <h6>The Final Yearbook</h6>
-                        <h1><%= schoolType%>(<%=department%>)</h1>
+                        <h1><%= schoolType%>(<%=courseType%>)</h1>
                     </div>
                     
                     <div class="NameHead">
-                        <div class="pclass"><p>Department Chiar Admin</p><br></div>
+                        <div class="pclass"><p>Department Chair Admin</p><br></div>
                         
                         <p>Welcome <%= fullname %></p>
                         <a href="/deanadmin/logout" class="btnCustom">
@@ -853,21 +858,220 @@
             <div class="tab-content dashboard-content">
                 <div class="tab-pane active" id="gs">
                     <p1>*List of Graduating students </p1>
+                    <div class="GraduatingList">
+                        <div class="scrollable-table" id="table6"  >
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+					                    <th>ID Number</th>  
+                                        <th>Fullname</th>  
+                                        <th>College</th>                                  
+                                        <th>courseType</th>
+                                        <th>Date of Birth</th>
+                                        <th>Graduation Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% allstudentData.forEach(function(userS) { %>
+                                        <% if (userS.schoolType=== schoolType && userS.userType === 'Graduating') { %>
+                                            <% if (userS.department === department && userS.status === 'Active' && userS.courseType === courseType){ %>
+                                                <tr>
+                                                    <td><%=userS.idnumber%></td>
+                                                    <td><%=userS.fullname%></td>
+						                            <td><%=userS.department%></td>
+                                                    <td><%=userS.courseType%></td>
+						                            <td><%=userS.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
+                                                    <td><%=userS.graduationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
+                                                </tr>
+                                            <% } %>
+                                        <% } %>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>  
                 </div>
                 <div class="tab-pane" id="alum">
                     <p1>*List of Alumni</p1>
+                    <div class="AlumniList">
+                        <div class="scrollable-table" id="table6"  >
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+					                    <th>ID Number</th>  
+                                        <th>Fullname</th>  
+                                        <th>College</th>                                  
+                                        <th>courseType</th>
+                                        <th>Date of Birth</th>
+                                        <th>Graduation Year</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% allstudentData.forEach(function(userS) { %>
+                                        <% if (userS.schoolType=== schoolType && userS.userType === 'Alumni') { %>
+                                            <% if (userS.department === department && userS.status === 'Active' && userS.courseType === courseType){ %>
+                                                <tr>
+                                                    <td><%=userS.idnumber%></td>
+                                                    <td><%=userS.fullname%></td>
+						                            <td><%=userS.department%></td>
+                                                    <td><%=userS.courseType%></td>
+						                            <td><%=userS.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
+                                                    <td><%=userS.graduationYear%></td>
+                                                </tr>
+                                            <% } %>
+                                        <% } %>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane" id="aga">
                     <p1>*Active Graduating students/Alumni credentials</p1>
+                    <div class="scrollable-table" id="table1"  >
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Student Type</th>
+                                    <th>College</th>
+                                    <th>Department</th>
+                                    <th>ID Number</th>
+                                    <th>Department Chair Name</th>
+                                    <th>Institutional Email</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Documents</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% allstudentData.forEach(function(userS) { %>
+                                    <% if (userS.schoolType === schoolType && userS.department === department && userS.courseType === courseType) { %>
+                                        <% if (userS.status === 'Active' && (userS.userType ==='Graduating' || userS.userType ==='Alumni')) { %>
+                                            <tr>
+                                                <td><%= userS.userType %></td>
+                                                <td><%= userS.department %></td>
+                                                <td><%= userS.courseType %></td>
+                                                <td><%= userS.idnumber %></td>
+                                                <td><%= userS.fullname %></td>
+                                                <td><%= userS.iemail %></td>     
+                                                <td><%= userS.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                <td><%= userS.fileDocu %></td>
+                                                <td>
+                                                    <form action="/deanadmin/updatestatus/<%= userS._id %>" method="POST">
+                                                        <select class="custom-select" name="status">
+                                                            <option value="<%= userS.status %>"><%= userS.status %></option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Decline">Decline</option>
+                                                        </select>
+                                                        <button type="submit" class="btn btn-outline-success">Update</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    <% } %>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="tab-pane" id="pga">
                     <p1>*Pending Graduating students/Alumni credentials</p1>
+                    <div class="scrollable-table" id="table1"  >
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Student Type</th>
+                                    <th>College</th>
+                                    <th>Department</th>
+                                    <th>ID Number</th>
+                                    <th>Department Chair Name</th>
+                                    <th>Institutional Email</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Documents</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% allstudentData.forEach(function(userS) { %>
+                                    <% if (userS.schoolType === schoolType && userS.department === department && userS.courseType === courseType) { %>
+                                        <% if (userS.status === 'Pending' && (userS.userType ==='Graduating'||userS.userType ==='Alumni')) { %>
+                                            <tr>
+                                                <td><%= userS.userType %></td>
+                                                <td><%= userS.department %></td>
+                                                <td><%= userS.courseType %></td>
+                                                <td><%= userS.idnumber %></td>
+                                                <td><%= userS.fullname %></td>
+                                                <td><%= userS.iemail %></td>     
+                                                <td><%= userS.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                <td><%= userS.fileDocu %></td>
+                                                <td>
+                                                    <form action="/deanadmin/updatestatus/<%= userS._id %>" method="POST">
+                                                        <select class="custom-select" name="status">
+                                                            <option value="<%= userS.status %>"><%= userS.status %></option>
+                                                            <option value="Active">Active</option>
+                                                            <option value="Decline">Decline</option>
+                                                        </select>
+                                                        <button type="submit" class="btn btn-outline-success">Update</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    <% } %>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="tab-pane" id="dga">
                     <p1>*Decline Graduating students/Alumni credentials</p1>
+                    <div class="scrollable-table" id="table1"  >
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Student Type</th>
+                                    <th>College</th>
+                                    <th>Department</th>
+                                    <th>ID Number</th>
+                                    <th>Department Chair Name</th>
+                                    <th>Institutional Email</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Documents</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% allstudentData.forEach(function(userS) { %>
+                                    <% if (userS.schoolType === schoolType && userS.department === department && userS.courseType === courseType) { %>
+                                        <% if (userS.status === 'Decline'  && (userS.userType ==='Graduating'||userS.userType ==='Alumni')) { %>
+                                            <tr>
+                                                <td><%= userS.userType %></td>
+                                                <td><%= userS.department %></td>
+                                                <td><%= userS.courseType %></td>
+                                                <td><%= userS.idnumber %></td>
+                                                <td><%= userS.fullname %></td>
+                                                <td><%= userS.iemail %></td>     
+                                                <td><%= userS.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' }) %></td>
+                                                <td><%= userS.fileDocu %></td>
+                                                <td>
+                                                    <form action="/deanadmin/updatestatus/<%= userS._id %>" method="POST">
+                                                        <select class="custom-select" name="status">
+                                                            <option value="<%= userS.status %>"><%= userS.status %></option>
+                                                            <option value="Pending">Restore to Pending</option>
+                                                            <option value="Delete">Delete</option>
+                                                        </select>
+                                                        <button type="submit" class="btn btn-outline-success">Update</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    <% } %>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="tab-pane" id="fap">
-                    <p1>*Faculty Admin Profile</p1>
+                    <p1>*Department Chair Admin Profile</p1>
                     <div class="profileContainer">
                         <div class="profile-card">
                             <h2>Admin Profile</h2>
@@ -878,8 +1082,8 @@
                             <p><strong>Password: </strong>..*******...<a href="#editPass" class="editPassBtn">Edit</a></p>
                             <p><strong>Email:</strong> <%= iemail %></p>
                             <p><strong>School / University:</strong> <%= schoolType%></p>
-                            <p><strong>Department:</strong> <%= department%></p>
-                            <p><strong>Course/Faculty:</strong> <%= courseType%></p>
+                            <p><strong>College:</strong> <%= department%></p>
+                            <p><strong>Course/Department:</strong> <%= courseType%></p>
                             <p><strong>Date of Birth: </strong><%= dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></p>
                         </div>
                         <div class="edit-modal" id="editNameModal">

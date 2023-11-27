@@ -186,7 +186,7 @@ router.post('/userres', (req,res)=>{
                         //save user
                         newUser.save()
                         .then(user =>{
-                            req.flash('success_msg','You are now registered and can log in');
+                            req.flash('success_msg','You are now registered and but your account is under approval currently your account is on Pending Status');
                             res.redirect('/userlogin');
                         })
                         .catch(err => console.log(err));

@@ -14,6 +14,13 @@ module.exports = function(passport) {
                 if (user.userType !== 'Alumni' && user.userType !== 'Graduating') {
                     return done(null, false, { message: 'Invalid Domain User!' });
                 }
+                if(user.status === 'Pending'){
+
+                    return done(null, false, { message: 'Application is on Pending Status! You can check later if its approved and active' });
+                }
+                if(user.status === 'Decline'){
+                    return done(null,false,{message: 'Application is on Decline Status! Registration will be deleted later'});
+                }
                 // Password match
                 bcrypt.compare(password, user.password, (err, isMatch) => {
                     if (err) throw err;
@@ -26,6 +33,9 @@ module.exports = function(passport) {
                 });
             })
             .catch(err => console.log(err));
+            console.log('Inside Student Local Strategy');
+            console.log('iemail:', iemail);
+            console.log('password:', password);
     }));
 
     passport.serializeUser((user, done) => {

@@ -18,6 +18,7 @@ router.get('/pagedean',ensureAuthenticatedDean, async(req, res) => {
     try{
         // Fetch user data for Faculty Admin user types
         const FacultyAdminUserData = await User.find({ userType: 'Faculty' });
+        const StudentAdminUserData = await User.find({ userType: { $in: ['Graduating', 'Alumni'] } });
         const facultyData = await AddF.find();
         const HireData = await Hire.find();
         if (!FacultyAdminUserData) {
@@ -27,6 +28,7 @@ router.get('/pagedean',ensureAuthenticatedDean, async(req, res) => {
             allUserData: FacultyAdminUserData,
             facultyData:facultyData,
             HireData:HireData,
+            allstudentData:StudentAdminUserData,
             userType: req.user.userType,
             idnumber: req.user.idnumber,
             fullname: req.user.fullname,
