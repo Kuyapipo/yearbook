@@ -18,7 +18,9 @@ router.get('/pagedean',ensureAuthenticatedDean, async(req, res) => {
     try{
         // Fetch user data for Faculty Admin user types
         const FacultyAdminUserData = await User.find({ userType: 'Faculty' });
-        const StudentAdminUserData = await User.find({ userType: { $in: ['Graduating', 'Alumni'] } });
+        const StudentAdminUserData = await User.find({ userType: 'Graduating'});
+        const AlumniAdminUserData = await User.find({userType:'Alumni'});
+        const allSandA = await User.find({ userType: { $in: ['Graduating', 'Alumni'] } });
         const facultyData = await AddF.find();
         const HireData = await Hire.find();
         if (!FacultyAdminUserData) {
@@ -28,7 +30,9 @@ router.get('/pagedean',ensureAuthenticatedDean, async(req, res) => {
             allUserData: FacultyAdminUserData,
             facultyData:facultyData,
             HireData:HireData,
-            allstudentData:StudentAdminUserData,
+            studentData:StudentAdminUserData,
+            alumniData:AlumniAdminUserData,
+            allGradData:allSandA,
             userType: req.user.userType,
             idnumber: req.user.idnumber,
             fullname: req.user.fullname,
@@ -171,6 +175,47 @@ router.post('/updatefacultystatus/:addfId', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+router.post('/updatestudent/:usersId',  async (req, res) => {
+    const usersId = req.params.usersId;
+    const userTypeS= req.body.userTypeS; 
+    const alumniVal='Alumni';
+    try {
+        // Find the user by ID
+        const userS = await User.findById(usersId);
+        if (!userS) {
+            throw new Error("User not found");
+        }
+        if (userTypeS === "Update") {
+                const currDate = new Date();
+                const graduationDateTime = userS.graduationDate;
+                if(currDate>=graduationDateTime){
+                    console.log('Current Date:',currDate);
+                    console.log('Graduation Date',graduationDateTime);
+                    console.log('Change to update:', userS);
+                    userS.userType = alumniVal;
+                    await userS.save();
+                    req.flash('success_msg', 'Student successfully changed to Alumni');
+                    return res.redirect('/deanadmin/pagedean');
+                }else{
+                    console.log('Current Date:',currDate);
+                    console.log('Graduation Date',graduationDateTime);
+                    console.log('Failed to update:', userS);
+                    req.flash('error_msg', 'Cannot Change: Graduation Date is not passed yet');
+                    return res.redirect('/deanadmin/pagedean');
+                }
+                
+           
+        }else{
+            console.log('Cancel Update');
+            return res.redirect('/deanadmin/pagedean');
+        }
+    } catch (err) {
+        console.error(err);
+        // Handle the error (e.g., red  irect to an error page)
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 //upddadtes status account of faculty registering
 router.post('/updatestatus/:userId',  async (req, res) => {
     const userId = req.params.userId;

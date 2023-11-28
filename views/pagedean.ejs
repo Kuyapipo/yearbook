@@ -439,7 +439,7 @@
             background-color: rgb(22, 112, 74);
         }
         
-        .modal {
+        .select-modal1 {
             display: none;
             position: fixed;
             top: 0;
@@ -450,48 +450,26 @@
             justify-content: center;
             align-items: center;
         }
-        .modal-content {
+        .edit-Name1 {
             background-color: rgb(218, 194, 98);
             padding: 20px;
             border-radius: 5%;
+            position: relative;
             width: 450px;
-            height: 300px;
-        }
-        .close {
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-        .updateModalBtn{
-            background-color: #42db34; 
-            color: #0c0a0a; 
-            padding: 10px 20px; 
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s; 
-        }
-        .updateModalBtn:hover {
-            background-color: rgb(22, 112, 74);
-        }
-        .cancelButton{
-            background-color: #db4734; 
-            color: #0c0a0a; 
-            padding: 10px 20px; 
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s; 
-        }
-        .cancelButton:hover {
-            background-color: rgb(112, 55, 22);
+            height: 250px;
+            top: 225px;
+            left: 455px;
         }
         .links-container2 {
             display: flex;
-            justify-content: space-between;
             position: relative;
-            padding-top: 100px;
+            justify-content: space-between;
+            padding-top: 75px;
+        }
+        .buttonS{
+            position: relative;
+            left: 0;
+            padding-right: 250px;
         }
     </style>
 </head>
@@ -940,32 +918,35 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% allstudentData.forEach(function(userS,indexCounter2) { %>
-                                        <% if (userS.schoolType=== schoolType && userS.userType === 'Graduating') { %>
-                                            <% if (userS.department === department && userS.status === 'Active' && userS.courseType === courseType){ %>
+                                    <% studentData.forEach(function(sdata,indexCounter) { %>
+                                        <% if (sdata.schoolType=== schoolType && sdata.userType === 'Graduating') { %>
+                                            <% if (sdata.department === department && sdata.status === 'Active' && sdata.courseType === courseType){ %>
                                                 <tr>
-                                                    <td><%=userS.idnumber%></td>
-                                                    <td><%=userS.fullname%></td>
-						                            <td><%=userS.department%></td>
-                                                    <td><%=userS.courseType%></td>
-						                            <td><%=userS.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
-                                                    <td><%=userS.graduationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
+                                                    <td><%=sdata.idnumber%></td>
+                                                    <td><%=sdata.fullname%></td>
+						                            <td><%=sdata.department%></td>
+                                                    <td><%=sdata.courseType%></td>
+						                            <td><%=sdata.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
+                                                    <td><%=sdata.graduationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
                                                     <td><button type="submit"  class="AmodalButton" >Change</button></td> 
                                                 </tr> 
                                             <% } %>
                                         <% } %>
+                                        <div class="select-modal1" id="selectModal1<%= indexCounter %>">
+                                            <div class="edit-Name1">
+                                                <h4>Are You Sure to Change the User Type?</h4>
+                                                <div class="links-container2">
+                                                    <form action="/deanadmin/updatestudent/<%= sdata._id %>" method="POST">
+                                                        <div class="buttonS">
+                                                            <button type="submit" class="btn btn-success" id="closeModal2<%= indexCounter%>" name="userTypeS" value="Update">Update</button>                                           
+                                                        </div>
+                                                        <button type="submit" class="btn btn-danger" id="closeModal3<%= indexCounter %>"name="userTypeS" value="Cancel">Cancel</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     <% }); %>
-                                </tbody>
-                                <div id="myModal" class="modal">
-                                    <div class="modal-content">
-                                        <span class="close" onclick="closeModal()">&times;</span>
-                                        <h4>Are you sure to change the Student to Alumni?</h4>
-                                        <div class="links-container2">
-                                            <button type="submit"  class="updateModalBtn" value="Update">Update</button>
-                                            <button type="submit"  class="cancelButton" onclick="closeModal()">Cancel</button>
-                                        </div>          
-                                    </div>
-                                </div>
+                                    
                             </table>
                         </div>
                     </div>  
@@ -986,16 +967,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% allstudentData.forEach(function(userS) { %>
-                                        <% if (userS.schoolType=== schoolType && userS.userType === 'Alumni') { %>
-                                            <% if (userS.department === department && userS.status === 'Active' && userS.courseType === courseType){ %>
+                                    <% alumniData.forEach(function(adata) { %>
+                                        <% if (adata.schoolType=== schoolType && adata.userType === 'Alumni') { %>
+                                            <% if (adata.department === department && adata.status === 'Active' && adata.courseType === courseType){ %>
                                                 <tr>
-                                                    <td><%=userS.idnumber%></td>
-                                                    <td><%=userS.fullname%></td>
-						                            <td><%=userS.department%></td>
-                                                    <td><%=userS.courseType%></td>
-						                            <td><%=userS.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
-                                                    <td><%=userS.graduationYear%></td>
+                                                    <td><%=adata.idnumber%></td>
+                                                    <td><%=adata.fullname%></td>
+						                            <td><%=adata.department%></td>
+                                                    <td><%=adata.courseType%></td>
+						                            <td><%=adata.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
+                                                    <td><%=adata.graduationYear%></td>
                                                 </tr>
                                             <% } %>
                                         <% } %>
@@ -1023,7 +1004,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% allstudentData.forEach(function(userS) { %>
+                                <% allGradData.forEach(function(userS) { %>
                                     <% if (userS.schoolType === schoolType && userS.department === department && userS.courseType === courseType) { %>
                                         <% if (userS.status === 'Active' && (userS.userType ==='Graduating' || userS.userType ==='Alumni')) { %>
                                             <tr>
@@ -1071,7 +1052,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% allstudentData.forEach(function(userS) { %>
+                                <% allGradData.forEach(function(userS) { %>
                                     <% if (userS.schoolType === schoolType && userS.department === department && userS.courseType === courseType) { %>
                                         <% if (userS.status === 'Pending' && (userS.userType ==='Graduating'||userS.userType ==='Alumni')) { %>
                                             <tr>
@@ -1119,7 +1100,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% allstudentData.forEach(function(userS) { %>
+                                <% allGradData.forEach(function(userS) { %>
                                     <% if (userS.schoolType === schoolType && userS.department === department && userS.courseType === courseType) { %>
                                         <% if (userS.status === 'Decline'  && (userS.userType ==='Graduating'||userS.userType ==='Alumni')) { %>
                                             <tr>
@@ -1272,28 +1253,26 @@
         });
     </script>
     <script>
-        // Get the modal
-        var modal = document.getElementById("myModal");
-
-        // Get all buttons that open the modal
-        var modalButtons = document.querySelectorAll(".AmodalButton");
-
-        // Loop through the buttons and add the click event listener
-        modalButtons.forEach(function(button) {
-            button.addEventListener("click", function() {
-                // Get the userS.idnumber from the data-id attribute
-                var userId = this.getAttribute("data-id");
-                // You can use userId to fetch additional data or perform other actions
-
-                // Open the modal
-                modal.style.display = "flex";
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const modalChoiceBtns = document.querySelectorAll('.AmodalButton');
+            modalChoiceBtns.forEach((modalChoiceBtn, indexCounter) => {
+                const selectModal1 = document.getElementById(`selectModal1${indexCounter}`);
+                const closeModalBtn2 = document.getElementById(`closeModal2${indexCounter}`);
+                const closeModalBtn3 = document.getElementById(`closeModal3${indexCounter}`);
+                modalChoiceBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    selectModal1.style.display = 'block';
+                });
+                closeModalBtn2.addEventListener('click', () => {
+                    selectModal1.style.display = 'none';
+                    
+                });
+                closeModalBtn3.addEventListener('click', () => {
+                    selectModal1.style.display = 'none';
+                });
             });
         });
-
-        // Function to close the modal
-        function closeModal() {
-            modal.style.display = "none";
-        }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
