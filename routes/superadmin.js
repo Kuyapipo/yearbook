@@ -26,20 +26,27 @@ router.post('/updateuniversitystatus/:universityId', ensureAuthenticatedSadmin, 
         if (!addUniversity) {
             throw new Error("University not found");
         }
-
-        console.log(newStatus);
-        addUniversity.changeStatus = newStatus;
-        console.log('University saved with new status:', addUniversity);
-        if (newStatus === "Active") {
-            await addUniversity.save();
-            req.flash('success_msg','University Registered');
-            return res.redirect('/superadmin/pagesadmin');
-        }
-        if (newStatus === 'Remove') {
-            await University.findByIdAndRemove(universityId);
-            console.log('University removed:', addUniversity);
-            req.flash('success_msg','University Remove');
-            return res.redirect('/superadmin/pagesadmin');
+        const trimmedNewStatus = newStatus.trim().toLowerCase();
+        const trimmedPreviousStatus = addUniversity.changeStatus.trim().toLowerCase();
+        if (trimmedNewStatus === trimmedPreviousStatus) {
+            console.log('Status is already ' + newStatus);
+            req.flash('error_msg', 'Status is already ' + newStatus);
+            
+        } else{
+            console.log(newStatus);
+            addUniversity.changeStatus = newStatus;
+            console.log('University saved with new status:', addUniversity);
+            if (newStatus === "Active") {
+                await addUniversity.save();
+                req.flash('success_msg','University Registered');
+                
+            }
+            if (newStatus === 'Remove') {
+                await University.findByIdAndRemove(universityId);
+                console.log('University removed:', addUniversity);
+                req.flash('success_msg','University Remove');
+                
+            }
         }
         res.redirect('/superadmin/pagesadmin');
     } catch (err) {
@@ -62,7 +69,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
         }
         if (newStatus === user.status) {
             req.flash('error_msg', 'Status is already ' + newStatus);
-            return res.redirect('/superadmin/pagesadmin');
+            res.redirect('/superadmin/pagesadmin');
         } else if (newStatus === "Active") {
             user.status = newStatus;
             await user.save();
@@ -72,7 +79,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
                 const existingUniversity =  await University.findOne({addUniversity});
                 if (existingUniversity){
                     req.flash('success_msg', 'University Admin Account is Active but the University Name or School Name already exist');
-                    return res.redirect('/superadmin/pagesadmin');
+                    res.redirect('/superadmin/pagesadmin');
                 }else{
                     
                     const newUniversity = new University({
@@ -83,7 +90,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
 
                     await newUniversity.save();
                     req.flash('success_msg', 'Univeristy name added but on Pending status');
-                    return res.redirect('/superadmin/pagesadmin');
+                    res.redirect('/superadmin/pagesadmin');
                 }
                 
             } 
@@ -91,16 +98,15 @@ router.post('/updatestatus/:userId', ensureAuthenticatedSadmin, async (req, res)
             user.status = newStatus;
             await user.save();
             req.flash('success_msg', 'University admin status changed to ' + newStatus);
-            return res.redirect('/superadmin/pagesadmin');
+            res.redirect('/superadmin/pagesadmin');
         }
         else if(newStatus === 'Delete'){
            await  User.findByIdAndRemove(userId);
            req.flash('success_msg','University Admin deleted');
-            return res.redirect('/superadmin/pagesadmin');
+            res.redirect('/superadmin/pagesadmin');
         }
         
         console.log('Status: ',newStatus);
-        res.redirect('/superadmin/pagesadmin');
     } catch (err) {
         console.error(err);
         // Handle the error (e.g., red  irect to an error page)

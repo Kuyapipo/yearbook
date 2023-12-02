@@ -56,7 +56,7 @@ router.post('/pagedean', ensureAuthenticatedDean, async (req, res) => {
     try {
         if(!companyName||!jobTitle||!jobDescription||!jobRequirements||!applicationInstructions||!contactName||!contactEmail||!contactNumber){
             req.flash('error_msg', 'Please fill all the details');
-            return res.redirect('/deanadmin/pagedean');
+            
         }else {
             // Create a new document
             const newHire = new Hire({
@@ -74,11 +74,10 @@ router.post('/pagedean', ensureAuthenticatedDean, async (req, res) => {
             req.flash('success_msg', 'Hiring Job Company Posted!');
         }
 
-        return res.redirect('/deanadmin/pagedean');
+        res.redirect('/deanadmin/pagedean');
     } catch (err) {
         console.error(err);
         req.flash('error_msg', 'An error occurred while saving data.');
-        return res.redirect('/deanadmin/pagedean');
     }
 });
 //Registration Page
@@ -123,7 +122,7 @@ router.post('/updatehirestatus/:hireId', async (req,res)=>{
         if (newStatus === 'Remove') {
             await  Hire.findByIdAndRemove(addHire);
             req.flash('success_msg','Data Remove');
-            return res.redirect('/deanadmin/pagedean');
+            res.redirect('/deanadmin/pagedean');
         }
     }catch (err) {
         console.error(err);
@@ -168,7 +167,7 @@ router.post('/updatefacultystatus/:addfId', async (req, res) => {
             }
         }
     
-        return res.redirect('/deanadmin/pagedean');
+        res.redirect('/deanadmin/pagedean');
     } catch (err) {
         console.error(err);
         req.flash('error_msg', 'Internal Server Error');
@@ -195,20 +194,21 @@ router.post('/updatestudent/:usersId',  async (req, res) => {
                     userS.userType = alumniVal;
                     await userS.save();
                     req.flash('success_msg', 'Student successfully changed to Alumni');
-                    return res.redirect('/deanadmin/pagedean');
+                    
                 }else{
                     console.log('Current Date:',currDate);
                     console.log('Graduation Date',graduationDateTime);
                     console.log('Failed to update:', userS);
                     req.flash('error_msg', 'Cannot Change: Graduation Date is not passed yet');
-                    return res.redirect('/deanadmin/pagedean');
+                    
                 }
                 
            
         }else{
             console.log('Cancel Update');
-            return res.redirect('/deanadmin/pagedean');
+            
         }
+        res.redirect('/deanadmin/pagedean');
     } catch (err) {
         console.error(err);
         // Handle the error (e.g., red  irect to an error page)
@@ -231,20 +231,20 @@ router.post('/updatestatus/:userId',  async (req, res) => {
         }
         if (newStatus === user.status) {
             req.flash('error_msg', 'Status is already ' + newStatus);
-            return res.redirect('/deanadmin/pagedean');
+           
         } else if (newStatus === "Active") {
             user.status = newStatus;
             await user.save();
             if(user.userType === 'Graduating'||user.userType === 'Alumni'){
                 req.flash('success_msg', 'Student or Alumni credentials is', newStatus);
-                return res.redirect('/deanadmin/pagedean');
+                
             }
             if(user.courseType){
                 const addFaculty = user.courseType;
                 const existingFaculty =  await AddF.findOne({addFUniversity:user.schoolType,addFDepartment:user.department,addFaculty});
                 if(existingFaculty ){
                     req.flash('success_msg', 'Department Chair admin is Active but the Department Name already exist');
-                    return res.redirect('/deanadmin/pagedean');
+                    
                 }else{
                     const newAddF = new AddF({
                         addFUniversity: user.schoolType,
@@ -256,12 +256,12 @@ router.post('/updatestatus/:userId',  async (req, res) => {
 
                     await newAddF.save();
                     req.flash('success_msg', 'Department name added but on Pending status');
-                    return res.redirect('/deanadmin/pagedean');
+                    
                 }
                 
             }
             req.flash('success_msg', 'Department Chair admin status changed to ' + newStatus);
-            return res.redirect('/deanadmin/pagedean');
+            
             
             
         } else if (newStatus === "Pending" || newStatus === 'Decline') {
@@ -269,10 +269,10 @@ router.post('/updatestatus/:userId',  async (req, res) => {
             await user.save();
             if(user.userType === 'Graduating'||user.userType === 'Alumni'){
                 req.flash('success_msg', 'Student or Alumni credentials is', newStatus);
-                return res.redirect('/deanadmin/pagedean');
+                
             }else{
                 req.flash('success_msg', 'Department Chair admin status changed to ' + newStatus);
-                return res.redirect('/deanadmin/pagedean');
+                
             }
             
         }
@@ -280,16 +280,16 @@ router.post('/updatestatus/:userId',  async (req, res) => {
            await  User.findByIdAndRemove(userId);
            if(user.userType === 'Graduating'||user.userType === 'Alumni'){
             req.flash('success_msg', 'Student or Alumni credentials is', newStatus);
-            return res.redirect('/deanadmin/pagedean');
+            
             }else{
                 req.flash('success_msg','Department Chair Admin deleted');
-                return res.redirect('/deanadmin/pagedean');;
+                
             }
            
         }
         
         console.log('Status: ',newStatus);
-        return res.redirect('/deanadmin/pagedean');
+        res.redirect('/deanadmin/pagedean');
     } catch (err) {
         console.error(err);
         // Handle the error (e.g., red  irect to an error page)
@@ -335,16 +335,15 @@ router.post('/updateName/:id', async (req,res)=>{
         if(newfullname===existingfullname){
             console.log('Name Already ExistL', req.body);
             req.flash('error_msg','Name currently exist!');
-            return res.redirect('/deanadmin/pagedean');
         }
         else{
             user.fullname = newfullname
             await user.save();
             console.log('Proceed to saving',req.user.fullname);
             req.flash('success_msg','Name successfully updated!');
-            return res.redirect('/deanadmin/pagedean');
+
         }
-        
+        res.redirect('/deanadmin/pagedean');
     }catch (err) {
         console.error(err);
         // Handle the error (e.g., red  irect to an error page)
@@ -367,11 +366,11 @@ router.post('/updatePassword/:id', async (req,res)=>{
             console.log('Current Password Validated!');
             if(currPass === newPass){
                 req.flash('error_msg','New password is the same with current');
-                return res.redirect('/deanadmin/pagedean');
+                
             }
             if(newPass!==newPass2){
                 req.flash('error_msg','Password did not match!');
-                return res.redirect('/deanadmin/pagedean');
+                
             }else{
                 user.password = newPass;
                 user.password2 = newPass2;
@@ -384,22 +383,22 @@ router.post('/updatePassword/:id', async (req,res)=>{
                       user.save()
                         .then(user => {
                           req.flash('success_msg', 'Password successfully updated!');
-                          res.redirect('/deanadmin/deanlogin');
+                          
                         })
                         .catch(err => console.log(err));
                   
                       console.log('Proceed to Password', user.password);
                       console.log('Proceed to Password2', user.password2);
                       req.flash('success_msg', 'Password successfully updated!');
-                      return res.redirect('/deanadmin/pagedean');
+                      
                     });
                   });
             }
         }else{
             req.flash('error_msg','Current Password Incorrect');
-            return res.redirect('/deanadmin/pagedean');
+            
         }
-        
+        res.redirect('/deanadmin/pagedean');
     }catch (err) {
         console.error(err);
         // Handle the error (e.g., red  irect to an error page)

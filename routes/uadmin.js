@@ -54,11 +54,10 @@ router.post('/pageuadmin', ensureAuthenticatedUadmin, async (req, res) => {
             req.flash('success_msg', 'University Background Inputted!');
         }
 
-        return res.redirect('/uadmin/pageuadmin');
+        res.redirect('/uadmin/pageuadmin');
     } catch (err) {
         console.error(err);
         req.flash('error_msg', 'An error occurred while saving data.');
-        return res.redirect('/uadmin/pageuadmin');
     }
 });
 
@@ -117,6 +116,7 @@ router.post('/updatedepartmentstatus/:adddId', ensureAuthenticatedUadmin, async 
         if (trimmedNewStatus === trimmedPreviousStatus) {
             console.log('Status is already ' + newStatus);
             req.flash('error_msg', 'Status is already ' + newStatus);
+            
         } else {
             if (newStatus === 'Remove') {
                 // Remove the document from the database
@@ -132,7 +132,7 @@ router.post('/updatedepartmentstatus/:adddId', ensureAuthenticatedUadmin, async 
             }
         }
     
-        return res.redirect('/uadmin/pageuadmin');
+        res.redirect('/uadmin/pageuadmin');
     } catch (err) {
         console.error(err);
         req.flash('error_msg', 'Internal Server Error');
@@ -153,7 +153,6 @@ router.post('/updatestatus/:userId', ensureAuthenticatedUadmin, async (req, res)
         }
         if (newStatus === user.status) {
             req.flash('error_msg', 'Status is already ' + newStatus);
-            return res.redirect('/uadmin/pageuadmin');
         } else if (newStatus === "Active") {
             user.status = newStatus;
             await user.save();
@@ -162,7 +161,7 @@ router.post('/updatestatus/:userId', ensureAuthenticatedUadmin, async (req, res)
                 const existingDepartment =  await AddD.findOne({addDUniversity: user.schoolType, addDepartment});
                 if(existingDepartment){
                     req.flash('success_msg', 'Dean admin is Active but the Department Name already exist');
-                    return res.redirect('/uadmin/pageuadmin');
+
                 }else{
                     const newAddD = new AddD({
                         addDUniversity: user.schoolType,
@@ -173,28 +172,28 @@ router.post('/updatestatus/:userId', ensureAuthenticatedUadmin, async (req, res)
 
                     await newAddD.save();
                     req.flash('success_msg', 'Department name added but on Pending status');
-                    return res.redirect('/uadmin/pageuadmin');
+
                 }
                 
             }
             req.flash('success_msg', 'University admin status changed to ' + newStatus);
-            return res.redirect('/uadmin/pageuadmin');
+
             
             
         } else if (newStatus === "Pending" || newStatus === 'Decline') {
             user.status = newStatus;
             await user.save();
             req.flash('success_msg', 'Dean admin status changed to ' + newStatus);
-            return res.redirect('/uadmin/pageuadmin');
+
         }
         else if(newStatus === 'Delete'){
            await  User.findByIdAndRemove(userId);
            req.flash('success_msg','Dean Admin deleted');
-           return res.redirect('/uadmin/pageuadmin');
+
         }
         
         console.log('Status: ',newStatus);
-        return res.redirect('/uadmin/pageuadmin');
+        res.redirect('/uadmin/pageuadmin');
     } catch (err) {
         console.error(err);
         // Handle the error (e.g., red  irect to an error page)
@@ -213,7 +212,7 @@ router.post('/updateName/:id',ensureAuthenticatedUadmin, async (req,res)=>{
         if(newfullname===existingfullname){
             console.log('Name Already ExistL', req.body);
             req.flash('error_msg','Name currently exist!');
-            return res.redirect('/uadmin/pageuadmin');
+            
         }
         else{
     
@@ -222,9 +221,9 @@ router.post('/updateName/:id',ensureAuthenticatedUadmin, async (req,res)=>{
             await user.save();
             console.log('Proceed to saving',req.user.fullname);
             req.flash('success_msg','Name successfully updated!');
-            return res.redirect('/uadmin/pageuadmin');
+            
         }
-        
+        res.redirect('/uadmin/pageuadmin');
     }catch (err) {
         console.error(err);
         // Handle the error (e.g., red  irect to an error page)
@@ -247,11 +246,11 @@ router.post('/updatePassword/:id',ensureAuthenticatedUadmin, async (req,res)=>{
             console.log('Current Password Validated!');
             if(currPass === newPass){
                 req.flash('error_msg','New password is the same with current');
-                return res.redirect('/uadmin/pageuadmin');
+                
             }
             if(newPass!==newPass2){
                 req.flash('error_msg','Password did not match!');
-                return res.redirect('/uadmin/pageuadmin');
+                
             }else{
                 user.password = newPass;
                 user.password2 = newPass2;
@@ -264,22 +263,22 @@ router.post('/updatePassword/:id',ensureAuthenticatedUadmin, async (req,res)=>{
                       user.save()
                         .then(user => {
                           req.flash('success_msg', 'Password successfully updated!');
-                          res.redirect('/uadmin/uadminlogin');
+                          
                         })
                         .catch(err => console.log(err));
                   
                       console.log('Proceed to Password', user.password);
                       console.log('Proceed to Password2', user.password2);
                       req.flash('success_msg', 'Password successfully updated!');
-                      return res.redirect('/uadmin/pageuadmin');
+                     
                     });
                   });
             }
         }else{
             req.flash('error_msg','Current Password Incorrect');
-            return res.redirect('/uadmin/pageuadmin');
+            
         }
-        
+        res.redirect('/uadmin/pageuadmin');
     }catch (err) {
         console.error(err);
         // Handle the error (e.g., red  irect to an error page)
@@ -319,7 +318,7 @@ router.post('/uadminres', (req,res)=>{
     console.log(req.body);
    
     if(errors.length > 0 ){
-        return res.render('uadminres',{
+        res.render('uadminres',{
             errors,
             userType,
             idnumber,
@@ -398,7 +397,7 @@ router.post('/uadminres', (req,res)=>{
                 }
             });
             req.flash('success_msg','You are now registered and but your account is under approval currently your account is on Pending Status');
-            return res.redirect('/uadmin/uadminlogin');
+            res.redirect('/uadmin/uadminlogin');
     }
 });
 router.post('/uadminlogin', (req, res, next) => {
