@@ -911,7 +911,7 @@
 					                    <th>ID Number</th>  
                                         <th>Fullname</th>  
                                         <th>College</th>                                  
-                                        <th>courseType</th>
+                                        <th>Course/Department</th>
                                         <th>Date of Birth</th>
                                         <th>Graduation Date</th>
                                         <th>Change to Alumni</th>
@@ -934,7 +934,7 @@
                                         <% } %>
                                         <div class="select-modal1" id="selectModal1<%= indexCounter %>">
                                             <div class="edit-Name1">
-                                                <h4>Are You Sure to Change the User Type?</h4>
+                                                <h4>Is the student already Graduated?</h4>
                                                 <div class="links-container2">
                                                     <form action="/deanadmin/updatestudent/<%= sdata._id %>" method="POST">
                                                         <div class="buttonS">
@@ -961,7 +961,7 @@
 					                    <th>ID Number</th>  
                                         <th>Fullname</th>  
                                         <th>College</th>                                  
-                                        <th>courseType</th>
+                                        <th>Course/Department</th>
                                         <th>Date of Birth</th>
                                         <th>Graduation Year</th>
                                     </tr>
@@ -994,9 +994,9 @@
                                 <tr>
                                     <th>Student Type</th>
                                     <th>College</th>
-                                    <th>Department</th>
+                                    <th>Course/Department</th>
                                     <th>ID Number</th>
-                                    <th>Department Chair Name</th>
+                                    <th>Fullname</th>
                                     <th>Institutional Email</th>
                                     <th>Date Of Birth</th>
                                     <th>Documents</th>
@@ -1042,9 +1042,9 @@
                                 <tr>
                                     <th>Student Type</th>
                                     <th>College</th>
-                                    <th>Department</th>
+                                    <th>Course/Department</th>
                                     <th>ID Number</th>
-                                    <th>Department Chair Name</th>
+                                    <th>Fullname</th>
                                     <th>Institutional Email</th>
                                     <th>Date Of Birth</th>
                                     <th>Documents</th>
@@ -1090,9 +1090,9 @@
                                 <tr>
                                     <th>Student Type</th>
                                     <th>College</th>
-                                    <th>Department</th>
+                                    <th>Course/Department</th>
                                     <th>ID Number</th>
-                                    <th>Department Chair Name</th>
+                                    <th>Fullname</th>
                                     <th>Institutional Email</th>
                                     <th>Date Of Birth</th>
                                     <th>Documents</th>
@@ -1137,7 +1137,7 @@
                             <h2>Admin Profile</h2>
                             <div class="imgC"><img src="/pictures/noimage.png" alt="Logo" width="200" height="180" style="border-radius: 50%;"></div>
                             <br>
-                            <p><strong>Dean Admin Name: </strong><%= fullname %>  <a href="#editName" class="editNameBtn">Edit</a></p>
+                            <p><strong>Department Chair Admin Name: </strong><%= fullname %>  <a href="#editName" class="editNameBtn">Edit</a></p>
                             <p><strong>ID Number:</strong> <%= idnumber %></p>
                             <p><strong>Password: </strong>..*******...<a href="#editPass" class="editPassBtn">Edit</a></p>
                             <p><strong>Email:</strong> <%= iemail %></p>
@@ -1278,6 +1278,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function toggleTab(tabId) {
             // Hide all tab panes

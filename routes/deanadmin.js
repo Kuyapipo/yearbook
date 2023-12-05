@@ -239,7 +239,7 @@ router.post('/updatestatus/:userId',  async (req, res) => {
                 req.flash('success_msg', 'Student or Alumni credentials is', newStatus);
                 
             }
-            if(user.courseType){
+            else if(user.courseType){
                 const addFaculty = user.courseType;
                 const existingFaculty =  await AddF.findOne({addFUniversity:user.schoolType,addFDepartment:user.department,addFaculty});
                 if(existingFaculty ){
@@ -258,9 +258,9 @@ router.post('/updatestatus/:userId',  async (req, res) => {
                     req.flash('success_msg', 'Department name added but on Pending status');
                     
                 }
-                
+                req.flash('success_msg', 'Department Chair admin status changed to ' + newStatus); 
             }
-            req.flash('success_msg', 'Department Chair admin status changed to ' + newStatus);
+            
             
             
             
