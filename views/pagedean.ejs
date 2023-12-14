@@ -466,15 +466,48 @@
             justify-content: space-between;
             padding-top: 75px;
         }
+        .links-container3 {
+            display: flex;
+            position: relative;
+            justify-content: space-between;
+            padding-top: 25px;
+        }
         .buttonS{
             position: relative;
             left: 0;
             padding-right: 250px;
         }
+        .buttonF{
+            position: fixed;
+        }
+        .links-container3 .btn-success,
+        .links-container3 .btn-danger {
+            position: relative;
+            left: 0;
+            top: 85px;
+        }
+        .links-container3 .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            height: 38px;
+            position: fixed;
+            top: 60%;
+            left: 58%;
+        }
+        .links-container3 .btn-danger:hover {
+            background-color: #473739; /* Darker red on hover */
+        }
+        .links-container3 .form-group {
+            padding-right: 25px;
+        }
     </style>
 </head>
 <body>
-    <% if(userType==='Dean'){ %>
+    <% if(userType === 'Dean'){ %>
         <div class="container-fluid">
             <header class="header">
                 <div class="header-container">
@@ -927,11 +960,30 @@
 						                            <td><%=sdata.department%></td>
                                                     <td><%=sdata.courseType%></td>
 						                            <td><%=sdata.dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
-                                                    <td><%=sdata.graduationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></td>
+                                                    <td><button type="submit" class="dateModal"><%=sdata.graduationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></button></td>
                                                     <td><button type="submit"  class="AmodalButton" >Change</button></td> 
                                                 </tr> 
                                             <% } %>
                                         <% } %>
+                                        <div class="select-modal1" id="graduationModal<%= indexCounter %>" tabindex="-1" role="dialog" aria-labelledby="graduationModalLabel" aria-hidden="true">
+                                            <div class="edit-Name1" >
+                                                <h4>Graduation Date?</h4>
+                                                <div class="links-container3">
+                                                    <form action="/deanadmin/updatedate/<%= sdata._id %>" method="POST">
+                                                        <div class="form-group">
+                                                            <label for="SgraduationDate">Graduation Date</label>
+                                                            <input type="date" class="form-control" id="SgraduationDate" name="SgraduationDate" >
+                                                        </div>
+                                                        <div class="buttonF">
+                                                            <button type="submit" class="btn btn-success" id="closeModal7<%= indexCounter%>" name="userTypeD" value="Update">Update</button>  
+                                                                     
+                                                        </div>
+                                                        <button type="button" class="btn btn-danger" id="closeModal8<%= indexCounter %>"name="userTypeD" value="Cancel">Cancel</button>
+                                                    </form>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="select-modal1" id="selectModal1<%= indexCounter %>">
                                             <div class="edit-Name1">
                                                 <h4>Is the student already Graduated?</h4>
@@ -1183,7 +1235,29 @@
         </div>
     <% }%>
 
-    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            
+            const dateModals = document.querySelectorAll('.dateModal');
+            dateModals.forEach((dateModal, indexCounter) => {
+                const graduationModal = document.getElementById(`graduationModal${indexCounter}`);
+                const closeModalBtn7 = document.getElementById(`closeModal7${indexCounter}`);
+                const closeModalBtn8 = document.getElementById(`closeModal8${indexCounter}`);
+                dateModal.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    graduationModal.style.display = 'block';
+                });
+                closeModalBtn7.addEventListener('click', () => {
+                    graduationModal.style.display = 'none';
+                    
+                });
+                closeModalBtn8.addEventListener('click', () => {
+                    graduationModal.style.display = 'none';
+                });
+            });
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             

@@ -174,6 +174,40 @@ router.post('/updatefacultystatus/:addfId', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+router.post('/updatedate/:usersId',  async (req, res) => {
+    const usersId = req.params.usersId;
+    const userTypeD= req.body.userTypeD; 
+    let{SgraduationDate}=req.body;
+    try {
+        // Find the user by ID
+        const userS = await User.findById(usersId);
+        if (!userS) {
+            throw new Error("User not found");
+        }
+        if(!SgraduationDate){
+            req.flash('error_msg','Please select a date before submitting')
+        }
+        else {
+            if (userTypeD === "Update") {
+                userS.graduationDate = SgraduationDate;
+                await userS.save();
+                req.flash('success_msg', 'Graduation Date Succesfully change!');
+                console.log('To Update');
+                console.log(req.body);
+                console.log('graduationDate:',userS.graduationDate);
+            
+            }else{
+                console.log('Cancel Update');
+            }
+        }
+        
+        res.redirect('/deanadmin/pagedean');
+    } catch (err) {
+        console.error(err);
+        // Handle the error (e.g., red  irect to an error page)
+        res.status(500).send('Internal Server Error');
+    }
+});
 router.post('/updatestudent/:usersId',  async (req, res) => {
     const usersId = req.params.usersId;
     const userTypeS= req.body.userTypeS; 
@@ -192,6 +226,7 @@ router.post('/updatestudent/:usersId',  async (req, res) => {
                     console.log('Graduation Date',graduationDateTime);
                     console.log('Change to update:', userS);
                     userS.userType = alumniVal;
+                    userS.graduationYear = userS.graduationDate.getFullYear();
                     await userS.save();
                     req.flash('success_msg', 'Student successfully changed to Alumni');
                     

@@ -3,26 +3,530 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>My Final Yearbook</title>
+    <style>
+        body {
+                font-family: Arial, Helvetica, sans-serif;
+                margin: 0; 
+                background-color: cornsilk;
+        }
+        .container-fluid {
+            background-color: rgb(248, 236, 186);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 80px;
+        }
+        .container-fluid li{
+            position: relative;
+            padding-left: 248px;
+            padding-bottom: 15px;
+        }
+        .header-container {
+            display: flex; 
+            align-items: center; 
+        }
+        .header h1 {
+            margin: 0;
+            padding-left: 2px;
+            font-size: 30px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .header h6 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: solid; /* Remove bold style if not needed */
+        }
+        .header a :hover{
+            color: rgb(230, 218, 174);
+        }
+        .NameHead p,
+        .NameHead a {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 15px;
+            color: black;
+            display: inline; /* Set the display to inline */
+            margin: 0; /* Remove default margin on the elements */
+            padding-left: 10px;
+        }
+        .NameHead{
+            position: fixed;
+            left:78%;
+            display: inline-block; 
+        }
+        .pclass{
+            font-weight: bold;
+            font-style: oblique;
+        }
+        .navbar{
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            align-items: center;
+        }
+        
+        .navbar .table tr{
+            background-color: rgb(252, 238, 182);
+            margin: 0;
+            padding: 0;
+        }
+        .navbar .table tr :hover{
+            background-color: rgb(224, 217, 162);
+
+        }
+        .navbar .table tr th a{
+            font-size: 11px;
+            color: black;
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .navbar li a{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            color: black; 
+            border: 15px 15px;
+            border-color: black; 
+        }
+        .dashboard-content {
+            position: fixed;
+            top: 150px;
+            left: 0;
+            width: 100%;
+            align-items: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .alumniCard{
+            text-align: left;
+            font-size: 25px;
+            padding-top: 150px;
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .profileContainer{
+            margin: 0;
+            height: 100%;
+            position: fixed;
+        }
+        .profile-card {
+            width: 70%;
+            height: 480px;
+            margin-left: 400px;
+            background-color:rgb(230, 211, 139);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow-y: scroll;
+        }
+
+        .profile-card h2 {
+            margin-top: 0;
+            font-size: 25px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .profile-card p {
+            font-size: 15px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin: 5px 0;
+        }
+        .profile-card .imgC{
+            text-align: center;
+        }
+        .profile-card a{
+            text-decoration: none;
+            list-style: none;
+            font-size: 15px;
+        }
+        .edit-modal{
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .edit-Name{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            position: relative;
+            top: 250px;
+            left: 25%;
+            width: 50%;
+            padding: 20px;
+            border: 20px;
+            border-radius: 10px;
+            text-align: justify;
+            height: 250px;
+            background-color: rgb(231, 213, 140);
+        }
+        .edit-Name label{
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .edit-Pass{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            position: relative;
+            top: 180px;
+            left: 25%;
+            width: 50%;
+            border: 20px;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: justify;
+            height: 400px;
+            background-color: rgb(231, 213, 140);
+        }
+        .edit-Pass label{
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .alumniCard2{
+            width: 450px;
+            height: 200px;
+            position: relative;
+            top: 105px;
+            left: 450px;
+        }
+        .carousel{
+            justify-content: center;
+            position: relative;
+            width: 450px;
+            height: 230px;
+            background-color: rgb(224, 198, 81);
+        }
+        .pictureA{
+            padding-left: 13px;
+            padding-top: 3px;
+        }
+        .frontInfo h5{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 35px;
+            padding-left: 15px;
+        }
+        .frontInfo p{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 15px;
+            padding-left: 15px;
+            line-height: 1;
+        }
+        .course{
+            background-color: rgb(158, 132, 28);
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+        }
+    </style>
 </head>
+
 <body>
-    <h1>My Final Yearbook</h1>
-    <p>Welcome <%= userType %> Student</p>
-    <ul>
+    <% if(userType === 'Graduating'){ %>
+        <div class="container-fluid">
+            <header class="header">
+                <div class="header-container">
+                    <img src="/pictures/yearbook.png" alt="Logo" width="90" height="80">
+                    <div class="headN">
+                        <h6>The Final Yearbook</h6>
+                        <h1><%= schoolType%> Graduating Student</h1>
+                    </div>
+                    
+                    <div class="NameHead">
+                        <div class="pclass"><p><%=userType%></p><br></div>
+                        
+                        <p>Welcome <%= fullname %></p>
+                        <a href="/logout" class="btnCustom">
+                            Logout
+                        </a>
+                    </div>
+                    
+                </div>
+            </header>
+        </div>
+        <nav  class="navbar">
+            <table class="table table-bordered" id="modTable">
+                <tbody>
+                    <tr>
+                        <th><a href="#gsp"  class="nav-link nav-link-gsp active">Graduating Student Profile</a></th>
+                        <th><a href="#pc" class="nav-link nav-link-acd">Alumni Digital Card</a></th>
+                    </tr>
+                </tbody> 
+            </table>  
+        </nav>
+        <div class="container-fluid2">
+            <div class="tab-content dashboard-content">
+                <div class="tab-pane active" id="gsp">
+                    <%- include ("./partials/message") %> 
+                    <div class="profileContainer">
+                        <div class="profile-card">
+                            <h2>Graduating Profile</h2>
+                            <div class="imgC"><img src="/pictures/noimage.png" alt="Logo" width="200" height="180" style="border-radius: 50%;"></div>
+                            <br>
+                            <p><strong>Graduating Student Name: </strong><%= fullname %>  <a href="#editName" class="editNameBtn">Edit</a></p>
+                            <p><strong>ID Number:</strong> <%= idnumber %></p>
+                            <p><strong>Password: </strong>..*******...<a href="#editPass" class="editPassBtn">Edit</a></p>
+                            <p><strong>Email:</strong> <%= iemail %></p>
+                            <p><strong>School / University:</strong> <%= schoolType%></p>
+                            <p><strong>College:</strong> <%= department%></p>
+                            <p><strong>Department/Course:</strong> <%= courseType%></p>
+                            <p><strong>Date of Birth: </strong><%= dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></p>
+                            <p><strong>Graduation Date: </strong><%= graduationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></p>
+                        </div>
+                        <div class="edit-modal" id="editNameModal">
+                            <div class="edit-Name" >
+                                <form action="/updateName/<%= _id %>" method="POST">
+                                    <h6>Change Name Details</h6>
+                                    <label for="newfullname">Change Full Name</label>
+                                    <input type="text" class="form-control" id="newfullname" name="newfullname" required value="<%= typeof newfullname != 'undefined'? newfullname : '' %>">
+                                    <br>
+                                    <button type="submit" class="btn btn-success" >Save Details</button>
+                                    <button type="button" class="btn btn-danger" id="closeModal">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="edit-modal" id="editPassModal">
+                            <div class="edit-Pass" >
+                                <form action="/updatePassword/<%= _id %>" method="POST">
+                                    
+                                    <h6>Change Password Details</h6>
+                                    <label for="currPass">Current Password</label>
+                                    <input type="password" class="form-control" id="currPass" name="currPass" required value="<%= typeof currPass != 'undefined'? currPass : '' %>">
+                                    <label for="newPass">New Password</label>
+                                    <input type="password" class="form-control" id="newPass" name="newPass" required value="<%= typeof newPass != 'undefined'? newPass : '' %>">
+                                    <label for="newPass2">Confirm New Password</label>
+                                    <input type="password" class="form-control" id="newPass2" name="newPass2" required value="<%= typeof newPass2 != 'undefined'? newPass2 : '' %>"> <button type="button" class="btn btn-light" id="toggleCurrPass">Show Password</button>
+                                    <br>
+                                    <br>
+                                    <button type="submit" class="btn btn-success" >Save Details</button>
+                                    <button type="button" class="btn btn-danger" id="closeModal2">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+                <div class="tab-pane " id="pc">
+                    <div class="alumniCard">
+                        <p>Alumni Card is not Available for graduating student. Wait for further update</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <%} else {%>
+        <div class="container-fluid">
+            <header class="header">
+                <div class="header-container">
+                    <img src="/pictures/yearbook.png" alt="Logo" width="90" height="80">
+                    <div class="headN">
+                        <h6>The Final Yearbook</h6>
+                        <h1><%= schoolType%> Alumni</h1>
+                    </div>
+                    
+                    <div class="NameHead">
+                        <div class="pclass"><p><%=userType%></p><br></div>
+                        
+                        <p>Welcome <%= fullname %></p>
+                        <a href="/logout" class="btnCustom">
+                            Logout
+                        </a>
+                    </div>
+                    
+                </div>
+            </header>
+        </div>
+        <nav  class="navbar">
+            <table class="table table-bordered" id="modTable">
+                <tbody>
+                    <tr>
+                        <th><a href="#ap"  class="nav-link nav-link-ap active">Alumni Profile</a></th>
+                        <th><a href="#pc" class="nav-link nav-link-acd">Alumni Digital Card</a></th>
+                    </tr>
+                </tbody> 
+            </table>  
+        </nav>
+        <div class="container-fluid2">
+            <div class="tab-content dashboard-content">
+                <div class="tab-pane active" id="ap">
+                    <%- include ("./partials/message") %> 
+                    <div class="profileContainer">
+                        <div class="profile-card">
+                            <h2>Graduating Profile</h2>
+                            <div class="imgC"><img src="/pictures/noimage.png" alt="Logo" width="200" height="180" style="border-radius: 50%;"></div>
+                            <br>
+                            <p><strong>Alumni Name: </strong><%= fullname %>  <a href="#editName" class="editNameBtn">Edit</a></p>
+                            <p><strong>ID Number:</strong> <%= idnumber %></p>
+                            <p><strong>Password: </strong>..*******...<a href="#editPass" class="editPassBtn">Edit</a></p>
+                            <p><strong>Email:</strong> <%= iemail %></p>
+                            <p><strong>School / University:</strong> <%= schoolType%></p>
+                            <p><strong>College:</strong> <%= department%></p>
+                            <p><strong>Department/Course:</strong> <%= courseType%></p>
+                            <p><strong>Date of Birth: </strong><%= dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></p>
+                            <p><strong>Graduation Year: </strong><%= graduationYear%></p>
+                            <p><strong>Graduation Date: </strong><%= graduationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></p>
+                        </div>
+                        <div class="edit-modal" id="editNameModal">
+                            <div class="edit-Name" >
+                                <form action="/updateName/<%= _id %>" method="POST">
+                                    <h6>Change Name Details</h6>
+                                    <label for="newfullname">Change Full Name</label>
+                                    <input type="text" class="form-control" id="newfullname" name="newfullname" required value="<%= typeof newfullname != 'undefined'? newfullname : '' %>">
+                                    <br>
+                                    <button type="submit" class="btn btn-success" >Save Details</button>
+                                    <button type="button" class="btn btn-danger" id="closeModal">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="edit-modal" id="editPassModal">
+                            <div class="edit-Pass" >
+                                <form action="/updatePassword/<%= _id %>" method="POST">
+                                    
+                                    <h6>Change Password Details</h6>
+                                    <label for="currPass">Current Password</label>
+                                    <input type="password" class="form-control" id="currPass" name="currPass" required value="<%= typeof currPass != 'undefined'? currPass : '' %>">
+                                    <label for="newPass">New Password</label>
+                                    <input type="password" class="form-control" id="newPass" name="newPass" required value="<%= typeof newPass != 'undefined'? newPass : '' %>">
+                                    <label for="newPass2">Confirm New Password</label>
+                                    <input type="password" class="form-control" id="newPass2" name="newPass2" required value="<%= typeof newPass2 != 'undefined'? newPass2 : '' %>"> <button type="button" class="btn btn-light" id="toggleCurrPass">Show Password</button>
+                                    <br>
+                                    <br>
+                                    <button type="submit" class="btn btn-success" >Save Details</button>
+                                    <button type="button" class="btn btn-danger" id="closeModal2">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+                <div class="tab-pane " id="pc">
+                    <div class="alumniCard2">
+                        <p>Here's your card</p>
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                <div class="d-flex">
+                                    <div class="pictureA">
+                                        <img src="/pictures/noimage.png" alt="Logo" width="135" height="180">
+                                    </div>
+                                    <div class="frontInfo">
+                                        <h5><%=fullname%></h5>
+                                        <p><%=schoolType%></p>
+                                        <p><%=department%></p>
+                                        <p>Date of Birth: <%=dateOfbirth.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' })%></p>
+                                        <p>Graduation Year: <%=graduationYear%></p>
+                                        
+                                    </div>
+                                </div>
+                                <div class="course">
+                                    <h5><%=courseType%></h5>
+                                </div>
+                              </div>
+                              <div class="carousel-item">
+                                <div><p>Dear <%=fullname%>,</p> </div>
+                                <div><p>Congratulations on reaching this significant milestone! As a valued member of our academic community, we are thrilled to present your Alumni Digital Card. This card not only symbolizes your academic achievements but also serves as a gateway to a lifelong connection with your alma mater.</p> </div>
+                                <div class="course">
+                                    <h5><%=schoolType%></h5>
+                                </div>
+
+                              </div>
+                              
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <%}%>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const editNameBtn = document.querySelector('.editNameBtn');
+        const editPassBtn = document.querySelector('.editPassBtn');
+        const editNameModal = document.getElementById('editNameModal');
+        const editPassModal=document.getElementById('editPassModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const closeModalBtn2 =document.getElementById('closeModal2');
         
-        <li><strong>ID Number:</strong> <%= idnumber %></li>
-        <li><strong>Full Name:</strong> <%= fullname %></li>
-        <li><strong>Email:</strong> <%= iemail %></li>
-        <li><strong>School/University:</strong> <%= schoolType %></li>
-        <li><strong>Date of Birth</strong> <%= dateOfbirth %></li>
-        <li><strong>Graduation D    ate:</strong> <%= graduationDate %></li>
-        <li><strong>Department:</strong> <%= department %></li>
-        <li><strong>Course Type:</strong> <%= courseType %></li>
-        <li><strong>Graduation Year:</strong> <%= graduationYear %></li>
+        editNameBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            editNameModal.style.display = 'block';
+        });    
+        closeModalBtn.addEventListener('click', () => {
+            editNameModal.style.display = 'none';
+        });
+        editPassBtn.addEventListener('click',(r)=>{
+            r.preventDefault();
+            editPassModal.style.display='block';
+        });
+        closeModalBtn2.addEventListener('click',()=>{
+            editPassModal.style.display='none';
+        });
+    </script>
+    <script>
+        const toggleCurrPass = document.getElementById('toggleCurrPass');
+        const currPassInput = document.getElementById('currPass');
+        const newPassInput = document.getElementById('newPass');
+        const newPass2Input = document.getElementById('newPass2');
+
+      
+        toggleCurrPass.addEventListener('click', () => {
+          togglePasswordVisibility(currPassInput);
+          togglePasswordVisibility(newPassInput);
+          togglePasswordVisibility(newPass2Input);
+        });
+        function togglePasswordVisibility(inputField) {
+          if (inputField.type === 'password') {
+            inputField.type = 'text';
+            inputField.setAttribute('aria-label', 'Hide password');
+          } else {
+            inputField.type = 'password';
+            inputField.setAttribute('aria-label', 'Show password');
+          }
+        }
+    </script>
+    <script>
+        function toggleTab(tabId) {
+            // Hide all tab panes
+            $('.tab-pane').removeClass('active');
+
+            // Show the selected tab
+            $(tabId).addClass('active');
+        }
+
+        // Click event for tab links
+        $('.nav-link').click(function (e) {
+            e.preventDefault();
+            var tabId = $(this).attr('href');
+            toggleTab(tabId);
+        });
+    </script>
+    <script>
         
-    </ul>
+        $(document).ready(function () {
+          $(".alert").not(".alert-success-msg").delay(3000).fadeOut(300, function () {
+            $(this).alert('close');
+          });
+      
+          $(".alert-success-msg").delay(5000).fadeOut(300);
+        });
+    </script>
 </body>
 </html>
-
-<!-- Logout button -->
-<a href="/logout" class="btn btn-secondary">Logout</a>
